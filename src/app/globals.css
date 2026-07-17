@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base resets ported from the Design export's inline <style> */
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: theme("colors.cream");
+    color: theme("colors.ink");
+  }
+  a {
+    color: theme("colors.ember");
+    text-decoration: none;
+  }
+  a:hover {
+    color: theme("colors.flame");
+  }
+  input {
+    font-family: inherit;
+    outline: none;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  ::selection {
+    background: theme("colors.gold");
+  }
+  body {
+    overflow-x: hidden;
+  }
+}

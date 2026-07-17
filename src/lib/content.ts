@@ -1,0 +1,192 @@
+/**
+ * All site content, ported verbatim from the Design export's DCLogic component.
+ * Keeping it in one place mirrors the original's single data source.
+ */
+
+export type Route = "/" | "/about" | "/news" | "/partner" | "/faq";
+
+export interface NavItem {
+  n: string;
+  title: string;
+  dur: string;
+  href: Route;
+}
+
+// Tracklist drawer — nav items styled as "songs".
+export const navItems: NavItem[] = [
+  { n: "01", title: "Home", dur: "2:14", href: "/" },
+  { n: "02", title: "About", dur: "3:41", href: "/about" },
+  { n: "03", title: "Ligo News", dur: "2:58", href: "/news" },
+  { n: "04", title: "Become a Partner", dur: "4:07", href: "/partner" },
+  { n: "05", title: "FAQ", dur: "1:52", href: "/faq" },
+];
+
+// ---- Homepage polaroid collage --------------------------------------------
+
+export interface Polaroid {
+  /** filename under /public/photos, or null for the "add yours" tile */
+  src: string | null;
+  caption: string;
+  /** absolute placement — any subset of edges, as CSS length strings */
+  pos: { left?: string; right?: string; top?: string; bottom?: string };
+  width: number;
+  rotate: number;
+  /** toss-in stagger delay, seconds */
+  delay: number;
+  /** smaller center-cluster polaroids sit behind the prompt glow */
+  small?: boolean;
+  /** the dashed "add yours →" tile that opens the submit modal */
+  addTile?: boolean;
+}
+
+export const polaroids: Polaroid[] = [
+  // left column
+  { src: "silentdisco.png", caption: "front row energy", pos: { left: "2%", top: "12%" }, width: 160, rotate: -8, delay: 0.1 },
+  { src: "sabrina.png", caption: "backyard show", pos: { left: "14%", top: "23%" }, width: 120, rotate: 5, delay: 0.85 },
+  { src: "billie.png", caption: "up on shoulders", pos: { left: "1%", top: "42%" }, width: 150, rotate: 6, delay: 0.5 },
+  { src: "sza-saturn.png", caption: "gameday fit check", pos: { left: "15%", top: "57%" }, width: 116, rotate: -4, delay: 0.7 },
+  { src: "georgetown.png", caption: "healy at golden hr", pos: { left: "3%", bottom: "6%" }, width: 158, rotate: 5, delay: 0.35 },
+  { src: null, caption: "add yours →", pos: { left: "17%", bottom: "9%" }, width: 130, rotate: 4, delay: 1.15, addTile: true },
+  // right column
+  { src: "taylor.png", caption: "the pit, 1am", pos: { right: "2%", top: "12%" }, width: 160, rotate: 7, delay: 0.2 },
+  { src: "howard.png", caption: "the yard", pos: { right: "14%", top: "23%" }, width: 120, rotate: -6, delay: 0.95 },
+  { src: "chappell.png", caption: "conga line", pos: { right: "1%", top: "42%" }, width: 150, rotate: -5, delay: 0.55 },
+  { src: "frank-blond.png", caption: "the resident djs", pos: { right: "15%", top: "57%" }, width: 116, rotate: 4, delay: 0.75 },
+  { src: "kendrick.png", caption: "he played our song", pos: { right: "3%", bottom: "6%" }, width: 158, rotate: -6, delay: 0.4 },
+  { src: "clubgirl.png", caption: "campus after dark", pos: { right: "16%", bottom: "9%" }, width: 130, rotate: 6, delay: 1.05 },
+  // center cluster (small, behind the glow)
+  { src: "kendrick.png", caption: "the drop", pos: { left: "35%", top: "0%" }, width: 110, rotate: -5, delay: 1.2, small: true },
+  { src: "frank-blond.png", caption: "headliners", pos: { right: "33%", top: "2%" }, width: 108, rotate: 6, delay: 1.3, small: true },
+  { src: "billie.png", caption: "on shoulders", pos: { left: "29%", bottom: "1%" }, width: 114, rotate: 5, delay: 1.35, small: true },
+  { src: "sza-saturn.png", caption: "gameday fit check", pos: { right: "30%", bottom: "0%" }, width: 110, rotate: -6, delay: 1.4, small: true },
+];
+
+// ---- About: the team ------------------------------------------------------
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  song?: string;
+  /** photo under /public/team; falls back to a Placeholder tile if missing */
+  img?: string;
+}
+
+// Core team — order matches the photos provided.
+export const team: TeamMember[] = [
+  { name: "Micah McNeil", role: "Founder, CEO", song: "Frank Ocean — Ivy", img: "/team/micah.jpg" },
+  { name: "TJ Dozier", role: "Marketing & Social Media Management", song: "Kendrick — Money Trees", img: "/team/tj.jpg" },
+  { name: "Mekhi Simpson", role: "Content & Marketing", song: "Sabrina Carpenter — Espresso", img: "/team/mekhi.jpg" },
+];
+
+// Advisors — shown under a "Management" label. Names/photos TBD.
+// TODO: fill in the three advisors' names + photos (/public/team/advisor-1.jpg …).
+export const management: TeamMember[] = [
+  { name: "Advisor", role: "Management", img: "/team/advisor-1.jpg" },
+  { name: "Advisor", role: "Management", img: "/team/advisor-2.jpg" },
+  { name: "Advisor", role: "Management", img: "/team/advisor-3.jpg" },
+];
+
+// ---- News: blog + announcements, combined ---------------------------------
+
+export interface NewsPost {
+  tag: string;
+  tagColor: string;
+  date: string;
+  title: string;
+  excerpt: string;
+}
+
+export const news: NewsPost[] = [
+  { tag: "Launch", tagColor: "#EA580C", date: "Jul 2026", title: "Ligo is live at Howard.", excerpt: "Our second campus is in. The chart, the daily take, the events — all of it, all Bison." },
+  { tag: "Product", tagColor: "#4FA6CB", date: "Jun 2026", title: "The daily hot take gets a reveal moment.", excerpt: "Vote, wait, then watch the whole campus’ answer roll in at 8pm sharp." },
+  { tag: "Blog", tagColor: "#A13D99", date: "Jun 2026", title: "Why we’ll never add a bio.", excerpt: "A short manifesto on letting the music do the introducing — and why that changes who you meet." },
+  { tag: "Announcement", tagColor: "#EA580C", date: "May 2026", title: "We raised our seed round.", excerpt: "What the next year looks like, and the campuses we’re heading to next." },
+  { tag: "Blog", tagColor: "#A13D99", date: "Apr 2026", title: "Georgetown’s song of the semester.", excerpt: "We counted every vote. One track ran away with it — and it’s not what you’d guess." },
+];
+
+// ---- Partner --------------------------------------------------------------
+
+export interface Partner {
+  icon: string;
+  iconBg: string;
+  title: string;
+  sub: string;
+  points: string[];
+}
+
+export const partners: Partner[] = [
+  {
+    icon: "🎟",
+    iconBg: "rgba(249,115,22,0.12)",
+    title: "Clubs & orgs",
+    sub: "Fill your shows, mixers, and meetings with the people who already vibe with your sound.",
+    points: [
+      "Post events to your whole campus in seconds",
+      "Tag a playlist so students know the energy before they RSVP",
+      "See who’s coming, invite-only or open",
+    ],
+  },
+  {
+    icon: "☕",
+    iconBg: "rgba(155,216,236,0.28)",
+    title: "Local businesses",
+    sub: "Cafés, venues, and record stores — become the room students actually show up to.",
+    points: [
+      "Reach students by taste, not ads",
+      "Feature open-mic nights, happy hours, listening sessions",
+      "A partner profile students can follow",
+    ],
+  },
+];
+
+// ---- FAQ: four audience groups --------------------------------------------
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+export interface FaqGroup {
+  name: string;
+  color: string;
+  items: FaqItem[];
+}
+
+export const faqGroups: FaqGroup[] = [
+  {
+    name: "For students",
+    color: "#F97316",
+    items: [
+      { q: "Is this a dating app?", a: "No. Ligo is about meeting people through music — friends, a group, a crew for the concert. If something more happens, that’s on you." },
+      { q: "Do I need a profile with photos and a bio?", a: "Nope. Just your name and a school email so we know you’re real. Your music taste is your profile." },
+      { q: "Is it free?", a: "Yes, free for students." },
+      { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us — we go where students pull us." },
+    ],
+  },
+  {
+    name: "For investors",
+    color: "#4FA6CB",
+    items: [
+      { q: "What stage is Ligo at?", a: "We’ve closed our seed round and are live on two campuses with strong daily engagement. Reach out for the deck." },
+      { q: "What’s the business model?", a: "Free for students; revenue comes from local business and campus partnerships on the events side." },
+      { q: "How do I get in touch?", a: "Email invest@meetligo.com and we’ll get back within a couple of days." },
+    ],
+  },
+  {
+    name: "For local businesses",
+    color: "#71C07F",
+    items: [
+      { q: "How do students find my events?", a: "Your events surface to students on the campus you’re near, matched by the music taste your event is tagged with." },
+      { q: "What does it cost?", a: "Partnerships are tiered by campus and reach. Start on the Become a Partner page and we’ll size it with you." },
+      { q: "What kind of spots work best?", a: "Cafés, venues, and record stores do great — anywhere students already gather around sound." },
+    ],
+  },
+  {
+    name: "For clubs",
+    color: "#A13D99",
+    items: [
+      { q: "Can we run invite-only events?", a: "Yes. Post openly to campus or keep it invite-only to your members — your call, per event." },
+      { q: "Do we get an admin view?", a: "Every club gets an organizer view to create events, manage groups, and see who’s coming." },
+      { q: "Is it free for student orgs?", a: "Yes. Recognized student clubs use Ligo events for free." },
+    ],
+  },
+];

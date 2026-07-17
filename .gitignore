@@ -1,0 +1,14 @@
+/node_modules
+/.next
+/out
+/build
+next-env.d.ts
+.DS_Store
+*.pem
+npm-debug.log*
+.env*
+!.env.example
+
+# Local design export (Claude Design). Kept on disk, not versioned — large and
+# duplicates public/ assets. Remove this line if you want it tracked.
+/reference
