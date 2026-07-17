@@ -78,12 +78,11 @@ export const team: TeamMember[] = [
   { name: "Mekhi Simpson", role: "Content & Marketing", song: "Sabrina Carpenter — Espresso", img: "/team/mekhi.jpg" },
 ];
 
-// Advisors — shown under a "Management" label. Names/photos TBD.
-// TODO: fill in the three advisors' names + photos (/public/team/advisor-1.jpg …).
+// Advisors — shown under a "Management" label. Photos TBD (drop into /public/team).
 export const management: TeamMember[] = [
-  { name: "Advisor", role: "Management", img: "/team/advisor-1.jpg" },
-  { name: "Advisor", role: "Management", img: "/team/advisor-2.jpg" },
-  { name: "Advisor", role: "Management", img: "/team/advisor-3.jpg" },
+  { name: "Joe Agbasi", role: "Advisor", img: "/team/joe.jpg" },
+  { name: "Greg Kerwick", role: "Advisor", img: "/team/greg.jpg" },
+  { name: "Eric Woods", role: "Advisor", img: "/team/eric.jpg" },
 ];
 
 // ---- News: blog + announcements, combined ---------------------------------
