@@ -12,3 +12,4 @@ npm-debug.log*
 # Local design export (Claude Design). Kept on disk, not versioned — large and
 # duplicates public/ assets. Remove this line if you want it tracked.
 /reference
+.vercel
