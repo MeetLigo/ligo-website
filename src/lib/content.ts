@@ -61,6 +61,49 @@ export const polaroids: Polaroid[] = [
   { src: "sza-saturn.png", caption: "gameday fit check", pos: { right: "30%", bottom: "0%" }, width: 110, rotate: -6, delay: 1.4, small: true },
 ];
 
+// ---- Homepage payoff ------------------------------------------------------
+
+// "This week's wall" — sample tracklist shown after someone answers.
+// PLACEHOLDER data; the real reveal is backend-driven.
+export interface Track {
+  title: string;
+  artist: string;
+}
+export const sampleTracklist: Track[] = [
+  { title: "Ivy", artist: "Frank Ocean" },
+  { title: "Snooze", artist: "SZA" },
+  { title: "Money Trees", artist: "Kendrick Lamar" },
+  { title: "Espresso", artist: "Sabrina Carpenter" },
+  { title: "Saturn", artist: "SZA" },
+  { title: "Good Days", artist: "SZA" },
+];
+
+// Photos that rain down as the payoff. Reuse the campus/party shots.
+export interface DriftPhoto {
+  src: string;
+  /** horizontal position (%) */
+  x: number;
+  /** resting vertical position (%) once it has fallen in */
+  y: number;
+  size: number;
+  rotate: number;
+  delay: number;
+}
+export const driftPhotos: DriftPhoto[] = [
+  { src: "silentdisco.png", x: 4, y: 8, size: 150, rotate: -7, delay: 0.05 },
+  { src: "taylor.png", x: 84, y: 6, size: 158, rotate: 6, delay: 0.15 },
+  { src: "billie.png", x: 15, y: 40, size: 130, rotate: 5, delay: 0.35 },
+  { src: "chappell.png", x: 78, y: 38, size: 140, rotate: -5, delay: 0.45 },
+  { src: "georgetown.png", x: 2, y: 66, size: 138, rotate: 4, delay: 0.6 },
+  { src: "kendrick.png", x: 88, y: 64, size: 132, rotate: -6, delay: 0.7 },
+  { src: "sabrina.png", x: 24, y: 74, size: 118, rotate: 7, delay: 0.9 },
+  { src: "howard.png", x: 68, y: 76, size: 120, rotate: -4, delay: 1.0 },
+  { src: "sza-saturn.png", x: 40, y: 2, size: 116, rotate: 5, delay: 0.25 },
+  { src: "frank-blond.png", x: 58, y: 4, size: 112, rotate: -6, delay: 0.5 },
+  { src: "clubgirl.png", x: 10, y: 22, size: 110, rotate: 4, delay: 0.8 },
+  { src: "campusstage.png", x: 90, y: 24, size: 114, rotate: -5, delay: 1.1 },
+];
+
 // ---- About: the team ------------------------------------------------------
 
 export interface TeamMember {
@@ -159,15 +202,6 @@ export const faqGroups: FaqGroup[] = [
       { q: "Do I need a profile with photos and a bio?", a: "Nope. Just your name and a school email so we know you’re real. Your music taste is your profile." },
       { q: "Is it free?", a: "Yes, free for students." },
       { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us — we go where students pull us." },
-    ],
-  },
-  {
-    name: "For investors",
-    color: "#4FA6CB",
-    items: [
-      { q: "What stage is Ligo at?", a: "We’ve closed our seed round and are live on two campuses with strong daily engagement. Reach out for the deck." },
-      { q: "What’s the business model?", a: "Free for students; revenue comes from local business and campus partnerships on the events side." },
-      { q: "How do I get in touch?", a: "Email invest@meetligo.com and we’ll get back within a couple of days." },
     ],
   },
   {
