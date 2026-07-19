@@ -116,7 +116,9 @@ export function NavDrawer() {
           </div>
           <div className="flex gap-[10px]">
             <a
-              href="#"
+              href="https://apps.apple.com/us/app/ligo/id6753926105"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-white p-[11px] text-[13px] font-semibold text-ink"
             >
               App Store

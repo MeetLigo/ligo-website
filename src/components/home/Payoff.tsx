@@ -83,13 +83,15 @@ export function Payoff({ song }: { song: string }) {
             Download Ligo and actually meet them.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {/* TODO(backend): real App Store / Google Play listing URLs */}
             <a
-              href="#"
+              href="https://apps.apple.com/us/app/ligo/id6753926105"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-[9px] rounded-[14px] bg-ink px-6 py-[13px] text-[14px] font-semibold text-white transition-transform active:scale-[0.97]"
             >
               <AppleIcon size={18} fill="#fff" /> App Store
             </a>
+            {/* TODO: real Google Play listing URL */}
             <a
               href="#"
               className="flex items-center gap-[9px] rounded-[14px] border border-ink/[0.12] bg-white px-6 py-[13px] text-[14px] font-semibold text-ink transition-transform active:scale-[0.97]"

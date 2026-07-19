@@ -44,7 +44,12 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-3">
               <div className="text-[11px] font-bold uppercase tracking-eyebrow text-white/35">get the app</div>
-              <a href="#" className="flex items-center gap-[9px] rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink">
+              <a
+                href="https://apps.apple.com/us/app/ligo/id6753926105"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-[9px] rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink"
+              >
                 <AppleIcon size={16} /> App Store
               </a>
               <a href="#" className="flex items-center gap-[9px] rounded-xl bg-white/10 px-4 py-[11px] text-[13px] font-semibold text-white">

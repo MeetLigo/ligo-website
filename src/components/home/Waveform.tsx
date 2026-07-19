@@ -16,14 +16,15 @@ interface WaveformProps {
 // Alpha is CONSTANT — reactivity changes motion/amplitude only, never opacity,
 // so the black headline never loses contrast.
 const LINES = [
-  { rgb: "235,190,78", baseline: 0.3, amp: 16, wavelength: 360, speed: -0.3, phase: 0.6, alpha: 0.1 },
-  { rgb: "249,115,22", baseline: 0.4, amp: 26, wavelength: 300, speed: 0.5, phase: 0.0, alpha: 0.16 },
-  { rgb: "79,166,203", baseline: 0.5, amp: 22, wavelength: 240, speed: -0.4, phase: 1.2, alpha: 0.15 },
-  { rgb: "234,88,12", baseline: 0.62, amp: 18, wavelength: 200, speed: 0.7, phase: 2.3, alpha: 0.12 },
+  { rgb: "235,190,78", baseline: 0.28, amp: 30, wavelength: 360, speed: -0.3, phase: 0.6, alpha: 0.2 },
+  { rgb: "249,115,22", baseline: 0.42, amp: 48, wavelength: 300, speed: 0.5, phase: 0.0, alpha: 0.3 },
+  { rgb: "79,166,203", baseline: 0.53, amp: 42, wavelength: 240, speed: -0.4, phase: 1.2, alpha: 0.28 },
+  { rgb: "234,88,12", baseline: 0.66, amp: 34, wavelength: 200, speed: 0.7, phase: 2.3, alpha: 0.24 },
 ];
 
-const CURSOR_SIGMA = 130; // px — how tight the cursor's influence is
-const MAX_AMP = 84; // clamp so bursts never fill the hero / crowd the headline
+const STROKE_WIDTH = 2.6; // thicker lines read as more present
+const CURSOR_SIGMA = 140; // px — how tight the cursor's influence is
+const MAX_AMP = 130; // clamp so bursts never fill the hero / crowd the headline
 
 /**
  * Interaction-driven waveform. It reacts to the person rather than looping
@@ -116,7 +117,7 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
       const my = mouse.current.y;
 
       ctx.clearRect(0, 0, W, H);
-      ctx.lineWidth = 2;
+      ctx.lineWidth = STROKE_WIDTH;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
 
