@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { wallChart } from "@/lib/content";
+import type { ResolvedPick, WallEntry } from "@/lib/pick";
 import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
 import { PhotoDrift } from "./PhotoDrift";
 
@@ -18,29 +18,101 @@ const rise = (delay: number) => ({
   transition: { duration: 0.55, ease: EASE, delay },
 });
 
-// PLACEHOLDER — real number comes from the backend reveal.
-const MATCH_COUNT = 847;
+interface Row {
+  key: string;
+  song_name: string;
+  artist: string | null;
+  album_art_url: string | null;
+  count: number;
+  you: boolean;
+}
 
 /**
  * The reward, shown after someone answers. Photos rain down; then the line,
- * the download CTA (App Store + Google Play), the leaderboard wall (your pick
- * highlighted), and the launch-list email capture fade up in sequence.
+ * the download CTA, the live leaderboard (all-time, ranked, merged per track,
+ * your pick highlighted at its earned rank), and the email step that completes
+ * the submission (one row: song + email + school).
  */
-export function Payoff({ song }: { song: string }) {
-  const pick = song.trim() || "your song";
+export function Payoff({ pick }: { pick: ResolvedPick }) {
+  const [wall, setWall] = useState<WallEntry[]>([]);
+  const [loaded, setLoaded] = useState(false);
   const [emailDone, setEmailDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // The wall is a cumulative, all-time chart ranked by pick count. Merge the
-  // user's pick in at the rank its count earns — it does NOT jump to the top.
-  const rows = [
-    ...wallChart.map((e) => ({ ...e, you: false })),
-    { title: pick, artist: "", count: MATCH_COUNT, you: true },
-  ].sort((a, b) => b.count - a.count);
+  // Live wall from the wall_ranking view (served by /api/answers).
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/answers")
+      .then((r) => r.json())
+      .then((j) => {
+        if (alive) setWall(j.wall ?? []);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (alive) setLoaded(true);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
-  function submitEmail(e: FormEvent<HTMLFormElement>) {
+  // Merge the user's pick optimistically at the rank its count earns.
+  // Free-text picks (no track id) are excluded from the ranking.
+  const rows = useMemo<Row[]>(() => {
+    const base: Row[] = wall.map((w) => ({
+      key: w.spotify_track_id,
+      song_name: w.song_name,
+      artist: w.artist,
+      album_art_url: w.album_art_url,
+      count: w.pick_count,
+      you: false,
+    }));
+    if (!pick.is_freetext && pick.spotify_track_id) {
+      const existing = base.find((r) => r.key === pick.spotify_track_id);
+      if (existing) {
+        existing.count += 1;
+        existing.you = true;
+      } else {
+        base.push({
+          key: pick.spotify_track_id,
+          song_name: pick.song_name,
+          artist: pick.artist,
+          album_art_url: pick.album_art_url,
+          count: 1,
+          you: true,
+        });
+      }
+    }
+    base.sort((a, b) => b.count - a.count);
+    return base;
+  }, [wall, pick]);
+
+  async function submitEmail(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO(backend): POST the launch-list email here before confirming.
-    setEmailDone(true);
+    const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
+    if (!email || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/answers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...pick, email }),
+      });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error ?? "failed");
+      setEmailDone(true);
+      // reflect the new insert in the wall
+      fetch("/api/answers")
+        .then((r) => r.json())
+        .then((j2) => setWall(j2.wall ?? []))
+        .catch(() => {});
+    } catch {
+      setError("Something went wrong — try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -72,7 +144,6 @@ export function Payoff({ song }: { song: string }) {
       />
 
       <div className="relative z-10 mx-auto flex max-w-[560px] flex-col items-center gap-7 text-center">
-        {/* the line over the photos — PLACEHOLDER copy */}
         <motion.h2 {...rise(0.5)} className="text-balance font-display text-done-title font-semibold text-ink">
           These could have been your memories.
         </motion.h2>
@@ -101,7 +172,7 @@ export function Payoff({ song }: { song: string }) {
           </div>
         </motion.div>
 
-        {/* the wall — all-time chart ranked by pick count, your pick highlighted */}
+        {/* the wall — live all-time chart ranked by pick count, your pick highlighted */}
         <motion.div
           {...rise(0.82)}
           className="w-full overflow-hidden rounded-[20px] border border-ink/[0.07] bg-white text-left shadow-card"
@@ -110,35 +181,56 @@ export function Payoff({ song }: { song: string }) {
             <span className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">what campus picked</span>
             <span className="text-[10px] uppercase tracking-eyebrow text-ink/35">all-time</span>
           </div>
+
           <div className="flex flex-col p-2">
-            {rows.map((r, i) => (
-              <div
-                key={i}
-                className={`flex items-center gap-3 px-3 py-[10px] ${r.you ? "rounded-[12px] bg-gold/25" : ""}`}
-              >
-                <span
-                  className={`w-5 flex-none text-center text-[13px] font-semibold tabular-nums ${
-                    r.you ? "text-ember" : "text-ink/35"
-                  }`}
-                >
-                  {i + 1}
-                </span>
-                <span className="min-w-0 flex-1 truncate text-[15px]">
-                  <span className="font-medium text-ink">{r.title}</span>
-                  {r.artist && <span className="text-ink/45"> · {r.artist}</span>}
-                </span>
-                {r.you && (
-                  <span className="flex-none rounded-full bg-ember/[0.12] px-2 py-[2px] text-[10px] font-bold uppercase tracking-eyebrow text-ember">
-                    your pick
-                  </span>
-                )}
-                <span className="flex-none text-[13px] tabular-nums text-ink/50">{fmt(r.count)}</span>
+            {!loaded ? (
+              <div className="px-3 py-6 text-center text-[13px] text-ink/40">counting the campus…</div>
+            ) : rows.length === 0 ? (
+              <div className="px-3 py-6 text-center text-[13px] text-ink/40">
+                The wall&rsquo;s just getting started.
               </div>
-            ))}
+            ) : (
+              rows.map((r, i) => (
+                <div
+                  key={r.key}
+                  className={`flex items-center gap-3 px-3 py-[9px] ${r.you ? "rounded-[12px] bg-gold/25" : ""}`}
+                >
+                  <span
+                    className={`w-5 flex-none text-center text-[13px] font-semibold tabular-nums ${
+                      r.you ? "text-ember" : "text-ink/35"
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  {r.album_art_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={r.album_art_url} alt="" className="h-7 w-7 flex-none rounded-[5px] object-cover" />
+                  ) : (
+                    <span className="h-7 w-7 flex-none rounded-[5px] bg-photo-bg" />
+                  )}
+                  <span className="min-w-0 flex-1 truncate text-[15px]">
+                    <span className="font-medium text-ink">{r.song_name}</span>
+                    {r.artist && <span className="text-ink/45"> · {r.artist}</span>}
+                  </span>
+                  {r.you && (
+                    <span className="flex-none rounded-full bg-ember/[0.12] px-2 py-[2px] text-[10px] font-bold uppercase tracking-eyebrow text-ember">
+                      your pick
+                    </span>
+                  )}
+                  <span className="flex-none text-[13px] tabular-nums text-ink/50">{fmt(r.count)}</span>
+                </div>
+              ))
+            )}
           </div>
+
+          {pick.is_freetext && (
+            <div className="border-t border-ink/[0.06] px-5 py-3 text-[12px] text-ink/45">
+              We couldn&rsquo;t match &ldquo;{pick.song_name}&rdquo; to a track, so it&rsquo;s saved but not on the chart.
+            </div>
+          )}
         </motion.div>
 
-        {/* launch-list email capture */}
+        {/* email step — completes the submission (song + email + school) */}
         <motion.div {...rise(0.98)} className="w-full">
           {emailDone ? (
             <div className="animate-riseIn rounded-[20px] border border-ink/[0.07] bg-white px-6 py-7 shadow-card">
@@ -162,16 +254,19 @@ export function Payoff({ song }: { song: string }) {
                 <input
                   name="email"
                   type="email"
+                  required
                   placeholder="you@georgetown.edu"
                   className="min-w-0 flex-1 border-none bg-transparent text-[15px] text-ink"
                 />
                 <button
                   type="submit"
-                  className="h-11 flex-none rounded-full bg-flame px-5 text-[14px] font-semibold text-white transition-transform active:scale-[0.96]"
+                  disabled={submitting}
+                  className="h-11 flex-none rounded-full bg-flame px-5 text-[14px] font-semibold text-white transition-transform active:scale-[0.96] disabled:opacity-70"
                 >
-                  Join the list
+                  {submitting ? "…" : "Join the list"}
                 </button>
               </form>
+              {error && <div className="mt-2 text-[13px] text-ember">{error}</div>}
             </div>
           )}
         </motion.div>

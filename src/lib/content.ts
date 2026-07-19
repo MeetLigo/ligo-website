@@ -63,23 +63,8 @@ export const polaroids: Polaroid[] = [
 
 // ---- Homepage payoff ------------------------------------------------------
 
-// The wall: an all-time, cumulative chart ranked by how many people have
-// picked each song (most-picked first). PLACEHOLDER data; backend-driven later.
-// The user's own pick is merged in at the rank its count earns (see Payoff).
-export interface WallEntry {
-  title: string;
-  artist: string;
-  count: number;
-}
-export const wallChart: WallEntry[] = [
-  { title: "Ivy", artist: "Frank Ocean", count: 1204 },
-  { title: "Money Trees", artist: "Kendrick Lamar", count: 1010 },
-  { title: "Snooze", artist: "SZA", count: 921 },
-  { title: "Espresso", artist: "Sabrina Carpenter", count: 812 },
-  { title: "Saturn", artist: "SZA", count: 690 },
-  { title: "Good Days", artist: "SZA", count: 645 },
-  { title: "Not Like Us", artist: "Kendrick Lamar", count: 588 },
-];
+// The wall is now live (all-time, ranked, merged per track) — served by
+// /api/answers from the wall_ranking view. See src/lib/pick.ts for the types.
 
 // Photos that rain down as the payoff — real music/campus/party moments only
 // (no school logos/mascots; those read as branding, not moments). Distributed

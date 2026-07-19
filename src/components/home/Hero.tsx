@@ -2,10 +2,32 @@
 
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import type { ResolvedPick } from "@/lib/pick";
 import { Waveform } from "./Waveform";
 import { Payoff } from "./Payoff";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
+
+// Resolve the typed song to a Spotify track (top match), or fall back to a
+// free-text pick. Runs server-side via /api/search (Client Credentials).
+async function resolvePick(query: string): Promise<ResolvedPick> {
+  try {
+    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+    const json = await res.json();
+    const top = json.tracks?.[0];
+    if (top) return { ...top, is_freetext: false };
+  } catch {
+    /* fall through to free-text */
+  }
+  return {
+    song_name: query,
+    artist: null,
+    album_art_url: null,
+    spotify_track_id: null,
+    isrc: null,
+    is_freetext: true,
+  };
+}
 
 /**
  * Problem-first hero. Landing shows a problem statement + search bar over an
@@ -16,20 +38,28 @@ const EASE = [0.2, 0.7, 0.2, 1] as const;
 export function Hero() {
   const [stage, setStage] = useState<"problem" | "payoff">("problem");
   const [song, setSong] = useState("");
+  const [pick, setPick] = useState<ResolvedPick | null>(null);
+  const [resolving, setResolving] = useState(false);
   const [focused, setFocused] = useState(false);
   const [pulseSignal, setPulseSignal] = useState(0); // bumps the waveform per keystroke
   const [surgeSignal, setSurgeSignal] = useState(0); // fires the waveform burst on submit
 
-  function submitSong(e: FormEvent<HTMLFormElement>) {
+  async function submitSong(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // Read straight from the form so the guard never races the controlled state.
     const value = ((new FormData(e.currentTarget).get("song") as string) ?? "").trim();
-    if (!value) return;
-    setSong(value);
-    // TODO(backend): POST the song answer here before revealing the payoff.
-    // Fire the amplitude burst, then let it resolve into the reveal transition.
+    if (!value || resolving) return;
+    setResolving(true);
+    // Fire the amplitude burst, resolve the track, and hold ≥320ms so the
+    // surge reads before the reveal — then transition.
     setSurgeSignal((n) => n + 1);
-    window.setTimeout(() => setStage("payoff"), 320);
+    const [resolved] = await Promise.all([
+      resolvePick(value),
+      new Promise((r) => window.setTimeout(r, 320)),
+    ]);
+    setPick(resolved);
+    setStage("payoff");
+    setResolving(false);
   }
 
   return (
@@ -79,18 +109,26 @@ export function Hero() {
                   }}
                   onFocus={() => setFocused(true)}
                   onBlur={() => setFocused(false)}
+                  disabled={resolving}
                   placeholder="Name a song you love."
                   aria-label="Name a song you love."
-                  className="min-w-0 flex-1 border-none bg-transparent text-base text-ink"
+                  className="min-w-0 flex-1 border-none bg-transparent text-base text-ink disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   aria-label="Reveal"
-                  className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-flame shadow-cta transition-transform active:scale-95"
+                  disabled={resolving}
+                  className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-flame shadow-cta transition-transform active:scale-95 disabled:opacity-80"
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h13M13 6l6 6-6 6" />
-                  </svg>
+                  {resolving ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" className="animate-spin" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round">
+                      <path d="M12 3a9 9 0 1 0 9 9" />
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h13M13 6l6 6-6 6" />
+                    </svg>
+                  )}
                 </button>
               </form>
 
@@ -107,7 +145,7 @@ export function Hero() {
             animate={{ opacity: 1, transition: { duration: 0.7, ease: EASE, delay: 0.1 } }}
             className="relative"
           >
-            <Payoff song={song} />
+            {pick && <Payoff pick={pick} />}
           </motion.div>
         )}
       </AnimatePresence>
