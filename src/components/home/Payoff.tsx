@@ -191,7 +191,7 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
           className="w-full overflow-hidden rounded-[20px] border border-ink/[0.07] bg-white text-left shadow-card"
         >
           <div className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-3">
-            <span className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">what campus picked</span>
+            <span className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">leaderboard</span>
             <span className="text-[10px] uppercase tracking-eyebrow text-ink/35">all-time</span>
           </div>
 
