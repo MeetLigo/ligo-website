@@ -2,8 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { sampleTracklist } from "@/lib/content";
+import { wallChart } from "@/lib/content";
 import { PhotoDrift } from "./PhotoDrift";
+
+const fmt = (n: number) => n.toLocaleString("en-US");
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
@@ -26,6 +28,13 @@ const MATCH_COUNT = 847;
 export function Payoff({ song }: { song: string }) {
   const pick = song.trim() || "your song";
   const [emailDone, setEmailDone] = useState(false);
+
+  // The wall is a cumulative, all-time chart ranked by pick count. Merge the
+  // user's pick in at the rank its count earns — it does NOT jump to the top.
+  const rows = [
+    ...wallChart.map((e) => ({ ...e, you: false })),
+    { title: pick, artist: "", count: MATCH_COUNT, you: true },
+  ].sort((a, b) => b.count - a.count);
 
   function submitEmail(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,35 +82,43 @@ export function Payoff({ song }: { song: string }) {
             {MATCH_COUNT}
           </div>
           <div className="mt-2 text-[15px] text-ink/60">
-            people on your campus picked <span className="font-semibold text-ink">&ldquo;{pick}&rdquo;</span> this week.
+            people on your campus have picked{" "}
+            <span className="font-semibold text-ink">&ldquo;{pick}&rdquo;</span>.
           </div>
         </motion.div>
 
-        {/* tracklist wall — your pick highlighted */}
+        {/* the wall — all-time chart ranked by pick count, your pick highlighted */}
         <motion.div
           {...rise(0.82)}
           className="w-full overflow-hidden rounded-[20px] border border-ink/[0.07] bg-white text-left shadow-card"
         >
-          <div className="border-b border-ink/[0.06] px-5 py-3 text-[11px] font-bold uppercase tracking-eyebrow text-ember">
-            this week&rsquo;s wall
+          <div className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-3">
+            <span className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">what campus picked</span>
+            <span className="text-[10px] uppercase tracking-eyebrow text-ink/35">all-time</span>
           </div>
           <div className="flex flex-col p-2">
-            <div className="flex items-center gap-3 rounded-[12px] bg-gold/25 px-3 py-[10px]">
-              <span className="flex h-5 w-4 items-end justify-center gap-[2px]">
-                <i className="w-[3px] rounded-[2px] bg-flame animate-eq" />
-                <i className="w-[3px] rounded-[2px] bg-flame animate-eq [animation-delay:0.3s]" />
-                <i className="w-[3px] rounded-[2px] bg-flame animate-eq [animation-delay:0.6s]" />
-              </span>
-              <span className="flex-1 truncate font-display text-[15px] font-semibold text-ink">{pick}</span>
-              <span className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">your pick</span>
-            </div>
-            {sampleTracklist.map((t, i) => (
-              <div key={i} className="flex items-center gap-3 px-3 py-[10px]">
-                <span className="w-4 text-center text-[13px] font-semibold tabular-nums text-ink/35">{i + 1}</span>
-                <span className="flex-1 truncate text-[15px] text-ink/80">
-                  <span className="font-medium text-ink">{t.title}</span>
-                  <span className="text-ink/45"> · {t.artist}</span>
+            {rows.map((r, i) => (
+              <div
+                key={i}
+                className={`flex items-center gap-3 px-3 py-[10px] ${r.you ? "rounded-[12px] bg-gold/25" : ""}`}
+              >
+                <span
+                  className={`w-5 flex-none text-center text-[13px] font-semibold tabular-nums ${
+                    r.you ? "text-ember" : "text-ink/35"
+                  }`}
+                >
+                  {i + 1}
                 </span>
+                <span className="min-w-0 flex-1 truncate text-[15px]">
+                  <span className="font-medium text-ink">{r.title}</span>
+                  {r.artist && <span className="text-ink/45"> · {r.artist}</span>}
+                </span>
+                {r.you && (
+                  <span className="flex-none rounded-full bg-ember/[0.12] px-2 py-[2px] text-[10px] font-bold uppercase tracking-eyebrow text-ember">
+                    your pick
+                  </span>
+                )}
+                <span className="flex-none text-[13px] tabular-nums text-ink/50">{fmt(r.count)}</span>
               </div>
             ))}
           </div>

@@ -63,24 +63,31 @@ export const polaroids: Polaroid[] = [
 
 // ---- Homepage payoff ------------------------------------------------------
 
-// "This week's wall" — sample tracklist shown after someone answers.
-// PLACEHOLDER data; the real reveal is backend-driven.
-export interface Track {
+// The wall: an all-time, cumulative chart ranked by how many people have
+// picked each song (most-picked first). PLACEHOLDER data; backend-driven later.
+// The user's own pick is merged in at the rank its count earns (see Payoff).
+export interface WallEntry {
   title: string;
   artist: string;
+  count: number;
 }
-export const sampleTracklist: Track[] = [
-  { title: "Ivy", artist: "Frank Ocean" },
-  { title: "Snooze", artist: "SZA" },
-  { title: "Money Trees", artist: "Kendrick Lamar" },
-  { title: "Espresso", artist: "Sabrina Carpenter" },
-  { title: "Saturn", artist: "SZA" },
-  { title: "Good Days", artist: "SZA" },
+export const wallChart: WallEntry[] = [
+  { title: "Ivy", artist: "Frank Ocean", count: 1204 },
+  { title: "Money Trees", artist: "Kendrick Lamar", count: 1010 },
+  { title: "Snooze", artist: "SZA", count: 921 },
+  { title: "Espresso", artist: "Sabrina Carpenter", count: 812 },
+  { title: "Saturn", artist: "SZA", count: 690 },
+  { title: "Good Days", artist: "SZA", count: 645 },
+  { title: "Not Like Us", artist: "Kendrick Lamar", count: 588 },
 ];
 
-// Photos that rain down as the payoff. Reuse the campus/party shots.
+// Photos that rain down as the payoff — real music/campus/party moments only
+// (no school logos/mascots; those read as branding, not moments). Distributed
+// evenly around the full frame so it reads as a complete wall. The center
+// radial wash keeps the headline + wall card legible over them.
 export interface DriftPhoto {
   src: string;
+  caption: string;
   /** horizontal position (%) */
   x: number;
   /** resting vertical position (%) once it has fallen in */
@@ -90,18 +97,28 @@ export interface DriftPhoto {
   delay: number;
 }
 export const driftPhotos: DriftPhoto[] = [
-  { src: "silentdisco.png", x: 4, y: 8, size: 150, rotate: -7, delay: 0.05 },
-  { src: "taylor.png", x: 84, y: 6, size: 158, rotate: 6, delay: 0.15 },
-  { src: "billie.png", x: 15, y: 40, size: 130, rotate: 5, delay: 0.35 },
-  { src: "chappell.png", x: 78, y: 38, size: 140, rotate: -5, delay: 0.45 },
-  { src: "georgetown.png", x: 2, y: 66, size: 138, rotate: 4, delay: 0.6 },
-  { src: "kendrick.png", x: 88, y: 64, size: 132, rotate: -6, delay: 0.7 },
-  { src: "sabrina.png", x: 24, y: 74, size: 118, rotate: 7, delay: 0.9 },
-  { src: "howard.png", x: 68, y: 76, size: 120, rotate: -4, delay: 1.0 },
-  { src: "sza-saturn.png", x: 40, y: 2, size: 116, rotate: 5, delay: 0.25 },
-  { src: "frank-blond.png", x: 58, y: 4, size: 112, rotate: -6, delay: 0.5 },
-  { src: "clubgirl.png", x: 10, y: 22, size: 110, rotate: 4, delay: 0.8 },
-  { src: "campusstage.png", x: 90, y: 24, size: 114, rotate: -5, delay: 1.1 },
+  // top band
+  { src: "silentdisco.png", caption: "front row energy", x: 3, y: 3, size: 148, rotate: -7, delay: 0.05 },
+  { src: "sza-saturn.png", caption: "the drop", x: 38, y: 1, size: 116, rotate: 5, delay: 0.2 },
+  { src: "frank-blond.png", caption: "the resident djs", x: 60, y: 3, size: 118, rotate: -6, delay: 0.32 },
+  { src: "taylor.png", caption: "the pit, 1am", x: 84, y: 5, size: 152, rotate: 6, delay: 0.12 },
+  // upper sides
+  { src: "clubgirl.png", caption: "campus after dark", x: 13, y: 20, size: 120, rotate: 4, delay: 0.5 },
+  { src: "band2.png", caption: "the encore", x: 88, y: 22, size: 126, rotate: -5, delay: 0.42 },
+  // middle band — fills the previously sparse middle-right
+  { src: "billie.png", caption: "up on shoulders", x: 2, y: 40, size: 134, rotate: 5, delay: 0.6 },
+  { src: "kendrick.png", caption: "he played our song", x: 24, y: 44, size: 118, rotate: -4, delay: 0.85 },
+  { src: "chappell.png", caption: "conga line", x: 74, y: 40, size: 138, rotate: -5, delay: 0.55 },
+  { src: "campusstage.png", caption: "packed house", x: 90, y: 46, size: 128, rotate: 6, delay: 0.7 },
+  // lower-middle
+  { src: "sabrina.png", caption: "backyard show", x: 12, y: 62, size: 122, rotate: 6, delay: 0.95 },
+  { src: "frank-blond.png", caption: "3am set", x: 62, y: 60, size: 120, rotate: 4, delay: 1.05 },
+  { src: "taylor.png", caption: "the encore", x: 87, y: 66, size: 132, rotate: -6, delay: 0.8 },
+  // bottom band — fills the previously empty lower area
+  { src: "kendrick.png", caption: "our song came on", x: 4, y: 82, size: 138, rotate: 4, delay: 1.15 },
+  { src: "silentdisco.png", caption: "packed house", x: 32, y: 84, size: 120, rotate: -5, delay: 1.3 },
+  { src: "clubgirl.png", caption: "last call", x: 58, y: 84, size: 116, rotate: 5, delay: 1.25 },
+  { src: "sza-saturn.png", caption: "gameday fit check", x: 84, y: 82, size: 128, rotate: -4, delay: 1.4 },
 ];
 
 // ---- About: the team ------------------------------------------------------

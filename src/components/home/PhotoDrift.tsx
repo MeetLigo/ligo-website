@@ -21,9 +21,12 @@ export function PhotoDrift() {
           animate={{ opacity: 0.9, y: 0, rotate: p.rotate }}
           transition={{ delay: p.delay, duration: 1.1, ease: [0.2, 0.7, 0.2, 1] }}
         >
-          <div className="animate-floatY rounded-[10px] bg-white p-[6px] shadow-polaroid" style={{ animationDelay: `${p.delay}s` }}>
-            <div className="relative aspect-square overflow-hidden rounded-[6px] bg-photo-bg">
+          <div className="animate-floatY rounded-[8px] bg-white px-[7px] pb-[5px] pt-[7px] shadow-polaroid" style={{ animationDelay: `${p.delay}s` }}>
+            <div className="relative aspect-square overflow-hidden rounded-[5px] bg-photo-bg">
               <Image src={`/photos/${p.src}`} alt="" fill sizes="160px" className="object-cover" draggable={false} />
+            </div>
+            <div className="mt-[5px] text-center font-hand text-[16px] font-semibold leading-tight text-ink">
+              {p.caption}
             </div>
           </div>
         </motion.div>
