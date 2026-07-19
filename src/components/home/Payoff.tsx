@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import type { ResolvedPick, WallEntry } from "@/lib/pick";
 import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
@@ -39,6 +39,20 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
   const [emailDone, setEmailDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // School: the dropdown is the source of truth. The email domain only sets a
+  // default the dropdown can override (it can't be derived reliably — students
+  // use personal emails). "other" reveals a free-text school field.
+  const [school, setSchool] = useState("");
+  const [otherSchool, setOtherSchool] = useState("");
+  const schoolTouched = useRef(false);
+
+  function onEmailChange(e: ChangeEvent<HTMLInputElement>) {
+    if (schoolTouched.current) return; // don't fight a manual choice
+    const domain = (e.target.value.split("@")[1] ?? "").toLowerCase();
+    if (domain.includes("georgetown")) setSchool("Georgetown");
+    else if (domain.includes("howard")) setSchool("Howard");
+  }
 
   // Live wall from the wall_ranking view (served by /api/answers).
   useEffect(() => {
@@ -91,14 +105,15 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
   async function submitEmail(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
-    if (!email || submitting) return;
+    const resolvedSchool = school === "other" ? otherSchool.trim() : school;
+    if (!email || !resolvedSchool || submitting) return;
     setSubmitting(true);
     setError(null);
     try {
       const res = await fetch("/api/answers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...pick, email }),
+        body: JSON.stringify({ ...pick, email, school: resolvedSchool }),
       });
       const j = await res.json();
       if (!res.ok || !j.ok) throw new Error(j.error ?? "failed");
@@ -148,23 +163,21 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
           These could have been your memories.
         </motion.h2>
 
-        {/* download CTA — get Ligo on every device it's on; sits above the leaderboard */}
+        {/* "get the app" CTA — no live app yet, so both store buttons lead to the
+            waitlist (no fake download links). Sits above the leaderboard. */}
         <motion.div {...rise(0.66)} className="flex flex-col items-center gap-[18px]">
           <p className="max-w-[360px] text-[15px] leading-[1.5] text-ink/60">
-            Download Ligo and actually meet them.
+            Coming soon to iOS &amp; Android.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <a
-              href="https://apps.apple.com/us/app/ligo/id6753926105"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#waitlist"
               className="flex items-center gap-[9px] rounded-[14px] bg-ink px-6 py-[13px] text-[14px] font-semibold text-white transition-transform active:scale-[0.97]"
             >
               <AppleIcon size={18} fill="#fff" /> App Store
             </a>
-            {/* TODO: real Google Play listing URL */}
             <a
-              href="#"
+              href="#waitlist"
               className="flex items-center gap-[9px] rounded-[14px] border border-ink/[0.12] bg-white px-6 py-[13px] text-[14px] font-semibold text-ink transition-transform active:scale-[0.97]"
             >
               <PlayIcon size={17} /> Google Play
@@ -231,7 +244,7 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
         </motion.div>
 
         {/* email step — completes the submission (song + email + school) */}
-        <motion.div {...rise(0.98)} className="w-full">
+        <motion.div {...rise(0.98)} id="waitlist" className="w-full scroll-mt-24">
           {emailDone ? (
             <div className="animate-riseIn rounded-[20px] border border-ink/[0.07] bg-white px-6 py-7 shadow-card">
               <div className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">you&rsquo;re on the list</div>
@@ -247,24 +260,54 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
               <p className="mx-auto mt-2 max-w-[360px] text-[14px] leading-[1.5] text-ink/55">
                 We&rsquo;re rolling out campus by campus. Drop your email and you&rsquo;ll be first in line.
               </p>
-              <form
-                onSubmit={submitEmail}
-                className="mt-4 flex gap-2 rounded-full border border-ink/10 bg-cream py-[6px] pl-5 pr-[6px]"
-              >
-                <input
-                  name="email"
-                  type="email"
+              <form onSubmit={submitEmail} className="mt-4 flex flex-col gap-2">
+                <select
+                  aria-label="Where are you?"
                   required
-                  placeholder="you@georgetown.edu"
-                  className="min-w-0 flex-1 border-none bg-transparent text-[15px] text-ink"
-                />
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="h-11 flex-none rounded-full bg-flame px-5 text-[14px] font-semibold text-white transition-transform active:scale-[0.96] disabled:opacity-70"
+                  value={school}
+                  onChange={(e) => {
+                    schoolTouched.current = true;
+                    setSchool(e.target.value);
+                  }}
+                  className={`w-full rounded-[16px] border border-ink/10 bg-cream px-5 py-3 text-[15px] ${
+                    school ? "text-ink" : "text-ink/45"
+                  }`}
                 >
-                  {submitting ? "…" : "Join the list"}
-                </button>
+                  <option value="" disabled>
+                    Where are you?
+                  </option>
+                  <option value="Georgetown">Georgetown</option>
+                  <option value="Howard">Howard</option>
+                  <option value="other">Somewhere else</option>
+                </select>
+
+                {school === "other" && (
+                  <input
+                    value={otherSchool}
+                    onChange={(e) => setOtherSchool(e.target.value)}
+                    required
+                    placeholder="Your school"
+                    className="w-full rounded-[16px] border border-ink/10 bg-cream px-5 py-3 text-[15px] text-ink"
+                  />
+                )}
+
+                <div className="flex gap-2 rounded-full border border-ink/10 bg-cream py-[6px] pl-5 pr-[6px]">
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    onChange={onEmailChange}
+                    placeholder="you@georgetown.edu"
+                    className="min-w-0 flex-1 border-none bg-transparent text-[15px] text-ink"
+                  />
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="h-11 flex-none rounded-full bg-flame px-5 text-[14px] font-semibold text-white transition-transform active:scale-[0.96] disabled:opacity-70"
+                  >
+                    {submitting ? "…" : "Join the list"}
+                  </button>
+                </div>
               </form>
               {error && <div className="mt-2 text-[13px] text-ember">{error}</div>}
             </div>

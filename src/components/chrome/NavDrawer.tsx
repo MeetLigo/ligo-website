@@ -114,21 +114,22 @@ export function NavDrawer() {
           <div className="mb-3 text-[11px] uppercase tracking-[0.14em] text-white/40">
             live on · georgetown · howard
           </div>
+          {/* No live app yet → lead to the site/waitlist, not a store listing. */}
           <div className="flex gap-[10px]">
-            <a
-              href="https://apps.apple.com/us/app/ligo/id6753926105"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/"
+              onClick={closeDrawer}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-white p-[11px] text-[13px] font-semibold text-ink"
             >
               App Store
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/"
+              onClick={closeDrawer}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-white/10 p-[11px] text-[13px] font-semibold text-white"
             >
               Google Play
-            </a>
+            </Link>
           </div>
         </div>
       </motion.aside>

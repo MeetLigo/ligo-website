@@ -40,7 +40,8 @@ export async function POST(req: Request) {
   }
 
   const spotify_track_id = body.spotify_track_id ? String(body.spotify_track_id) : null;
-  const school = body.school ? String(body.school) : schoolFromEmail(email);
+  // School is the dropdown's value (source of truth); nullable if not given.
+  const school = body.school ? String(body.school).trim() || null : null;
 
   try {
     const supabase = supabaseAdmin();
@@ -60,12 +61,4 @@ export async function POST(req: Request) {
     console.error("[/api/answers POST]", e);
     return NextResponse.json({ error: "insert_failed" }, { status: 502 });
   }
-}
-
-// Basic campus derivation from the email domain (school column is nullable).
-function schoolFromEmail(email: string): string | null {
-  const domain = email.split("@")[1] ?? "";
-  if (domain.includes("georgetown")) return "Georgetown";
-  if (domain.includes("howard")) return "Howard";
-  return null;
 }
