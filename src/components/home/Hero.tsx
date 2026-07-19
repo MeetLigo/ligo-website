@@ -16,6 +16,9 @@ const EASE = [0.2, 0.7, 0.2, 1] as const;
 export function Hero() {
   const [stage, setStage] = useState<"problem" | "payoff">("problem");
   const [song, setSong] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [pulseSignal, setPulseSignal] = useState(0); // bumps the waveform per keystroke
+  const [surgeSignal, setSurgeSignal] = useState(0); // fires the waveform burst on submit
 
   function submitSong(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,7 +27,9 @@ export function Hero() {
     if (!value) return;
     setSong(value);
     // TODO(backend): POST the song answer here before revealing the payoff.
-    setStage("payoff");
+    // Fire the amplitude burst, then let it resolve into the reveal transition.
+    setSurgeSignal((n) => n + 1);
+    window.setTimeout(() => setStage("payoff"), 320);
   }
 
   return (
@@ -45,7 +50,7 @@ export function Hero() {
             transition={{ duration: 0.6, ease: EASE }}
             className="relative flex min-h-[calc(100vh-68px)] flex-col items-center justify-center px-6 text-center"
           >
-            <Waveform />
+            <Waveform focused={focused} pulseSignal={pulseSignal} surgeSignal={surgeSignal} />
 
             <div className="relative z-10 mx-auto max-w-[720px]">
               <div className="mb-5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-eyebrow text-ember">
@@ -68,7 +73,12 @@ export function Hero() {
                 <input
                   name="song"
                   value={song}
-                  onChange={(e) => setSong(e.target.value)}
+                  onChange={(e) => {
+                    setSong(e.target.value);
+                    setPulseSignal((n) => n + 1);
+                  }}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setFocused(false)}
                   placeholder="Name a song you love."
                   aria-label="Name a song you love."
                   className="min-w-0 flex-1 border-none bg-transparent text-base text-ink"
