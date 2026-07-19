@@ -74,7 +74,7 @@ export function Payoff({ song }: { song: string }) {
       <div className="relative z-10 mx-auto flex max-w-[560px] flex-col items-center gap-7 text-center">
         {/* the line over the photos — PLACEHOLDER copy */}
         <motion.h2 {...rise(0.5)} className="text-balance font-display text-done-title font-semibold text-ink">
-          These could have been your people.
+          These could have been your memories.
         </motion.h2>
 
         {/* download CTA — get Ligo on every device it's on; sits above the leaderboard */}
