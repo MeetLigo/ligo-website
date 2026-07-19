@@ -108,26 +108,28 @@ export const driftPhotos: DriftPhoto[] = [
 
 // ---- About: the team ------------------------------------------------------
 
-export interface TeamMember {
+export interface Person {
   name: string;
   role: string;
-  song?: string;
-  /** photo under /public/team; falls back to a Placeholder tile if missing */
-  img?: string;
+  /** photo under /public/photos */
+  img: string;
 }
 
-// Core team — order matches the photos provided.
-export const team: TeamMember[] = [
-  { name: "Micah McNeil", role: "Founder, CEO", song: "Frank Ocean — Ivy", img: "/team/micah.jpg" },
-  { name: "TJ Dozier", role: "Marketing & Social Media Management", song: "Kendrick — Money Trees", img: "/team/tj.jpg" },
-  { name: "Mekhi Simpson", role: "Content & Marketing", song: "Sabrina Carpenter — Espresso", img: "/team/mekhi.jpg" },
+// Core team — photo / name / role.
+export const team: Person[] = [
+  { name: "Micah McNeil", role: "Co-founder & CEO", img: "/photos/micah.png" },
+  { name: "Ryan Hofman", role: "Co-founder & CTO", img: "/photos/ryan.png" },
+  { name: "TJ Dozier", role: "Marketing / Social Media Management", img: "/photos/tj.png" },
+  { name: "Mekhi Simpson", role: "Content & Marketing", img: "/photos/mekhi.png" },
+  // Leonard — Product Design: card held until /public/photos/leonard.png is provided.
+  // { name: "Leonard", role: "Product Design", img: "/photos/leonard.png" },
 ];
 
-// Advisors — shown under a "Management" label. Photos TBD (drop into /public/team).
-export const management: TeamMember[] = [
-  { name: "Joe Agbasi", role: "Advisor", img: "/team/joe.jpg" },
-  { name: "Greg Kerwick", role: "Advisor", img: "/team/greg.jpg" },
-  { name: "Eric Woods", role: "Advisor", img: "/team/eric.jpg" },
+// Advisors — separate, lighter tier. Editable list; some names pending public
+// confirmation before launch. Add/remove entries here.
+export const advisors: Person[] = [
+  { name: "Greg Kerwick", role: "Founding Advisor", img: "/photos/greg.png" },
+  { name: "Joe Agbasi", role: "Advisor", img: "/photos/joe.png" },
 ];
 
 // ---- News: blog + announcements, combined ---------------------------------
