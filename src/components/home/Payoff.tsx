@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { wallChart } from "@/lib/content";
+import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
 import { PhotoDrift } from "./PhotoDrift";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -22,8 +23,8 @@ const MATCH_COUNT = 847;
 
 /**
  * The reward, shown after someone answers. Photos rain down; then the line,
- * the match count, the tracklist wall (your pick highlighted), and the
- * launch-list email capture fade up in sequence.
+ * the download CTA (App Store + Google Play), the leaderboard wall (your pick
+ * highlighted), and the launch-list email capture fade up in sequence.
  */
 export function Payoff({ song }: { song: string }) {
   const pick = song.trim() || "your song";
@@ -76,14 +77,25 @@ export function Payoff({ song }: { song: string }) {
           These could have been your people.
         </motion.h2>
 
-        {/* match count reveal */}
-        <motion.div {...rise(0.66)} className="flex flex-col items-center">
-          <div className="font-display text-[64px] font-semibold leading-none tracking-tightest text-flame">
-            {MATCH_COUNT}
-          </div>
-          <div className="mt-2 text-[15px] text-ink/60">
-            people on your campus have picked{" "}
-            <span className="font-semibold text-ink">&ldquo;{pick}&rdquo;</span>.
+        {/* download CTA — get Ligo on every device it's on; sits above the leaderboard */}
+        <motion.div {...rise(0.66)} className="flex flex-col items-center gap-[18px]">
+          <p className="max-w-[360px] text-[15px] leading-[1.5] text-ink/60">
+            Download Ligo and actually meet them.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {/* TODO(backend): real App Store / Google Play listing URLs */}
+            <a
+              href="#"
+              className="flex items-center gap-[9px] rounded-[14px] bg-ink px-6 py-[13px] text-[14px] font-semibold text-white transition-transform active:scale-[0.97]"
+            >
+              <AppleIcon size={18} fill="#fff" /> App Store
+            </a>
+            <a
+              href="#"
+              className="flex items-center gap-[9px] rounded-[14px] border border-ink/[0.12] bg-white px-6 py-[13px] text-[14px] font-semibold text-ink transition-transform active:scale-[0.97]"
+            >
+              <PlayIcon size={17} /> Google Play
+            </a>
           </div>
         </motion.div>
 
