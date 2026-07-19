@@ -97,8 +97,8 @@ export interface DriftPhoto {
   delay: number;
 }
 export const driftPhotos: DriftPhoto[] = [
-  // top band
-  { src: "silentdisco.png", caption: "front row energy", x: 3, y: 3, size: 148, rotate: -7, delay: 0.05 },
+  // top band — kept clear of the floating logo + hamburger in the top-left corner
+  { src: "silentdisco.png", caption: "front row energy", x: 66, y: 14, size: 148, rotate: -7, delay: 0.05 },
   { src: "sza-saturn.png", caption: "the drop", x: 38, y: 1, size: 116, rotate: 5, delay: 0.2 },
   { src: "frank-blond.png", caption: "the resident djs", x: 60, y: 3, size: 118, rotate: -6, delay: 0.32 },
   { src: "taylor.png", caption: "the pit, 1am", x: 84, y: 5, size: 152, rotate: 6, delay: 0.12 },
