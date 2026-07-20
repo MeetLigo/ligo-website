@@ -11,26 +11,45 @@ interface WaveformProps {
   surgeSignal: number;
 }
 
-// Each line: rgb string, vertical position (fraction of height), base amplitude,
-// wavelength (px), scroll speed/direction, phase offset, stroke alpha.
-// Alpha is CONSTANT — reactivity changes motion/amplitude only, never opacity,
-// so the black headline never loses contrast.
-const LINES = [
-  { rgb: "235,190,78", baseline: 0.28, amp: 30, wavelength: 360, speed: -0.3, phase: 0.6, alpha: 0.2 },
-  { rgb: "249,115,22", baseline: 0.42, amp: 48, wavelength: 300, speed: 0.5, phase: 0.0, alpha: 0.3 },
-  { rgb: "79,166,203", baseline: 0.53, amp: 42, wavelength: 240, speed: -0.4, phase: 1.2, alpha: 0.28 },
-  { rgb: "234,88,12", baseline: 0.66, amp: 34, wavelength: 200, speed: 0.7, phase: 2.3, alpha: 0.24 },
-];
-
-const STROKE_WIDTH = 2.6; // thicker lines read as more present
-const CURSOR_SIGMA = 140; // px — how tight the cursor's influence is
-const MAX_AMP = 130; // clamp so bursts never fill the hero / crowd the headline
+const TAU = Math.PI * 2;
 
 /**
- * Interaction-driven waveform. It reacts to the person rather than looping
- * indifferently: amplitude rises and lines bend toward the cursor, focus pulls
- * energy toward the input, keystrokes pulse, and submit fires one burst.
+ * Two tiers so it reads as a live audio signal, not flat wallpaper:
+ * fine, dense background ripples + bold foreground lines whose amplitude is
+ * shaped by a slowly-drifting envelope (real peaks and quiet valleys). Warm
+ * palette, saturated enough to actually show. Reactivity changes motion and
+ * amplitude only, never opacity, so the black headline keeps contrast.
  */
+interface Line {
+  rgb: string;
+  baseline: number; // vertical position (fraction of height)
+  amp: number;
+  carrier: number; // fine oscillation wavelength (smaller = denser)
+  env: number; // amplitude-envelope wavelength (the "loudness" peaks)
+  envSpeed: number; // how fast peaks drift
+  envFloor: number; // min amplitude fraction (lower = more dynamic range)
+  envPow: number; // >1 sharpens peaks
+  speed: number;
+  phase: number;
+  alpha: number;
+  width: number;
+}
+
+const LINES: Line[] = [
+  // background — dense, fine, faint ripples (sky + gold)
+  { rgb: "155,216,236", baseline: 0.3, amp: 15, carrier: 110, env: 520, envSpeed: 0.5, envFloor: 0.5, envPow: 1, speed: 0.9, phase: 0.0, alpha: 0.2, width: 1.3 },
+  { rgb: "245,215,131", baseline: 0.36, amp: 13, carrier: 88, env: 600, envSpeed: 0.4, envFloor: 0.55, envPow: 1, speed: -0.85, phase: 1.1, alpha: 0.18, width: 1.2 },
+  { rgb: "155,216,236", baseline: 0.64, amp: 17, carrier: 130, env: 560, envSpeed: 0.6, envFloor: 0.5, envPow: 1, speed: 0.7, phase: 2.0, alpha: 0.18, width: 1.3 },
+  { rgb: "235,190,78", baseline: 0.72, amp: 14, carrier: 100, env: 640, envSpeed: 0.45, envFloor: 0.55, envPow: 1, speed: -0.6, phase: 0.5, alpha: 0.16, width: 1.2 },
+  // foreground — bold, saturated, with real amplitude peaks (flame / ember / amber)
+  { rgb: "249,115,22", baseline: 0.46, amp: 64, carrier: 300, env: 470, envSpeed: 0.75, envFloor: 0.16, envPow: 2.3, speed: 0.5, phase: 0.2, alpha: 0.52, width: 3.6 },
+  { rgb: "234,88,12", baseline: 0.56, amp: 54, carrier: 250, env: 520, envSpeed: 0.6, envFloor: 0.2, envPow: 2.0, speed: -0.42, phase: 1.6, alpha: 0.44, width: 3.1 },
+  { rgb: "245,215,131", baseline: 0.4, amp: 44, carrier: 340, env: 560, envSpeed: 0.55, envFloor: 0.26, envPow: 1.8, speed: 0.6, phase: 2.4, alpha: 0.38, width: 2.6 },
+];
+
+const CURSOR_SIGMA = 150; // px — how tight the cursor's influence is
+const MAX_AMP = 150; // clamp so bursts never fill the hero
+
 export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -94,14 +113,13 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
     window.addEventListener("pointerout", onLeave, { passive: true });
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const STEP = 7;
+    const STEP = 5;
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016;
       last = now;
 
-      // smooth easing toward targets; exponential decay for transients
       focusCur.current += (focusTarget.current - focusCur.current) * Math.min(1, dt * 6);
       mouse.current.activity += (mouse.current.target - mouse.current.activity) * Math.min(1, dt * 6);
       pulse.current *= Math.pow(0.12, dt);
@@ -117,12 +135,13 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
       const my = mouse.current.y;
 
       ctx.clearRect(0, 0, W, H);
-      ctx.lineWidth = STROKE_WIDTH;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
 
       for (const line of LINES) {
         const baseY = line.baseline * H;
+        ctx.lineWidth = line.width;
+        ctx.strokeStyle = `rgba(${line.rgb},${line.alpha})`;
         ctx.beginPath();
         for (let x = 0; x <= W; x += STEP) {
           let bump = 0;
@@ -130,16 +149,20 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
           if (act > 0.002) {
             const dx = x - mx;
             bump = Math.exp(-(dx * dx) / (2 * CURSOR_SIGMA * CURSOR_SIGMA)) * act;
-            bendY = (my - baseY) * bump * 0.35; // pull the line toward the cursor nearby
+            bendY = (my - baseY) * bump * 0.32; // pull the line toward the cursor nearby
           }
-          let amp = line.amp * ampMul * (1 + bump * 1.4);
+          // moving amplitude envelope → real peaks and quiet valleys
+          const shaped = Math.pow(
+            0.5 + 0.5 * Math.sin((x / line.env) * TAU - t * line.envSpeed + line.phase * 0.6),
+            line.envPow,
+          );
+          const envelope = line.envFloor + (1 - line.envFloor) * shaped;
+          let amp = line.amp * ampMul * envelope * (1 + bump * 1.7);
           if (amp > MAX_AMP) amp = MAX_AMP;
-          const wave = Math.sin((x / line.wavelength) * Math.PI * 2 - t * line.speed + line.phase);
-          const y = baseY + bendY + amp * wave;
+          const y = baseY + bendY + amp * Math.sin((x / line.carrier) * TAU - t * line.speed + line.phase);
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `rgba(${line.rgb},${line.alpha})`;
         ctx.stroke();
       }
     };

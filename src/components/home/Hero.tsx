@@ -127,9 +127,13 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden">
+      {/* warmer, sunnier wash — sky up top, golden warmth low, a soft sun top-right */}
       <div
         className="absolute inset-0 z-0"
-        style={{ background: "linear-gradient(180deg,#EAF6FB 0%,#FFF7E9 60%)" }}
+        style={{
+          background:
+            "radial-gradient(58% 48% at 84% 10%, rgba(245,215,131,0.62), transparent 68%), linear-gradient(180deg, #DCEEF6 0%, #FFF2D8 52%, #FBE1AE 100%)",
+        }}
       />
 
       <AnimatePresence mode="wait">
@@ -144,8 +148,17 @@ export function Hero() {
           >
             <Waveform focused={focused} pulseSignal={pulseSignal} surgeSignal={surgeSignal} />
 
+            {/* soft glow keeps the headline crisp over the bolder waveform */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[1]"
+              style={{
+                background:
+                  "radial-gradient(46% 40% at 50% 42%, rgba(255,247,233,0.72), rgba(255,247,233,0) 72%)",
+              }}
+            />
+
             <div className="relative z-10 mx-auto max-w-[720px]">
-              <div className="mb-5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-eyebrow text-ember">
+              <div className="mb-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-eyebrow text-ember">
                 <span className="relative h-[7px] w-[7px]">
                   <span className="absolute inset-0 rounded-full bg-flame" />
                   <span className="absolute inset-0 rounded-full bg-flame animate-pulseDot" />
@@ -159,7 +172,7 @@ export function Hero() {
               </h1>
 
               {/* search + typeahead */}
-              <div className="relative z-20 mx-auto mt-9 max-w-[480px]">
+              <div className="relative z-20 mx-auto mt-6 max-w-[480px]">
                 <form
                   onSubmit={onSubmit}
                   className="flex gap-2 rounded-full border border-ink/[0.09] bg-white py-[7px] pl-[22px] pr-[7px] shadow-[0_20px_44px_-20px_rgba(20,17,13,0.3)]"
