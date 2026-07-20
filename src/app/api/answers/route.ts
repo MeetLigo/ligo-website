@@ -55,10 +55,23 @@ export async function POST(req: Request) {
       email,
       school,
     });
-    if (error) throw error;
+    if (error) {
+      // Surface the real Postgres/PostgREST reason — don't swallow it.
+      console.error("[/api/answers POST] insert error:", {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+      });
+      return NextResponse.json(
+        { error: "insert_failed", message: error.message, code: error.code },
+        { status: 500 },
+      );
+    }
     return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error("[/api/answers POST]", e);
-    return NextResponse.json({ error: "insert_failed" }, { status: 502 });
+    const message = e instanceof Error ? e.message : String(e);
+    console.error("[/api/answers POST] exception:", message);
+    return NextResponse.json({ error: "server_error", message }, { status: 500 });
   }
 }

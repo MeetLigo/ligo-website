@@ -71,36 +71,22 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
     };
   }, []);
 
-  // Merge the user's pick optimistically at the rank its count earns.
-  // Free-text picks (no track id) are excluded from the ranking.
-  const rows = useMemo<Row[]>(() => {
-    const base: Row[] = wall.map((w) => ({
-      key: w.spotify_track_id,
-      song_name: w.song_name,
-      artist: w.artist,
-      album_art_url: w.album_art_url,
-      count: w.pick_count,
-      you: false,
-    }));
-    if (!pick.is_freetext && pick.spotify_track_id) {
-      const existing = base.find((r) => r.key === pick.spotify_track_id);
-      if (existing) {
-        existing.count += 1;
-        existing.you = true;
-      } else {
-        base.push({
-          key: pick.spotify_track_id,
-          song_name: pick.song_name,
-          artist: pick.artist,
-          album_art_url: pick.album_art_url,
-          count: 1,
-          you: true,
-        });
-      }
-    }
-    base.sort((a, b) => b.count - a.count);
-    return base;
-  }, [wall, pick]);
+  // The wall is the REAL saved data only — no optimistic injection. The user's
+  // pick is highlighted ("you") only AFTER their insert succeeds (emailDone),
+  // once the re-fetched wall actually contains their row. This way the UI never
+  // claims a save that didn't happen.
+  const rows = useMemo<Row[]>(
+    () =>
+      wall.map((w) => ({
+        key: w.spotify_track_id,
+        song_name: w.song_name,
+        artist: w.artist,
+        album_art_url: w.album_art_url,
+        count: w.pick_count,
+        you: emailDone && !pick.is_freetext && w.spotify_track_id === pick.spotify_track_id,
+      })),
+    [wall, pick, emailDone],
+  );
 
   async function submitEmail(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -115,16 +101,21 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...pick, email, school: resolvedSchool }),
       });
-      const j = await res.json();
-      if (!res.ok || !j.ok) throw new Error(j.error ?? "failed");
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j.ok) {
+        // Surface the real reason (server returns message/code) instead of hiding it.
+        console.error("[answers] POST failed", res.status, j);
+        throw new Error(j.message || j.error || `HTTP ${res.status}`);
+      }
+      // Only now — after a confirmed insert — re-fetch so the wall shows the
+      // real saved row, then flip to the confirmed state.
+      const j2 = await fetch("/api/answers").then((r) => r.json()).catch(() => null);
+      if (j2?.wall) setWall(j2.wall);
       setEmailDone(true);
-      // reflect the new insert in the wall
-      fetch("/api/answers")
-        .then((r) => r.json())
-        .then((j2) => setWall(j2.wall ?? []))
-        .catch(() => {});
-    } catch {
-      setError("Something went wrong — try again.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "failed";
+      console.error("[answers] submit error:", msg);
+      setError(`Couldn't save — ${msg}`);
     } finally {
       setSubmitting(false);
     }
@@ -236,7 +227,7 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
             )}
           </div>
 
-          {pick.is_freetext && (
+          {emailDone && pick.is_freetext && (
             <div className="border-t border-ink/[0.06] px-5 py-3 text-[12px] text-ink/45">
               We couldn&rsquo;t match &ldquo;{pick.song_name}&rdquo; to a track, so it&rsquo;s saved but not on the chart.
             </div>
