@@ -45,16 +45,24 @@ export async function POST(req: Request) {
 
   try {
     const supabase = supabaseAdmin();
-    const { error } = await supabase.from("answers").insert({
-      song_name,
-      artist: body.artist ? String(body.artist) : null,
-      album_art_url: body.album_art_url ? String(body.album_art_url) : null,
-      spotify_track_id,
-      isrc: body.isrc ? String(body.isrc) : null,
-      is_freetext: spotify_track_id === null, // free-text = no resolved track
-      email,
-      school,
-    });
+    // One answer per email: upsert on the unique `email` key. A resubmit updates
+    // that person's existing pick (song/artist/art/track/isrc/freetext/school)
+    // and refreshes created_at — it never adds a second row.
+    // Requires the answers_email_unique constraint (migration 0003).
+    const { error } = await supabase.from("answers").upsert(
+      {
+        song_name,
+        artist: body.artist ? String(body.artist) : null,
+        album_art_url: body.album_art_url ? String(body.album_art_url) : null,
+        spotify_track_id,
+        isrc: body.isrc ? String(body.isrc) : null,
+        is_freetext: spotify_track_id === null, // free-text = no resolved track
+        email,
+        school,
+        created_at: new Date().toISOString(),
+      },
+      { onConflict: "email" },
+    );
     if (error) {
       // Surface the real Postgres/PostgREST reason — don't swallow it.
       console.error("[/api/answers POST] insert error:", {
