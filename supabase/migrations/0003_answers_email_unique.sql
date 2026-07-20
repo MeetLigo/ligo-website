@@ -10,7 +10,7 @@
 
 -- 1. distinct email per seed row (keeps all 10 placeholder rows)
 update public.answers
-set email = 'seed+' || id || '@meetligo.com'
+set email = 'seed+' || id::text || '@meetligo.com'
 where is_seed and email = 'seed@meetligo.com';
 
 -- 2. dedup real duplicate emails — keep the most recent row per email
