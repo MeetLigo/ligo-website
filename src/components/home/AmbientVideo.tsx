@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
  * lighter on data. Reduced-motion: no video at all (the warm gradient carries).
  */
 const SOURCES = ["/hero/ambient-a.mp4", "/hero/ambient-b.mp4"];
-const LAYER_OPACITY = 0.36;
+const LAYER_OPACITY = 0.47;
 
 export function AmbientVideo() {
   const [ready, setReady] = useState(false); // ease the whole layer in
