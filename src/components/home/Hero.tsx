@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import { AnimatePresence, motion } from "framer-motion";
 import type { ResolvedPick, SearchTrack } from "@/lib/pick";
 import { Waveform } from "./Waveform";
+import { AmbientVideo } from "./AmbientVideo";
 import { Payoff } from "./Payoff";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -146,11 +147,24 @@ export function Hero() {
             transition={{ duration: 0.6, ease: EASE }}
             className="relative flex min-h-[calc(100vh-68px)] flex-col items-center justify-center px-6 text-center"
           >
-            <Waveform focused={focused} pulseSignal={pulseSignal} surgeSignal={surgeSignal} />
+            {/* deepest ambient layer: faded, blurred, crossfading video loops */}
+            <AmbientVideo />
 
-            {/* soft glow keeps the headline crisp over the bolder waveform */}
+            {/* warm scrim unifies the video with the palette + keeps text legible */}
             <div
               className="pointer-events-none absolute inset-0 z-[1]"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(220,238,246,0.34) 0%, rgba(255,242,216,0.34) 52%, rgba(251,225,174,0.44) 100%)",
+              }}
+            />
+
+            {/* the reactive waveform stays dominant over the faded video */}
+            <Waveform focused={focused} pulseSignal={pulseSignal} surgeSignal={surgeSignal} className="z-[2]" />
+
+            {/* soft glow keeps the headline crisp over the waveform + video */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[3]"
               style={{
                 background:
                   "radial-gradient(46% 40% at 50% 42%, rgba(255,247,233,0.72), rgba(255,247,233,0) 72%)",

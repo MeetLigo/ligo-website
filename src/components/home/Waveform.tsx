@@ -9,6 +9,8 @@ interface WaveformProps {
   pulseSignal: number;
   /** increments on submit → a single amplitude burst across the field */
   surgeSignal: number;
+  /** extra classes (e.g. a z-index) merged onto the canvas */
+  className?: string;
 }
 
 const TAU = Math.PI * 2;
@@ -53,7 +55,7 @@ const LINES: Line[] = [
 const CURSOR_SIGMA = 150; // px — how tight the cursor's influence is
 const MAX_AMP = 150; // clamp so bursts never fill the hero
 
-export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
+export function Waveform({ focused, pulseSignal, surgeSignal, className = "" }: WaveformProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Mutable interaction state read by the rAF loop (no re-renders per frame).
@@ -188,7 +190,7 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+      className={`pointer-events-none absolute inset-0 h-full w-full ${className || "z-0"}`}
       aria-hidden="true"
     />
   );

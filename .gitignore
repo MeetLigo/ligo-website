@@ -13,3 +13,7 @@ npm-debug.log*
 # duplicates public/ assets. Remove this line if you want it tracked.
 /reference
 .vercel
+
+# Large source video clips (processed versions live in public/hero)
+/DTS_*.mov
+/DTS_*.mp4
