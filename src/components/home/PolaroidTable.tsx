@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 /**
- * A row of slightly-tilted polaroids that get "tossed onto the table" one at a
- * time — each flies in from above with a spin and slaps down into a rest tilt.
- * The loop never ends: on a stagger it re-throws one slot at a time, cycling a
- * fresh photo onto the table. Honors prefers-reduced-motion (static row).
+ * Polaroids tossed onto a table, on an endless loop. Each flies in from above
+ * with a spin and slaps down into a scattered rest spot — varied angle, height
+ * and overlap, so the pile reads as thrown, not arranged. On a stagger it keeps
+ * re-throwing one slot at a time, cycling a fresh photo in. Honors reduced-motion.
  *
  * PENDING LICENSE (Death to Stock) — VINYL_TASTE (Ivan Resnik), DIVE_BAR /
  * BEHIND_THE_SCENES / BEDROOM_DJ / LAST_PERIOD (Agustín Farías / Shauna Summers),
@@ -28,30 +28,41 @@ const PHOTOS = [
   "/home/po-red-car.jpg",
 ];
 
-// per-slot resting tilt (degrees) — a lazy scatter, not a clean grid
-const TILTS = [-6, 5, -4, 6, -5, 4, -3, 6];
+// Scattered rest spots (deterministic — no hydration jitter). left = horizontal
+// center, top = px down the "table", rot = resting tilt. Deliberately uneven.
+const DESKTOP = [
+  { left: "15%", top: 40, rot: -11 },
+  { left: "33%", top: 8, rot: 8 },
+  { left: "50%", top: 58, rot: -5 },
+  { left: "67%", top: 16, rot: 13 },
+  { left: "85%", top: 46, rot: -9 },
+];
+const MOBILE = [
+  { left: "24%", top: 34, rot: -12 },
+  { left: "52%", top: 8, rot: 9 },
+  { left: "77%", top: 40, rot: -7 },
+];
 
 const DEAL_MS = 1150; // time between tosses
 
 type Cell = { idx: number; z: number };
 
 export function PolaroidTable() {
-  const [slots, setSlots] = useState(5);
+  const [pos, setPos] = useState(DESKTOP);
   const [reduced, setReduced] = useState(false);
   const [cells, setCells] = useState<Cell[]>([]);
-  const zc = useRef(0); // ever-incrementing z so the newest toss lands on top
-  const tick = useRef(0); // round-robin cursor over the slots
+  const zc = useRef(0);
+  const tick = useRef(0);
 
-  // responsive slot count (+ reduced motion), re-seed the row on resize
   useEffect(() => {
     const mqMobile = window.matchMedia("(max-width: 640px)");
     const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const seed = () => {
-      const n = mqMobile.matches ? 3 : 5;
-      zc.current = n;
+      const layout = mqMobile.matches ? MOBILE : DESKTOP;
+      zc.current = layout.length;
       tick.current = 0;
-      setSlots(n);
-      setCells(Array.from({ length: n }, (_, i) => ({ idx: i % PHOTOS.length, z: i })));
+      setPos(layout);
+      setCells(layout.map((_, i) => ({ idx: i % PHOTOS.length, z: i })));
     };
     seed();
     setReduced(mqReduce.matches);
@@ -59,47 +70,52 @@ export function PolaroidTable() {
     return () => mqMobile.removeEventListener("change", seed);
   }, []);
 
-  // the endless deal — re-throw one slot at a time
   useEffect(() => {
     if (reduced || cells.length === 0) return;
+    const n = cells.length;
     const id = window.setInterval(() => {
-      const slot = tick.current % slots;
+      const slot = tick.current % n;
       tick.current += 1;
       setCells((prev) =>
-        prev.map((c, i) =>
-          i === slot ? { idx: (c.idx + slots) % PHOTOS.length, z: ++zc.current } : c,
-        ),
+        prev.map((c, i) => (i === slot ? { idx: (c.idx + n) % PHOTOS.length, z: ++zc.current } : c)),
       );
     }, DEAL_MS);
     return () => window.clearInterval(id);
-  }, [reduced, slots, cells.length]);
+  }, [reduced, cells.length]);
 
   return (
-    <div className="relative mx-auto flex min-h-[260px] items-center justify-center overflow-hidden px-2 sm:min-h-[320px]">
-      {cells.map((c, i) => (
-        <div key={i} className={i > 0 ? "relative -ml-5 sm:-ml-7" : "relative"} style={{ zIndex: c.z }}>
-          <AnimatePresence mode="popLayout" initial={!reduced}>
-            <motion.figure
-              key={c.idx}
-              initial={reduced ? false : { y: -160, x: 32, rotate: 22, scale: 1.12, opacity: 0 }}
-              animate={{ y: 0, x: 0, rotate: TILTS[i % TILTS.length], scale: 1, opacity: 1 }}
-              exit={{ opacity: 0, scale: 0.92, y: 14, transition: { duration: 0.25, ease: "easeIn" } }}
-              transition={{
-                type: "spring",
-                stiffness: 320,
-                damping: 19,
-                opacity: { duration: 0.2 },
-                delay: reduced ? 0 : i * 0.08,
-              }}
-              className="w-[132px] rounded-[7px] bg-white p-[7px] pb-[22px] shadow-[0_16px_36px_-14px_rgba(20,17,13,0.55)] sm:w-[176px]"
-              style={{ willChange: "transform" }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={PHOTOS[c.idx]} alt="" className="block aspect-square w-full rounded-[3px] object-cover" />
-            </motion.figure>
-          </AnimatePresence>
-        </div>
-      ))}
+    <div className="relative mx-auto h-[280px] w-full max-w-[880px] sm:h-[320px]">
+      {cells.map((c, i) => {
+        const p = pos[i];
+        return (
+          <div
+            key={i}
+            className="absolute -translate-x-1/2"
+            style={{ left: p.left, top: p.top, zIndex: c.z }}
+          >
+            <AnimatePresence mode="popLayout" initial={!reduced}>
+              <motion.figure
+                key={c.idx}
+                initial={reduced ? false : { y: -170, x: p.rot > 0 ? 46 : -46, rotate: p.rot > 0 ? 26 : -26, scale: 1.14, opacity: 0 }}
+                animate={{ y: 0, x: 0, rotate: p.rot, scale: 1, opacity: 1 }}
+                exit={{ opacity: 0, scale: 0.92, y: 14, transition: { duration: 0.25, ease: "easeIn" } }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 18,
+                  opacity: { duration: 0.2 },
+                  delay: reduced ? 0 : i * 0.09,
+                }}
+                className="w-[128px] rounded-[7px] bg-white p-[7px] pb-[22px] shadow-[0_18px_38px_-14px_rgba(20,17,13,0.6)] sm:w-[172px]"
+                style={{ willChange: "transform" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={PHOTOS[c.idx]} alt="" className="block aspect-square w-full rounded-[3px] object-cover" />
+              </motion.figure>
+            </AnimatePresence>
+          </div>
+        );
+      })}
     </div>
   );
 }
