@@ -94,8 +94,8 @@ export function IntroOverlay({ onDone }: { onDone: () => void }) {
       window.setTimeout(() => {
         setLift(true);
         onDone();
-      }, 2450), // overlay lifts onto the real header logo; hero + video begin
-      window.setTimeout(() => setPhase("gone"), 3100), // unmount
+      }, 2820), // overlay lifts onto the real header logo; hero + video begin
+      window.setTimeout(() => setPhase("gone"), 3480), // unmount
     ];
     return () => timers.forEach((t) => window.clearTimeout(t));
   }, [onDone]);
@@ -169,7 +169,7 @@ export function IntroOverlay({ onDone }: { onDone: () => void }) {
               opacity: logoStage === "hidden" ? 0 : 1,
               transition:
                 logoStage === "land"
-                  ? "transform .64s cubic-bezier(.2,.7,.2,1), opacity .4s ease"
+                  ? "transform .95s cubic-bezier(.35,.12,.2,1), opacity .4s ease"
                   : "opacity .5s ease",
             }}
           >
