@@ -124,7 +124,7 @@ export function Hero() {
   const showDropdown = open && song.trim().length > 0;
 
   return (
-    <section className="relative">
+    <section className="relative z-20">
       {/* load-in: face → smirk → dissolves into our logo, then lifts (once per session) */}
       <IntroOverlay onDone={onIntroDone} />
 
@@ -136,8 +136,11 @@ export function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.5, ease: EASE } }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="relative flex min-h-[100svh] w-full flex-col justify-end overflow-hidden bg-[#160b05]"
+            className="relative flex min-h-[100svh] w-full flex-col justify-end bg-[#160b05]"
           >
+            {/* media layer — clipped so the slow zoom never overflows (the search
+                dropdown lives outside this, so it's never clipped). */}
+            <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
             {/* full-bleed warm face — the feeling, in one look. Slow drift for life. */}
             <motion.div
               aria-hidden
@@ -164,16 +167,17 @@ export function Hero() {
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 20%,rgba(30,11,4,0.30) 55%,rgba(16,6,2,0.94) 100%),radial-gradient(85% 78% at 20% 96%,rgba(15,6,2,0.72),transparent 58%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
+                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 20%,rgba(42,18,8,0.30) 52%,rgba(58,26,12,0.95) 100%),radial-gradient(85% 78% at 20% 96%,rgba(44,19,9,0.7),transparent 58%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
               }}
             />
+            </div>
 
             {/* content, lower-left — settles in as the intro lifts */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
-              className="relative z-10 mx-auto w-full max-w-[1180px] px-7 pb-[clamp(48px,9vh,104px)] sm:px-12"
+              className="relative z-10 mx-auto w-full max-w-[1180px] px-7 pb-[clamp(72px,13vh,150px)] sm:px-12"
             >
               <div className="mb-5 inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#FFC978]">
                 <span className="relative h-[7px] w-[7px]">
