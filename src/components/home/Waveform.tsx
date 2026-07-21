@@ -14,11 +14,13 @@ interface WaveformProps {
 const TAU = Math.PI * 2;
 
 /**
- * Two tiers so it reads as a live audio signal, not flat wallpaper:
- * fine, dense background ripples + bold foreground lines whose amplitude is
- * shaped by a slowly-drifting envelope (real peaks and quiet valleys). Warm
- * palette, saturated enough to actually show. Reactivity changes motion and
- * amplitude only, never opacity, so the black headline keeps contrast.
+ * Cursor-driven waveform (no audio). Visual language borrowed from the v2
+ * mockup — thin lines with a soft neon GLOW and smooth flowing curves — but
+ * recolored into OUR warm palette (oranges, golds, a sky blue, one muted violet
+ * accent) instead of a rainbow. Fine dense background ripples under bold
+ * foreground lines whose amplitude rides a gently-drifting envelope; the glow
+ * blooms on the peaks. Reactivity (cursor reshape / focus / pulse / surge) is
+ * unchanged and changes motion + amplitude only, never opacity.
  */
 interface Line {
   rgb: string;
@@ -33,18 +35,19 @@ interface Line {
   phase: number;
   alpha: number;
   width: number;
+  glow: number; // base shadowBlur (blooms with the envelope)
 }
 
 const LINES: Line[] = [
-  // background — dense, fine, faint ripples (sky + gold)
-  { rgb: "155,216,236", baseline: 0.3, amp: 15, carrier: 110, env: 520, envSpeed: 0.5, envFloor: 0.5, envPow: 1, speed: 0.9, phase: 0.0, alpha: 0.2, width: 1.3 },
-  { rgb: "245,215,131", baseline: 0.36, amp: 13, carrier: 88, env: 600, envSpeed: 0.4, envFloor: 0.55, envPow: 1, speed: -0.85, phase: 1.1, alpha: 0.18, width: 1.2 },
-  { rgb: "155,216,236", baseline: 0.64, amp: 17, carrier: 130, env: 560, envSpeed: 0.6, envFloor: 0.5, envPow: 1, speed: 0.7, phase: 2.0, alpha: 0.18, width: 1.3 },
-  { rgb: "235,190,78", baseline: 0.72, amp: 14, carrier: 100, env: 640, envSpeed: 0.45, envFloor: 0.55, envPow: 1, speed: -0.6, phase: 0.5, alpha: 0.16, width: 1.2 },
-  // foreground — bold, saturated, with real amplitude peaks (flame / ember / amber)
-  { rgb: "249,115,22", baseline: 0.46, amp: 64, carrier: 300, env: 470, envSpeed: 0.75, envFloor: 0.16, envPow: 2.3, speed: 0.5, phase: 0.2, alpha: 0.52, width: 3.6 },
-  { rgb: "234,88,12", baseline: 0.56, amp: 54, carrier: 250, env: 520, envSpeed: 0.6, envFloor: 0.2, envPow: 2.0, speed: -0.42, phase: 1.6, alpha: 0.44, width: 3.1 },
-  { rgb: "245,215,131", baseline: 0.4, amp: 44, carrier: 340, env: 560, envSpeed: 0.55, envFloor: 0.26, envPow: 1.8, speed: 0.6, phase: 2.4, alpha: 0.38, width: 2.6 },
+  // background — fine, dense, softly glowing ripples (sky / gold / violet accent / amber)
+  { rgb: "120,190,228", baseline: 0.3, amp: 16, carrier: 150, env: 540, envSpeed: 0.5, envFloor: 0.6, envPow: 1, speed: 0.8, phase: 0.0, alpha: 0.32, width: 1.5, glow: 6 },
+  { rgb: "245,215,131", baseline: 0.37, amp: 14, carrier: 120, env: 600, envSpeed: 0.4, envFloor: 0.6, envPow: 1, speed: -0.75, phase: 1.1, alpha: 0.3, width: 1.4, glow: 5 },
+  { rgb: "150,120,240", baseline: 0.63, amp: 16, carrier: 165, env: 560, envSpeed: 0.55, envFloor: 0.6, envPow: 1, speed: 0.65, phase: 2.0, alpha: 0.24, width: 1.4, glow: 6 },
+  { rgb: "235,190,78", baseline: 0.71, amp: 14, carrier: 130, env: 620, envSpeed: 0.45, envFloor: 0.6, envPow: 1, speed: -0.6, phase: 0.5, alpha: 0.28, width: 1.4, glow: 5 },
+  // foreground — bold, saturated, glowing lines with real peaks (flame / ember / warm gold)
+  { rgb: "249,106,27", baseline: 0.46, amp: 58, carrier: 320, env: 480, envSpeed: 0.7, envFloor: 0.34, envPow: 1.4, speed: 0.5, phase: 0.2, alpha: 0.58, width: 2.8, glow: 15 },
+  { rgb: "224,90,15", baseline: 0.56, amp: 50, carrier: 270, env: 520, envSpeed: 0.6, envFloor: 0.36, envPow: 1.35, speed: -0.42, phase: 1.6, alpha: 0.5, width: 2.5, glow: 13 },
+  { rgb: "245,196,96", baseline: 0.4, amp: 40, carrier: 360, env: 560, envSpeed: 0.55, envFloor: 0.4, envPow: 1.3, speed: 0.6, phase: 2.4, alpha: 0.44, width: 2.2, glow: 11 },
 ];
 
 const CURSOR_SIGMA = 150; // px — how tight the cursor's influence is
@@ -142,7 +145,9 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
         const baseY = line.baseline * H;
         ctx.lineWidth = line.width;
         ctx.strokeStyle = `rgba(${line.rgb},${line.alpha})`;
+        ctx.shadowColor = `rgba(${line.rgb},0.9)`;
         ctx.beginPath();
+        let peakEnv = 0;
         for (let x = 0; x <= W; x += STEP) {
           let bump = 0;
           let bendY = 0;
@@ -151,20 +156,24 @@ export function Waveform({ focused, pulseSignal, surgeSignal }: WaveformProps) {
             bump = Math.exp(-(dx * dx) / (2 * CURSOR_SIGMA * CURSOR_SIGMA)) * act;
             bendY = (my - baseY) * bump * 0.32; // pull the line toward the cursor nearby
           }
-          // moving amplitude envelope → real peaks and quiet valleys
+          // moving amplitude envelope → peaks and quiet valleys
           const shaped = Math.pow(
             0.5 + 0.5 * Math.sin((x / line.env) * TAU - t * line.envSpeed + line.phase * 0.6),
             line.envPow,
           );
           const envelope = line.envFloor + (1 - line.envFloor) * shaped;
+          if (envelope > peakEnv) peakEnv = envelope;
           let amp = line.amp * ampMul * envelope * (1 + bump * 1.7);
           if (amp > MAX_AMP) amp = MAX_AMP;
           const y = baseY + bendY + amp * Math.sin((x / line.carrier) * TAU - t * line.speed + line.phase);
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
+        // neon glow blooms with the line's overall energy
+        ctx.shadowBlur = line.glow * (0.5 + 0.7 * peakEnv);
         ctx.stroke();
       }
+      ctx.shadowBlur = 0;
     };
     raf = requestAnimationFrame(frame);
 
