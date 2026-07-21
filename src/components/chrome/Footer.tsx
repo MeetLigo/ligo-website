@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { navItems } from "@/lib/content";
-import { AppleIcon, PlayIcon } from "./StoreIcons";
+import { AppleIcon } from "./StoreIcons";
 
 /** Dark footer, repeated on every page. */
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-ink px-[26px] pb-[34px] pt-[56px] text-white">
+    <footer className="relative overflow-hidden bg-ink px-[26px] pb-[18px] pt-7 text-white">
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -21,16 +21,16 @@ export function Footer() {
               <Image src="/logo-mark.svg" alt="" width={32} height={32} className="rounded-[9px]" />
               <span className="font-display text-2xl font-semibold tracking-wordmark">ligo</span>
             </div>
-            <div className="mt-[18px] text-balance font-display text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-gold">
+            <div className="mt-3 text-balance font-display text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-gold">
               Events bring the room. Music tells you who.
             </div>
-            <div className="mt-4 text-xs uppercase tracking-[0.14em] text-white/40">
+            <div className="mt-[10px] text-xs uppercase tracking-[0.14em] text-white/40">
               live on · georgetown · howard
             </div>
           </div>
 
           <div className="flex flex-wrap gap-14">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-[6px]">
               <div className="text-[11px] font-bold uppercase tracking-eyebrow text-white/35">menu</div>
               {navItems.map((item) => (
                 <Link
@@ -42,20 +42,22 @@ export function Footer() {
                 </Link>
               ))}
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <div className="text-[11px] font-bold uppercase tracking-eyebrow text-white/35">get the app</div>
-              {/* No live app yet → lead to the site/waitlist, not a store listing. */}
-              <Link href="/" className="flex items-center gap-[9px] rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink">
+              {/* App Store is live; no Android build yet, so no Google Play button. */}
+              <a
+                href="https://apps.apple.com/us/app/ligo/id6753926105"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-[9px] self-start rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"
+              >
                 <AppleIcon size={16} /> App Store
-              </Link>
-              <Link href="/" className="flex items-center gap-[9px] rounded-xl bg-white/10 px-4 py-[11px] text-[13px] font-semibold text-white">
-                <PlayIcon size={15} /> Google Play
-              </Link>
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-white/10 pt-5 text-xs text-white/40">
+        <div className="mt-6 flex flex-wrap justify-between gap-3 border-t border-white/10 pt-4 text-xs text-white/40">
           <span>© 2026 Ligo · meetligo.com</span>
           <span>Not a dating app. Not an events calendar. Not a music player.</span>
         </div>
