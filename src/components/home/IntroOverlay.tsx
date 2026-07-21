@@ -110,7 +110,7 @@ export function IntroOverlay({ onDone }: { onDone: () => void }) {
         opacity: lift ? 0 : 1,
         pointerEvents: lift ? "none" : "auto",
         background:
-          "radial-gradient(58% 48% at 84% 10%, rgba(245,215,131,0.62), transparent 68%), linear-gradient(180deg, #DCEEF6 0%, #FFF2D8 52%, #FBE1AE 100%)",
+          "radial-gradient(85% 75% at 72% 16%, rgba(255,150,55,0.42), transparent 55%), linear-gradient(160deg, #241007 0%, #5A2410 48%, #8A3213 100%)",
       }}
     >
       {phase === "playing" && (
@@ -127,7 +127,7 @@ export function IntroOverlay({ onDone }: { onDone: () => void }) {
                 overflow: "visible",
               }}
             >
-              <g stroke="#14110D" strokeWidth={2.2} fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <g stroke="#FFE9D2" strokeWidth={2.2} fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M 45,185 C 40,130 45,30 105,30 C 165,30 170,130 165,185" />
                 <path d="M 104,33 C 78,48 70,80 72,115" />
                 <path d="M 107,33 C 133,48 139,80 136,118" />
@@ -175,7 +175,7 @@ export function IntroOverlay({ onDone }: { onDone: () => void }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-mark.svg" alt="" width={34} height={34} className="block rounded-[9px] shadow-logo" />
-            <span className="font-display text-[26px] font-semibold leading-none tracking-wordmark text-ink">ligo</span>
+            <span className="font-display text-[26px] font-semibold leading-none tracking-wordmark text-white [text-shadow:0_2px_14px_rgba(0,0,0,0.35)]">ligo</span>
           </div>
         </>
       )}

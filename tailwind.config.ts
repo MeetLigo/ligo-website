@@ -29,6 +29,7 @@ const config: Config = {
       fontFamily: {
         // display headings + captions + body
         display: ["var(--font-bricolage)", "system-ui", "sans-serif"],
+        serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
         hand: ["var(--font-caveat)", "cursive"],
         sans: ["-apple-system", "SF Pro Display", "Inter", "system-ui", "sans-serif"],
       },

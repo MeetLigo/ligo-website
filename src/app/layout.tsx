@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { bricolage, caveat } from "./fonts";
+import { bricolage, caveat, fraunces } from "./fonts";
 import { DrawerProvider } from "@/components/chrome/DrawerProvider";
 import { FloatingLogo } from "@/components/chrome/FloatingLogo";
 import { NavDrawer } from "@/components/chrome/NavDrawer";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${caveat.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${fraunces.variable}`}>
       <body className="font-sans">
         <DrawerProvider>
           <div className="relative min-h-screen overflow-x-hidden bg-cream text-ink">

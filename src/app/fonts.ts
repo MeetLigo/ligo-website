@@ -1,5 +1,14 @@
 import localFont from "next/font/local";
-import { Caveat } from "next/font/google";
+import { Caveat, Fraunces } from "next/font/google";
+
+// Emotional display serif — warm, characterful, for hero headlines.
+export const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
 
 // Display font — self-hosted from the export (weights 400–700).
 export const bricolage = localFont({

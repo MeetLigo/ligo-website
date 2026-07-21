@@ -3,25 +3,23 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ResolvedPick, SearchTrack } from "@/lib/pick";
-import { Waveform } from "./Waveform";
-import { AmbientVideo } from "./AmbientVideo";
 import { IntroOverlay } from "./IntroOverlay";
 import { Payoff } from "./Payoff";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
 /**
- * Problem-first hero. As you type, a debounced Spotify typeahead shows matches;
- * pick one for an exact track, or "type it anyway" for a free-text pick. Either
- * way a filmic fade swaps the statement for the payoff. No scroll-jacking.
+ * Emotional, photo-first hero. A single warm full-bleed face carries the feeling;
+ * one aching line names it; the "Name a song you love" prompt is the hook. As you
+ * type, a debounced Spotify typeahead shows matches; pick one (or "type it anyway")
+ * and a filmic fade swaps the moment for the payoff/reveal. No scroll-jacking.
  */
 export function Hero() {
   const [stage, setStage] = useState<"problem" | "payoff">("problem");
   const [song, setSong] = useState("");
   const [pick, setPick] = useState<ResolvedPick | null>(null);
 
-  // entry/load-in animation — once per session; when it resolves, the ambient
-  // video fades in (so the two don't fight during load).
+  // entry/load-in animation — once per session; content settles in as it lifts.
   const [introDone, setIntroDone] = useState(false);
   const onIntroDone = useRef(() => setIntroDone(true)).current;
 
@@ -34,11 +32,6 @@ export function Hero() {
   const debounceRef = useRef<number | undefined>(undefined);
   const reqRef = useRef(0);
   const lockedRef = useRef(false); // guards against double-submit during the transition
-
-  // waveform reactivity
-  const [focused, setFocused] = useState(false);
-  const [pulseSignal, setPulseSignal] = useState(0);
-  const [surgeSignal, setSurgeSignal] = useState(0);
 
   useEffect(() => () => window.clearTimeout(debounceRef.current), []);
 
@@ -66,7 +59,6 @@ export function Hero() {
 
   function onChange(value: string) {
     setSong(value);
-    setPulseSignal((n) => n + 1);
     setActiveIndex(-1);
     window.clearTimeout(debounceRef.current);
     if (!value.trim()) {
@@ -81,13 +73,12 @@ export function Hero() {
     debounceRef.current = window.setTimeout(() => runSearch(value.trim()), 250);
   }
 
-  // Lock in a pick, fire the surge, and resolve into the reveal.
+  // Lock in a pick and resolve into the reveal.
   function commit(next: ResolvedPick) {
     if (lockedRef.current) return;
     lockedRef.current = true;
     setPick(next);
     setOpen(false);
-    setSurgeSignal((n) => n + 1);
     window.setTimeout(() => setStage("payoff"), 320);
   }
 
@@ -133,18 +124,9 @@ export function Hero() {
   const showDropdown = open && song.trim().length > 0;
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative">
       {/* load-in: face → smirk → dissolves into our logo, then lifts (once per session) */}
       <IntroOverlay onDone={onIntroDone} />
-
-      {/* warmer, sunnier wash — sky up top, golden warmth low, a soft sun top-right */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            "radial-gradient(58% 48% at 84% 10%, rgba(245,215,131,0.62), transparent 68%), linear-gradient(180deg, #DCEEF6 0%, #FFF2D8 52%, #FBE1AE 100%)",
-        }}
-      />
 
       <AnimatePresence mode="wait">
         {stage === "problem" ? (
@@ -154,51 +136,67 @@ export function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.5, ease: EASE } }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="relative flex min-h-[calc(100vh-68px)] flex-col items-center justify-center px-6 text-center"
+            className="relative flex min-h-[100svh] w-full flex-col justify-end overflow-hidden bg-[#160b05]"
           >
-            {/* deepest ambient layer: faded, blurred, crossfading video loops */}
-            <AmbientVideo start={introDone} />
+            {/* full-bleed warm face — the feeling, in one look. Slow drift for life. */}
+            <motion.div
+              aria-hidden
+              className="absolute inset-0"
+              initial={{ scale: 1.02 }}
+              animate={{ scale: 1.1 }}
+              transition={{ duration: 26, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/hero/hero-face.jpg"
+                alt="A student at a house party, caught in a quiet warm moment"
+                className="h-full w-full object-cover"
+                style={{ objectPosition: "60% 16%" }}
+                fetchPriority="high"
+              />
+            </motion.div>
 
-            {/* warm scrim unifies the video with the palette + keeps text legible */}
+            {/* warm wash to pull the frame toward golden hour */}
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[#ff7d22] mix-blend-soft-light opacity-40" />
+            {/* legibility + mood: dark at very top (logo) and bottom (text), warm glow on the face */}
             <div
-              className="pointer-events-none absolute inset-0 z-[1]"
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(180deg, rgba(220,238,246,0.34) 0%, rgba(255,242,216,0.34) 52%, rgba(251,225,174,0.44) 100%)",
+                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 20%,rgba(30,11,4,0.30) 55%,rgba(16,6,2,0.94) 100%),radial-gradient(85% 78% at 20% 96%,rgba(15,6,2,0.72),transparent 58%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
               }}
             />
 
-            {/* the reactive waveform stays dominant over the faded video */}
-            <Waveform focused={focused} pulseSignal={pulseSignal} surgeSignal={surgeSignal} className="z-[2]" />
-
-            {/* soft glow keeps the headline crisp over the waveform + video */}
-            <div
-              className="pointer-events-none absolute inset-0 z-[3]"
-              style={{
-                background:
-                  "radial-gradient(46% 40% at 50% 42%, rgba(255,247,233,0.72), rgba(255,247,233,0) 72%)",
-              }}
-            />
-
-            <div className="relative z-10 mx-auto max-w-[720px]">
-              <div className="mb-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-eyebrow text-ember">
+            {/* content, lower-left — settles in as the intro lifts */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
+              className="relative z-10 mx-auto w-full max-w-[1180px] px-7 pb-[clamp(48px,9vh,104px)] sm:px-12"
+            >
+              <div className="mb-5 inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#FFC978]">
                 <span className="relative h-[7px] w-[7px]">
                   <span className="absolute inset-0 rounded-full bg-flame" />
                   <span className="absolute inset-0 rounded-full bg-flame animate-pulseDot" />
                 </span>
-                Ligo · meet people through music
+                Meet people through music
               </div>
 
-              {/* PLACEHOLDER — final line coming from the pitch deck */}
-              <h1 className="text-balance font-display text-hero font-semibold text-ink">
-                Every day you pass ~100 people who share your music taste.
+              <h1 className="max-w-[760px] font-serif text-[clamp(38px,6.4vw,68px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#FFF3E2]">
+                You went to the show alone.{" "}
+                <em className="italic text-[#FFC26B]">You didn&rsquo;t have to.</em>
               </h1>
 
-              {/* search + typeahead */}
-              <div className="relative z-20 mx-auto mt-6 max-w-[480px]">
+              <p className="mt-5 max-w-[440px] text-[15px] leading-[1.55] text-[#FFEEDE]/75 sm:text-[17px]">
+                Somewhere on your campus is a person with your exact taste. Start with one song.
+              </p>
+
+              {/* the hook — live typeahead */}
+              <div className="relative z-20 mt-8 max-w-[480px]">
                 <form
                   onSubmit={onSubmit}
-                  className="flex gap-2 rounded-full border border-ink/[0.09] bg-white py-[7px] pl-[22px] pr-[7px] shadow-[0_20px_44px_-20px_rgba(20,17,13,0.3)]"
+                  className="flex gap-2 rounded-full bg-white/97 py-[7px] pl-[24px] pr-[7px] shadow-[0_30px_70px_-24px_rgba(0,0,0,0.7)] backdrop-blur"
                 >
                   <input
                     name="song"
@@ -206,20 +204,16 @@ export function Hero() {
                     onChange={(e) => onChange(e.target.value)}
                     onKeyDown={onKeyDown}
                     onFocus={() => {
-                      setFocused(true);
                       if (song.trim()) setOpen(true);
                     }}
-                    onBlur={() => {
-                      setFocused(false);
-                      setOpen(false); // dropdown items use onMouseDown so their click still registers
-                    }}
+                    onBlur={() => setOpen(false)}
                     autoComplete="off"
                     role="combobox"
                     aria-expanded={showDropdown}
                     aria-autocomplete="list"
-                    placeholder="Name a song you love."
-                    aria-label="Name a song you love."
-                    className="min-w-0 flex-1 border-none bg-transparent text-base text-ink"
+                    placeholder="Name a song you love"
+                    aria-label="Name a song you love"
+                    className="min-w-0 flex-1 border-none bg-transparent text-base text-ink placeholder:text-[#8a6a54]"
                   />
                   <button
                     type="submit"
@@ -234,9 +228,8 @@ export function Hero() {
 
                 {showDropdown && (
                   <div
-                    // keep focus on the input so a click here registers before blur closes it
                     onMouseDown={(e) => e.preventDefault()}
-                    className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-[20px] border border-ink/10 bg-white text-left shadow-[0_24px_50px_-20px_rgba(20,17,13,0.4)]"
+                    className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-[20px] border border-ink/10 bg-white text-left shadow-[0_24px_50px_-20px_rgba(20,17,13,0.5)]"
                   >
                     {searching && results.length === 0 && (
                       <div className="px-4 py-3 text-[13px] text-ink/40">Searching…</div>
@@ -265,7 +258,6 @@ export function Hero() {
                       </button>
                     ))}
 
-                    {/* free-text fallback — always available, never blocks the user */}
                     <button
                       type="button"
                       onClick={submitFreeText}
@@ -281,12 +273,7 @@ export function Hero() {
                   </div>
                 )}
               </div>
-
-              {/* PLACEHOLDER — supporting line so a cold visitor gets it before acting */}
-              <div className="mt-[14px] text-[13px] text-ink/45">
-                Name a song. Meet the people on your campus who picked it too.
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
         ) : (
           <motion.div
