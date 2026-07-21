@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { ResolvedPick, SearchTrack } from "@/lib/pick";
 import { Waveform } from "./Waveform";
 import { AmbientVideo } from "./AmbientVideo";
+import { IntroOverlay } from "./IntroOverlay";
 import { Payoff } from "./Payoff";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -18,6 +19,11 @@ export function Hero() {
   const [stage, setStage] = useState<"problem" | "payoff">("problem");
   const [song, setSong] = useState("");
   const [pick, setPick] = useState<ResolvedPick | null>(null);
+
+  // entry/load-in animation — once per session; when it resolves, the ambient
+  // video fades in (so the two don't fight during load).
+  const [introDone, setIntroDone] = useState(false);
+  const onIntroDone = useRef(() => setIntroDone(true)).current;
 
   // typeahead
   const [results, setResults] = useState<SearchTrack[]>([]);
@@ -128,6 +134,9 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden">
+      {/* load-in: face → smirk → dissolves into our logo, then lifts (once per session) */}
+      <IntroOverlay onDone={onIntroDone} />
+
       {/* warmer, sunnier wash — sky up top, golden warmth low, a soft sun top-right */}
       <div
         className="absolute inset-0 z-0"
@@ -148,7 +157,7 @@ export function Hero() {
             className="relative flex min-h-[calc(100vh-68px)] flex-col items-center justify-center px-6 text-center"
           >
             {/* deepest ambient layer: faded, blurred, crossfading video loops */}
-            <AmbientVideo />
+            <AmbientVideo start={introDone} />
 
             {/* warm scrim unifies the video with the palette + keeps text legible */}
             <div

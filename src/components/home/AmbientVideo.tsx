@@ -17,7 +17,7 @@ import { useEffect, useRef, useState } from "react";
 const SOURCES = ["/hero/ambient-a.mp4", "/hero/ambient-b.mp4"];
 const LAYER_OPACITY = 0.47;
 
-export function AmbientVideo() {
+export function AmbientVideo({ start = true }: { start?: boolean }) {
   const [ready, setReady] = useState(false); // ease the whole layer in
   const [active, setActive] = useState(0); // which clip is currently shown
   const [mobile, setMobile] = useState(false);
@@ -32,14 +32,16 @@ export function AmbientVideo() {
     decided.current = true;
     const onMq = () => setMobile(mq.matches);
     mq.addEventListener("change", onMq);
-    // Fade in shortly after mount. (Once the intro/load-in lands, this will be
-    // gated to start after the intro resolves so they don't fight.)
-    const t = window.setTimeout(() => setReady(true), 400);
-    return () => {
-      mq.removeEventListener("change", onMq);
-      window.clearTimeout(t);
-    };
+    return () => mq.removeEventListener("change", onMq);
   }, []);
+
+  // Fade the layer in only once the intro/load-in has resolved (so they don't
+  // fight). `start` flips true when the intro is done (or immediately if skipped).
+  useEffect(() => {
+    if (!start) return;
+    const t = window.setTimeout(() => setReady(true), 200);
+    return () => window.clearTimeout(t);
+  }, [start]);
 
   // slow crossfade between the two clips (desktop only)
   useEffect(() => {
