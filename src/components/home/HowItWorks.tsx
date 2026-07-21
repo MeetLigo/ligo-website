@@ -4,8 +4,7 @@ import { PolaroidTable } from "./PolaroidTable";
 export function HowItWorks() {
   return (
     <section className="relative bg-[#F6DFB4] px-[26px] pb-[76px] pt-20">
-      {/* soft warm seam from the hero's warm-dark bottom into the honey section */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[110px] bg-gradient-to-b from-[#3A1A0C]/18 to-transparent" />
+      {/* the hero's bottom already ramps into this honey, so the seam is a true fade */}
       <div className="mx-auto max-w-[1040px]">
         <PolaroidTable />
       </div>

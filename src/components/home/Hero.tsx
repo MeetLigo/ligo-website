@@ -167,7 +167,7 @@ export function Hero() {
               className="pointer-events-none absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 20%,rgba(42,18,8,0.30) 52%,rgba(58,26,12,0.95) 100%),radial-gradient(85% 78% at 20% 96%,rgba(44,19,9,0.7),transparent 58%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
+                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 22%,rgba(42,18,8,0.28) 52%,rgba(56,25,11,0.9) 78%,rgba(150,82,40,0.72) 92%,#F6DFB4 100%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
               }}
             />
             </div>
