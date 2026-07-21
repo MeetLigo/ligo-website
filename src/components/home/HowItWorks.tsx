@@ -1,13 +1,8 @@
 /** The "vibe" collage below the hero — records, the room, the people. */
 const PHOTOS = [
   { src: "/home/friends-bar.jpg", alt: "Friends out together at a bar", rot: "-rotate-[1.5deg]" },
-  { src: "/home/behind-scenes.jpg", alt: "Two friends laughing at a house party", rot: "rotate-[1.3deg]" },
-  { src: "/home/record-pull.jpg", alt: "Hands pulling a record from a crate", rot: "-rotate-[0.8deg]" },
-  { src: "/home/dj-mixer.jpg", alt: "Hands working a DJ mixer", rot: "rotate-[1.5deg]" },
-  { src: "/home/boombox.jpg", alt: "Someone dancing with a boombox", rot: "-rotate-[1.2deg]" },
-  { src: "/home/ice-cream.jpg", alt: "Friends sharing dessert on the floor", rot: "rotate-[0.9deg]" },
-  { src: "/home/pink-wall.jpg", alt: "A student by a pink wall with a bike", rot: "-rotate-[1deg]" },
-  { src: "/home/turntable-sit.jpg", alt: "A student beside a turntable", rot: "rotate-[1.4deg]" },
+  { src: "/home/record-pull.jpg", alt: "Hands pulling a record from a crate", rot: "rotate-[1.2deg]" },
+  { src: "/home/dj-mixer.jpg", alt: "Hands working a DJ mixer", rot: "-rotate-[0.8deg]" },
 ];
 
 export function HowItWorks() {
