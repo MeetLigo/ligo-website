@@ -157,6 +157,13 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
         {/* "get the app" CTA — no live app yet, so both store buttons lead to the
             waitlist (no fake download links). Sits above the leaderboard. */}
         <motion.div {...rise(0.66)} className="flex flex-col items-center gap-[18px]">
+          {/* the app, in hand (mockup — swappable via /public/home) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/home/phone-in-hand.png"
+            alt="The Ligo app on a phone"
+            className="w-[236px] max-w-[68%] drop-shadow-[0_34px_54px_rgba(20,17,13,0.32)]"
+          />
           <p className="max-w-[360px] text-[15px] leading-[1.5] text-ink/60">
             Coming soon to iOS &amp; Android.
           </p>
