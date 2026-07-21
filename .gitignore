@@ -17,3 +17,6 @@ npm-debug.log*
 # Large source video clips (processed versions live in public/hero)
 /DTS_*.mov
 /DTS_*.mp4
+
+# Local photo/video picks — kept on disk, never deployed (large source media)
+/Photos
