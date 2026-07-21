@@ -1,26 +1,34 @@
-/** The "vibe" collage below the hero — records, the room, the people. */
+/** The "vibe" collage below the hero — a scatter of horizontal prints. */
 const PHOTOS = [
-  { src: "/home/friends-bar.jpg", alt: "Friends out together at a bar", rot: "-rotate-[1.5deg]" },
-  { src: "/home/record-pull.jpg", alt: "Hands pulling a record from a crate", rot: "rotate-[1.2deg]" },
-  { src: "/home/dj-mixer.jpg", alt: "Hands working a DJ mixer", rot: "-rotate-[0.8deg]" },
+  { src: "/home/record-shop.jpg", alt: "Flipping through records at a record shop", rot: "-rotate-[5deg]", z: "z-10" },
+  { src: "/home/behind-scenes.jpg", alt: "Two friends laughing at a house party", rot: "rotate-[3deg]", z: "z-20" },
+  { src: "/home/dj-mixer.jpg", alt: "Hands working a DJ mixer", rot: "-rotate-[3deg]", z: "z-10" },
+  { src: "/home/ice-cream.jpg", alt: "Friends sharing dessert on the floor", rot: "rotate-[5deg]", z: "z-20" },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="relative bg-cream px-[26px] pb-[70px] pt-16">
+    <section className="relative bg-cream px-[26px] pb-[76px] pt-16">
       <div className="pointer-events-none absolute inset-x-0 -top-[110px] z-[2] h-[110px] bg-gradient-to-b from-cream/0 to-cream" />
-      <div className="mx-auto max-w-[1040px]">
-        {/* PENDING LICENSE (Death to Stock): DIVE_BAR, BEHIND_THE_SCENES, BEDROOM_DJ
-            (Agustín Farías / Shauna Summers), VINYL_TASTE (Ivan Resnik).
+      <div className="mx-auto max-w-[1000px]">
+        {/* Scattered prints. PENDING LICENSE (Death to Stock): VINYL_TASTE (Ivan Resnik),
+            BEHIND_THE_SCENES / BEDROOM_DJ (Shauna Summers / Agustín Farías).
             Swappable via /public/home. */}
-        <div className="columns-2 gap-4 sm:columns-3 [&>figure]:mb-4">
-          {PHOTOS.map((p) => (
+        <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-0">
+          {PHOTOS.map((p, i) => (
             <figure
               key={p.src}
-              className={`break-inside-avoid overflow-hidden rounded-[16px] shadow-card ring-1 ring-ink/[0.06] transition-transform duration-300 ease-out hover:rotate-0 hover:scale-[1.02] ${p.rot}`}
+              className={`${p.rot} ${p.z} block w-[45%] rounded-[10px] bg-white p-[6px] shadow-[0_20px_44px_-18px_rgba(20,17,13,0.5)] transition-transform duration-300 ease-out hover:z-30 hover:rotate-0 hover:scale-[1.04] sm:w-[280px] ${
+                i > 0 ? "sm:-ml-9" : ""
+              }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.src} alt={p.alt} loading="lazy" className="block w-full" />
+              <img
+                src={p.src}
+                alt={p.alt}
+                loading="lazy"
+                className="block aspect-[4/3] w-full rounded-[5px] object-cover"
+              />
             </figure>
           ))}
         </div>
