@@ -1,0 +1,6 @@
+# Local media that must never be uploaded to Vercel (large source files).
+# Processed, web-optimized versions live in public/hero and public/home.
+Photos
+DTS_*.mov
+DTS_*.mp4
+reference
