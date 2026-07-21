@@ -69,6 +69,9 @@ export function AmbientVideo({ start = true }: { start?: boolean }) {
           loop
           playsInline
           preload="auto"
+          onLoadedMetadata={(e) => {
+            e.currentTarget.playbackRate = 0.75; // calmer, less chaotic loop
+          }}
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1500ms]"
           style={{
             opacity: mobile ? 1 : i === active ? 1 : 0,
