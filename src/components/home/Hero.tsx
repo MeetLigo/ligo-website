@@ -187,13 +187,13 @@ export function Hero() {
                 Meet people through music
               </div>
 
-              <h1 className="max-w-[760px] font-serif text-[clamp(38px,6.4vw,68px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#FFF3E2]">
-                You went to the show alone.{" "}
-                <em className="italic text-[#FFC26B]">You didn&rsquo;t have to.</em>
+              <h1 className="max-w-[840px] font-serif text-[clamp(36px,6vw,64px)] font-medium leading-[1.02] tracking-[-0.015em] text-[#FFF3E2]">
+                You&rsquo;ve got people who&rsquo;d go.{" "}
+                <em className="italic text-[#FFC26B]">You just haven&rsquo;t met them yet.</em>
               </h1>
 
-              <p className="mt-5 max-w-[440px] text-[15px] leading-[1.55] text-[#FFEEDE]/75 sm:text-[17px]">
-                Somewhere on your campus is a person with your exact taste. Start with one song.
+              <p className="mt-5 max-w-[430px] text-[15px] leading-[1.55] text-[#FFEEDE]/75 sm:text-[17px]">
+                Start with one song — and meet the people who&rsquo;d go.
               </p>
 
               {/* the hook — live typeahead */}

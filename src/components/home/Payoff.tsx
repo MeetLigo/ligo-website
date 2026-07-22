@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import type { ResolvedPick, WallEntry } from "@/lib/pick";
 import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
 import { PhotoDrift } from "./PhotoDrift";
+import { TourModule } from "./TourModule";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
@@ -149,14 +150,21 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex max-w-[560px] flex-col items-center gap-7 text-center">
-        <motion.h2 {...rise(0.5)} className="text-balance font-display text-done-title font-semibold text-ink">
+      <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-col items-center gap-11 text-center">
+        <motion.h2 {...rise(0.5)} className="max-w-[600px] text-balance font-display text-done-title font-semibold text-ink">
           These could have been your memories.
         </motion.h2>
 
+        {/* tour payoff beat — album art (real pick) + dates near you (MOCKED, see lib/tour.ts) */}
+        <motion.div {...rise(0.62)} className="w-full">
+          <TourModule artist={pick.artist} albumArt={pick.album_art_url} />
+        </motion.div>
+
+        {/* the rest of the reveal, in a narrower column */}
+        <div className="flex w-full max-w-[560px] flex-col items-center gap-7">
         {/* "get the app" CTA — no live app yet, so both store buttons lead to the
             waitlist (no fake download links). Sits above the leaderboard. */}
-        <motion.div {...rise(0.66)} className="flex flex-col items-center gap-[18px]">
+        <motion.div {...rise(0.78)} className="flex flex-col items-center gap-[18px]">
           {/* the app, in hand (mockup — swappable via /public/home) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -311,6 +319,7 @@ export function Payoff({ pick }: { pick: ResolvedPick }) {
             </div>
           )}
         </motion.div>
+        </div>
       </div>
     </div>
   );
