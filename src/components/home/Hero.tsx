@@ -200,7 +200,7 @@ export function Hero() {
               <div className="relative z-20 mt-8 max-w-[480px]">
                 <form
                   onSubmit={onSubmit}
-                  className="flex gap-2 rounded-full bg-white/97 py-[7px] pl-[24px] pr-[7px] shadow-[0_30px_70px_-24px_rgba(0,0,0,0.7)] backdrop-blur"
+                  className="flex gap-2 rounded-full bg-[#FFF8EE] py-[7px] pl-[24px] pr-[7px] shadow-[0_30px_70px_-24px_rgba(0,0,0,0.7)]"
                 >
                   <input
                     name="song"
