@@ -17,10 +17,10 @@ import { AnimatePresence, motion } from "framer-motion";
 const PHOTO_COUNT = 38;
 const PHOTOS = Array.from({ length: PHOTO_COUNT }, (_, i) => `/home/po-${String(i + 1).padStart(2, "0")}.jpg`);
 
-const DEAL_MS = 820;
+const DEAL_MS = 1500;
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-type Slot = { key: number; src: string; x: number; y: number; rot: number; spin: number; fromX: number; z: number; delay: number };
+type Slot = { key: number; src: string; x: number; y: number; rot: number; spin: number; dx: number; dy: number; z: number; delay: number };
 
 export function PolaroidTable() {
   const [grid, setGrid] = useState({ cols: 6, rows: 4 });
@@ -38,14 +38,16 @@ export function PolaroidTable() {
     const ch = 100 / rows;
     const cx = (col + 0.5) * cw;
     const cy = (row + 0.5) * ch;
+    const dir = Math.random() < 0.5 ? -1 : 1; // slides in from left or right
     return {
       key: ++keyc.current,
       src: PHOTOS[pc.current++ % PHOTOS.length],
       x: clamp(cx + (Math.random() - 0.5) * cw * 1.3, 5, 95),
       y: clamp(cy + (Math.random() - 0.5) * ch * 1.3, 7, 93),
       rot: Math.random() * 30 - 15,
-      spin: (Math.random() < 0.5 ? -1 : 1) * (220 + Math.random() * 260),
-      fromX: Math.random() * 90 - 45,
+      spin: dir * (90 + Math.random() * 160), // spins the way it's thrown
+      dx: dir * (340 + Math.random() * 240), // travels across the table...
+      dy: (Math.random() - 0.5) * 300, // ...with some drift
       z: ++zc.current,
       delay,
     };
@@ -91,10 +93,11 @@ export function PolaroidTable() {
         <AnimatePresence key={i} mode="popLayout">
           <motion.figure
             key={s.key}
-            initial={reduced ? false : { opacity: 0, scale: 1.18, x: s.fromX, y: -230, rotate: s.rot + s.spin }}
+            initial={reduced ? false : { opacity: 0, scale: 1.06, x: s.dx, y: s.dy, rotate: s.rot + s.spin }}
             animate={{ opacity: 1, scale: 1, x: 0, y: 0, rotate: s.rot }}
-            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.5, ease: "easeOut" } }}
-            transition={{ type: "spring", stiffness: 230, damping: 16, opacity: { duration: 0.2 }, delay: s.delay }}
+            exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.6, ease: "easeOut" } }}
+            // slides across the surface and skids to a stop — a friction-style decel, no bounce
+            transition={{ duration: 1.15, ease: [0.19, 0.86, 0.24, 1], opacity: { duration: 0.3 }, delay: s.delay }}
             className="absolute w-[100px] rounded-[7px] bg-white p-[6px] pb-[17px] shadow-[0_18px_38px_-14px_rgba(20,17,13,0.6)] sm:w-[148px]"
             style={{ left: `${s.x}%`, top: `${s.y}%`, translate: "-50% -50%", zIndex: s.z, willChange: "transform" }}
           >
