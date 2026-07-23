@@ -234,7 +234,7 @@ export function HomeHero() {
             src={src}
             alt=""
             fetchPriority={i === 0 ? "high" : "low"}
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1100ms] ease-in-out"
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2200ms] ease-in-out"
             style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
           />
         ))}
