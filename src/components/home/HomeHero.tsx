@@ -30,16 +30,6 @@ function deriveSchool(email: string) {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
-function Equalizer() {
-  return (
-    <span className="inline-flex h-[13px] w-[14px] flex-shrink-0 items-end gap-[2px]">
-      <span className="w-[2.5px] animate-eq rounded-[1px] bg-[#E8A24C]" />
-      <span className="w-[2.5px] animate-eq rounded-[1px] bg-[#E8A24C] [animation-delay:.15s]" />
-      <span className="w-[2.5px] animate-eq rounded-[1px] bg-[#E8A24C] [animation-delay:.3s]" />
-    </span>
-  );
-}
-
 export function HomeHero() {
   const [song, setSong] = useState("");
   const [pick, setPick] = useState<ResolvedPick | null>(null);
@@ -236,7 +226,6 @@ export function HomeHero() {
                 i === 0 ? "border border-[#E8A24C]/40 bg-[#E8A24C]/[0.16]" : "border border-transparent hover:bg-[#CBD3DB]/10"
               }`}
             >
-              {i === 0 && <Equalizer />}
               <span className={`font-mono text-[11px] ${i === 0 ? "text-[#EDB264]" : "text-[#ECEBE6]/40"}`}>{l.n}</span>
               <span className={`whitespace-nowrap text-[13.5px] font-semibold ${i === 0 ? "text-[#ECEBE6]" : "text-[#ECEBE6]/[0.78]"}`}>{l.label}</span>
             </Link>
