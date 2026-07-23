@@ -8,6 +8,9 @@ import { Payoff } from "./Payoff";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
+// suggestion chips — tap to drop a song into the search and run it
+const CHIPS = ["Espresso", "Saturn", "Good Luck, Babe!", "Self Control"];
+
 /**
  * Emotional, photo-first hero. A single warm full-bleed face carries the feeling;
  * one aching line names it; the "Name a song you love" prompt is the hook. As you
@@ -99,6 +102,11 @@ export function Hero() {
     });
   }
 
+  // tapping a chip fills the input and runs the live search (same as typing it)
+  function pickChip(label: string) {
+    onChange(label);
+  }
+
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     submitFreeText(); // Enter-on-a-highlighted-result is handled in onKeyDown
@@ -136,146 +144,180 @@ export function Hero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.5, ease: EASE } }}
             transition={{ duration: 0.6, ease: EASE }}
-            className="relative flex min-h-[100svh] w-full flex-col justify-end bg-[#160b05]"
+            className="relative flex min-h-[100svh] w-full flex-col items-center justify-center bg-[#0A0907] px-6 py-24 text-center"
           >
-            {/* media layer — clipped so the slow zoom never overflows (the search
-                dropdown lives outside this, so it's never clipped). */}
+            {/* media layer — clipped so the slow drift never overflows */}
             <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-            {/* full-bleed warm face — the feeling, in one look. Slow drift for life. */}
-            <motion.div
-              aria-hidden
-              className="absolute inset-0"
-              initial={{ scale: 1.02 }}
-              animate={{ scale: 1.1 }}
-              transition={{ duration: 26, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/hero/hero-face.jpg"
-                alt="A student at a house party, caught in a quiet warm moment"
-                className="h-full w-full object-cover"
-                style={{ objectPosition: "60% 16%" }}
-                fetchPriority="high"
+              {/* full-bleed golden-hour friends — the show you skipped, the people you couldn't find */}
+              <motion.div
+                className="absolute inset-0"
+                initial={{ scale: 1.03 }}
+                animate={{ scale: 1.11 }}
+                transition={{ duration: 28, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/hero/hero-friends.jpg"
+                  alt="Three friends laughing together at golden hour"
+                  className="h-full w-full object-cover"
+                  style={{ objectPosition: "center 34%" }}
+                  fetchPriority="high"
+                />
+              </motion.div>
+              {/* night-cinema wash — legible over the warm photo, resolves to near-black */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg,rgba(10,9,7,0.55) 0%,rgba(10,9,7,0.4) 32%,rgba(10,9,7,0.86) 78%,rgba(10,9,7,0.98) 100%)",
+                }}
               />
-            </motion.div>
-
-            {/* warm wash to pull the frame toward golden hour */}
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[#ff7d22] mix-blend-soft-light opacity-40" />
-            {/* legibility + mood: dark at very top (logo) and bottom (text), warm glow on the face */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg,rgba(19,7,3,0.5) 0%,transparent 22%,rgba(42,18,8,0.28) 52%,rgba(56,25,11,0.9) 78%,rgba(150,82,40,0.72) 92%,#F6DFB4 100%),radial-gradient(120% 100% at 76% 14%,rgba(255,150,50,0.24),transparent 54%)",
-              }}
-            />
+              {/* warm stage glows */}
+              <div className="absolute -left-28 top-[6%] h-[460px] w-[460px] rounded-full" style={{ background: "radial-gradient(circle,rgba(249,115,22,0.28),transparent 66%)" }} />
+              <div className="absolute -right-24 top-[40%] h-[420px] w-[420px] rounded-full" style={{ background: "radial-gradient(circle,rgba(245,215,131,0.2),transparent 66%)" }} />
             </div>
 
-            {/* content, lower-left — settles in as the intro lifts */}
+            {/* centered content — settles in as the intro lifts */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
-              className="relative z-10 mx-auto w-full max-w-[1180px] px-7 pb-[clamp(72px,13vh,150px)] sm:px-12"
+              className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center gap-5"
             >
-              <div className="mb-5 inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#FFC978]">
+              <div className="inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#F5D783] [text-shadow:0_1px_8px_rgba(0,0,0,0.55)]">
                 <span className="relative h-[7px] w-[7px]">
                   <span className="absolute inset-0 rounded-full bg-flame" />
                   <span className="absolute inset-0 rounded-full bg-flame animate-pulseDot" />
                 </span>
-                Meet people through music
+                Georgetown · they were three rows back
               </div>
 
-              <h1 className="max-w-[840px] font-serif text-[clamp(36px,6vw,64px)] font-medium leading-[1.02] tracking-[-0.015em] text-[#FFF3E2]">
-                You&rsquo;ve got people who&rsquo;d go.{" "}
-                <em className="italic text-[#FFC26B]">You just haven&rsquo;t met them yet.</em>
+              <h1 className="max-w-[860px] font-display text-[clamp(38px,6.6vw,66px)] font-semibold leading-[1.01] tracking-[-0.03em] text-[#FAFAF8]">
+                You didn&rsquo;t miss it because no one would go.{" "}
+                <span className="italic text-[#F5D783]">You just couldn&rsquo;t find them.</span>
               </h1>
 
-              <p className="mt-5 max-w-[430px] text-[15px] leading-[1.55] text-[#FFEEDE]/75 sm:text-[17px]">
-                Start with one song — and meet the people who&rsquo;d go.
+              <p className="max-w-[540px] text-[15px] leading-[1.5] text-white/65 sm:text-[18px]">
+                Name a song you love — see who on your campus is already going to the same show.
               </p>
 
-              {/* the hook — live typeahead */}
-              <div className="relative z-20 mt-8 max-w-[480px]">
-                <form
-                  onSubmit={onSubmit}
-                  className="flex gap-2 rounded-full bg-[#FFF8EE] py-[7px] pl-[24px] pr-[7px] shadow-[0_30px_70px_-24px_rgba(0,0,0,0.7)]"
-                >
-                  <input
-                    name="song"
-                    value={song}
-                    onChange={(e) => onChange(e.target.value)}
-                    onKeyDown={onKeyDown}
-                    onFocus={() => {
-                      if (song.trim()) setOpen(true);
-                    }}
-                    onBlur={() => setOpen(false)}
-                    autoComplete="off"
-                    role="combobox"
-                    aria-expanded={showDropdown}
-                    aria-autocomplete="list"
-                    placeholder="Name a song you love"
-                    aria-label="Name a song you love"
-                    className="min-w-0 flex-1 border-none bg-transparent text-base text-ink placeholder:text-[#8a6a54]"
-                  />
-                  <button
-                    type="submit"
-                    aria-label="Reveal"
-                    className="flex h-12 w-12 flex-none items-center justify-center rounded-full bg-flame shadow-cta transition-transform active:scale-95"
+              {/* the hook — dark-glass typeahead + suggestion chips */}
+              <div className="relative z-20 mt-2 flex w-full max-w-[520px] flex-col items-center gap-4">
+                <div className="text-[11px] font-bold uppercase tracking-eyebrow text-white/45">Name a song you love</div>
+
+                <div className="relative w-full">
+                  <form
+                    onSubmit={onSubmit}
+                    className="flex w-full items-center gap-2 rounded-full border border-white/[0.16] bg-white/[0.08] py-[8px] pl-[20px] pr-[8px] shadow-[0_0_0_6px_rgba(249,115,22,0.1),0_18px_40px_-14px_rgba(0,0,0,0.6)] backdrop-blur-md"
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h13M13 6l6 6-6 6" />
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
+                      <circle cx="6" cy="18" r="3" />
+                      <circle cx="18" cy="16" r="3" />
+                      <path d="M9 18V5l12-2v13" />
                     </svg>
-                  </button>
-                </form>
-
-                {showDropdown && (
-                  <div
-                    onMouseDown={(e) => e.preventDefault()}
-                    className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-[20px] border border-ink/10 bg-white text-left shadow-[0_24px_50px_-20px_rgba(20,17,13,0.5)]"
-                  >
-                    {searching && results.length === 0 && (
-                      <div className="px-4 py-3 text-[13px] text-ink/40">Searching…</div>
-                    )}
-
-                    {results.map((t, i) => (
-                      <button
-                        key={t.spotify_track_id ?? i}
-                        type="button"
-                        onClick={() => selectTrack(t)}
-                        onMouseEnter={() => setActiveIndex(i)}
-                        className={`flex w-full items-center gap-3 px-3 py-2 text-left ${
-                          i === activeIndex ? "bg-gold/25" : "hover:bg-ink/[0.04]"
-                        }`}
-                      >
-                        {t.album_art_url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={t.album_art_url} alt="" className="h-9 w-9 flex-none rounded-[5px] object-cover" />
-                        ) : (
-                          <span className="h-9 w-9 flex-none rounded-[5px] bg-photo-bg" />
-                        )}
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate text-[15px] font-medium text-ink">{t.song_name}</span>
-                          {t.artist && <span className="block truncate text-[13px] text-ink/50">{t.artist}</span>}
-                        </span>
-                      </button>
-                    ))}
-
+                    <input
+                      name="song"
+                      value={song}
+                      onChange={(e) => onChange(e.target.value)}
+                      onKeyDown={onKeyDown}
+                      onFocus={() => {
+                        if (song.trim()) setOpen(true);
+                      }}
+                      onBlur={() => setOpen(false)}
+                      autoComplete="off"
+                      role="combobox"
+                      aria-expanded={showDropdown}
+                      aria-autocomplete="list"
+                      placeholder="Espresso, Saturn, Good Luck Babe…"
+                      aria-label="Name a song you love"
+                      className="min-w-0 flex-1 border-none bg-transparent text-base text-white placeholder:text-white/40"
+                    />
                     <button
-                      type="button"
-                      onClick={submitFreeText}
-                      className="flex w-full items-center gap-2 border-t border-ink/[0.06] px-4 py-3 text-left text-[13px] text-ember hover:bg-ink/[0.04]"
+                      type="submit"
+                      className="flex flex-none items-center gap-[7px] rounded-full bg-flame px-5 py-3 text-[14px] font-semibold text-white shadow-[0_12px_28px_-8px_rgba(249,115,22,0.55)] transition-transform active:scale-95"
                     >
-                      {searchError
-                        ? "Search hiccup — "
-                        : !searching && results.length === 0
-                          ? "No matches — "
-                          : "Can’t find it? "}
-                      <span className="font-semibold">type &ldquo;{song.trim()}&rdquo; anyway →</span>
+                      Reveal
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h13M13 6l6 6-6 6" />
+                      </svg>
                     </button>
-                  </div>
-                )}
+                  </form>
+
+                  {showDropdown && (
+                    <div
+                      onMouseDown={(e) => e.preventDefault()}
+                      className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-[20px] border border-ink/10 bg-white text-left shadow-[0_24px_50px_-20px_rgba(0,0,0,0.6)]"
+                    >
+                      {searching && results.length === 0 && (
+                        <div className="px-4 py-3 text-[13px] text-ink/40">Searching…</div>
+                      )}
+
+                      {results.map((t, i) => (
+                        <button
+                          key={t.spotify_track_id ?? i}
+                          type="button"
+                          onClick={() => selectTrack(t)}
+                          onMouseEnter={() => setActiveIndex(i)}
+                          className={`flex w-full items-center gap-3 px-3 py-2 text-left ${
+                            i === activeIndex ? "bg-gold/25" : "hover:bg-ink/[0.04]"
+                          }`}
+                        >
+                          {t.album_art_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={t.album_art_url} alt="" className="h-9 w-9 flex-none rounded-[5px] object-cover" />
+                          ) : (
+                            <span className="h-9 w-9 flex-none rounded-[5px] bg-photo-bg" />
+                          )}
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate text-[15px] font-medium text-ink">{t.song_name}</span>
+                            {t.artist && <span className="block truncate text-[13px] text-ink/50">{t.artist}</span>}
+                          </span>
+                        </button>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={submitFreeText}
+                        className="flex w-full items-center gap-2 border-t border-ink/[0.06] px-4 py-3 text-left text-[13px] text-ember hover:bg-ink/[0.04]"
+                      >
+                        {searchError
+                          ? "Search hiccup — "
+                          : !searching && results.length === 0
+                            ? "No matches — "
+                            : "Can’t find it? "}
+                        <span className="font-semibold">type &ldquo;{song.trim()}&rdquo; anyway →</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* suggestion chips — tap to search that song */}
+                <div className="flex flex-wrap justify-center gap-2">
+                  {CHIPS.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => pickChip(c)}
+                      className="rounded-full border border-white/[0.16] bg-white/[0.08] px-[14px] py-2 text-[13px] font-semibold text-white/85 backdrop-blur-sm transition-colors hover:bg-white/[0.16]"
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+
+                {/* free app note */}
+                <div className="mt-1 flex items-center gap-[6px] text-[13px] text-white/55">
+                  <span>Ligo is a free app.</span>
+                  <a
+                    href="https://apps.apple.com/us/app/ligo/id6753926105"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#F5D783]"
+                  >
+                    Download on the App Store →
+                  </a>
+                </div>
               </div>
             </motion.div>
           </motion.div>
