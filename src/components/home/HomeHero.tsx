@@ -238,10 +238,11 @@ export function HomeHero() {
             style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
           />
         ))}
-        {/* legibility scrim — uniform so the cream text reads the same on every slide */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0.5) 0%,rgba(14,18,22,0.34) 38%,rgba(14,18,22,0.4) 72%,rgba(14,18,22,0.52) 100%)" }} />
-        {/* subtle dissolve where the hero meets the section below (much lighter than before) */}
-        <div className="absolute inset-x-0 bottom-0 h-[110px]" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0) 0%,#0E1216 100%)" }} />
+        {/* legibility scrim — top-weighted, sits behind the text then fades out so the
+            lower photo stays clearly visible (no wash over the bottom half) */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0.58) 0%,rgba(14,18,22,0.44) 22%,rgba(14,18,22,0.4) 52%,rgba(14,18,22,0.14) 70%,rgba(14,18,22,0) 84%)" }} />
+        {/* short, subtle darkening only at the very bottom edge, where it meets the section */}
+        <div className="absolute inset-x-0 bottom-0 h-[72px]" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0) 0%,#0E1216 100%)" }} />
         <div className="absolute -left-28 top-[6%] h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle,rgba(232,162,76,0.14),transparent 66%)" }} />
         <div className="absolute -right-20 top-[40%] h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle,rgba(90,166,224,0.13),transparent 66%)" }} />
       </div>
@@ -256,20 +257,24 @@ export function HomeHero() {
             <span className="mt-1 hidden text-[11px] font-medium text-[#CBD3DB] [text-shadow:0_1px_6px_rgba(0,0,0,0.55)] sm:block">Connect through music</span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-[3px] rounded-2xl border border-[#CBD3DB]/[0.14] bg-[#0E1216]/40 px-2 py-[7px] backdrop-blur-xl md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {NAV.map((l, i) => (
             <Link
               key={l.n}
               href={l.href}
-              className={`flex items-center gap-[7px] rounded-[11px] px-[11px] py-2 transition-colors ${
-                i === 0 ? "border border-[#E8A24C]/40 bg-[#E8A24C]/[0.16]" : "border border-transparent hover:bg-[#CBD3DB]/10"
+              className={`whitespace-nowrap text-[14px] font-semibold [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors ${
+                i === 0 ? "text-[#ECEBE6]" : "text-[#ECEBE6]/[0.62] hover:text-[#ECEBE6]"
               }`}
             >
-              <span className={`font-mono text-[11px] ${i === 0 ? "text-[#EDB264]" : "text-[#ECEBE6]/40"}`}>{l.n}</span>
-              <span className={`whitespace-nowrap text-[13.5px] font-semibold ${i === 0 ? "text-[#ECEBE6]" : "text-[#ECEBE6]/[0.78]"}`}>{l.label}</span>
+              {l.label}
             </Link>
           ))}
-          <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="ml-1 whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[13px] py-2 text-[13.5px] font-semibold text-[#241603]">
+          <a
+            href={APP_STORE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[15px] py-[9px] text-[13.5px] font-semibold text-[#241603] shadow-[0_10px_24px_-8px_rgba(0,0,0,0.5)]"
+          >
             Get the app →
           </a>
         </nav>
@@ -371,15 +376,6 @@ export function HomeHero() {
           </div>
         </div>
 
-        {/* anticipation nudge (only before a reveal) */}
-        {!revealed && (
-          <div className="relative z-10 flex flex-col items-center justify-center gap-4 px-6 pb-16 pt-4 text-center">
-            <div className="font-serif text-[21px] font-medium tracking-[-0.01em] text-[#ECEBE6]/[0.72]">Name a song to see who shares your taste.</div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(232,162,76,0.72)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-floatY">
-              <path d="M12 5v14M6 13l6 6 6-6" />
-            </svg>
-          </div>
-        )}
       </div>
       </section>
 
