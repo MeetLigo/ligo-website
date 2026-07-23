@@ -22,6 +22,13 @@ const NAV = [
 const CHIPS = ["Espresso", "Saturn", "Good Luck, Babe!", "Self Control"];
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 
+// Ambient hero slideshow — each photo is pre-graded per-photo (in /public/hero)
+// to a matched warm, medium-dark tone so the cream headline + search read the
+// same on every slide, whatever the source photo's brightness was.
+const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg"];
+const SLIDE_POS = ["center 32%", "center 40%", "center 44%"];
+const SLIDE_MS = 6000; // hold per slide (crossfade is ~1.1s)
+
 function deriveSchool(email: string) {
   const domain = (email.split("@")[1] || "").toLowerCase();
   if (domain.includes("georgetown")) return "Georgetown";
@@ -34,6 +41,14 @@ export function HomeHero() {
   const [song, setSong] = useState("");
   const [pick, setPick] = useState<ResolvedPick | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [slide, setSlide] = useState(0);
+
+  // ambient crossfade slideshow (honors reduced-motion → holds slide 1)
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), SLIDE_MS);
+    return () => window.clearInterval(id);
+  }, []);
 
   // typeahead
   const [results, setResults] = useState<SearchTrack[]>([]);
@@ -208,12 +223,25 @@ export function HomeHero() {
   return (
     <>
       <section className="relative flex min-h-[94vh] w-full flex-col bg-[#0E1216]">
-      {/* full-bleed cool friends photo — pinned to a fixed viewport height so its
-          framing never changes when the reveal grows the section (no zoom). */}
+      {/* ambient crossfade slideshow — pinned to a fixed viewport height so framing
+          never changes when the reveal grows the section (no zoom). All slides render
+          up front (preloaded); opacity crossfades between them. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[94vh] overflow-hidden">
-        <img src="/hero/hero-friends-cool.jpg" alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 34%" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0.52) 0%,rgba(14,18,22,0.32) 32%,rgba(14,18,22,0.58) 70%,rgba(14,18,22,0.9) 100%)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-[340px]" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0) 0%,rgba(14,18,22,0.5) 58%,#0E1216 100%)" }} />
+        {SLIDES.map((src, i) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={src}
+            src={src}
+            alt=""
+            fetchPriority={i === 0 ? "high" : "low"}
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1100ms] ease-in-out"
+            style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
+          />
+        ))}
+        {/* legibility scrim — uniform so the cream text reads the same on every slide */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0.5) 0%,rgba(14,18,22,0.34) 38%,rgba(14,18,22,0.4) 72%,rgba(14,18,22,0.52) 100%)" }} />
+        {/* subtle dissolve where the hero meets the section below (much lighter than before) */}
+        <div className="absolute inset-x-0 bottom-0 h-[110px]" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0) 0%,#0E1216 100%)" }} />
         <div className="absolute -left-28 top-[6%] h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle,rgba(232,162,76,0.14),transparent 66%)" }} />
         <div className="absolute -right-20 top-[40%] h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle,rgba(90,166,224,0.13),transparent 66%)" }} />
       </div>
