@@ -31,7 +31,7 @@ const config: Config = {
         display: ["var(--font-bricolage)", "system-ui", "sans-serif"],
         serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
         hand: ["var(--font-caveat)", "cursive"],
-        sans: ["-apple-system", "SF Pro Display", "Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "-apple-system", "SF Pro Display", "Inter", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         eyebrow: "0.16em",

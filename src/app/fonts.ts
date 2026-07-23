@@ -1,5 +1,13 @@
 import localFont from "next/font/local";
-import { Caveat, Fraunces } from "next/font/google";
+import { Caveat, Fraunces, Inter } from "next/font/google";
+
+// Body / UI font for the charcoal homepage redesign.
+export const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 // Emotional display serif — warm, characterful, for hero headlines.
 export const fraunces = Fraunces({

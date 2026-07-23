@@ -1,13 +1,16 @@
-import { Hero } from "@/components/home/Hero";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeFooter } from "@/components/home/HomeFooter";
 
+/**
+ * Charcoal homepage (ported from the design export). The hero owns the flow —
+ * "Meet people through music" → name a song → the live Ligo chart reveal + board
+ * lock — over the shared Spotify search + Supabase board wiring.
+ */
 export default function HomePage() {
   return (
-    <main>
-      {/* Hero owns the flow: face + "Name a song" → reveal (with the album-art +
-          tour-dates payoff beat). The old polaroid "pictures" section was removed —
-          the tour module in the reveal is the payoff now. Components kept in the
-          repo (HowItWorks / PolaroidTable) in case they move to a Playground. */}
-      <Hero />
+    <main className="bg-[#0E1216]">
+      <HomeHero />
+      <HomeFooter />
     </main>
   );
 }

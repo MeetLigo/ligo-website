@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { bricolage, caveat, fraunces } from "./fonts";
+import { bricolage, caveat, fraunces, inter } from "./fonts";
 import { DrawerProvider } from "@/components/chrome/DrawerProvider";
-import { FloatingLogo } from "@/components/chrome/FloatingLogo";
-import { NavDrawer } from "@/components/chrome/NavDrawer";
-import { Footer } from "@/components/chrome/Footer";
+import { Chrome } from "@/components/chrome/Chrome";
 
 export const metadata: Metadata = {
   title: "Ligo — Events bring the room. Music tells you who.",
@@ -15,14 +13,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="font-sans">
         <DrawerProvider>
           <div className="relative min-h-screen overflow-x-hidden bg-cream text-ink">
-            <FloatingLogo />
-            <NavDrawer />
-            {children}
-            <Footer />
+            <Chrome>{children}</Chrome>
           </div>
         </DrawerProvider>
       </body>
