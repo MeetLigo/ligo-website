@@ -29,8 +29,8 @@ export function OriginSection() {
               someone who meant a lot to me.
             </p>
             <p className="m-0">
-              The guy in front of me starts humming. I know the song immediately — Chanel, Frank Ocean. Before I knew
-              it we were both singing it. An hour later we were still outside on the street talking — not about jobs or
+              The guy in front of me starts humming. I know the song immediately. Chanel, Frank Ocean. Before I knew
+              it we were both singing it. An hour later we were still outside on the street talking. Not about jobs or
               school or any of the usual stuff. Just music. What it means to us. Where we were when we first heard it.
             </p>
           </div>
@@ -40,7 +40,7 @@ export function OriginSection() {
         <div className="mx-auto mt-12 max-w-[62ch] text-[18px] leading-[1.7] text-ink/[0.72]">
           <p className="mb-5">That guy is one of my closest friends today. That was 2½ years ago.</p>
           <p className="m-0">
-            I went home that night and could not stop thinking — how many times does that not happen? How many people
+            I went home that night and couldn&apos;t stop thinking about it. How many times does that not happen? How many people
             walk past each other every day who would actually connect, if they just had a reason to say something?
             That question is Ligo.
           </p>

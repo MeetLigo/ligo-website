@@ -143,11 +143,11 @@ export interface NewsPost {
 }
 
 export const news: NewsPost[] = [
-  { tag: "Launch", tagColor: "#EA580C", date: "Jul 2026", title: "Ligo is live at Howard.", excerpt: "Our second campus is in. The chart, the daily take, the events — all of it, all Bison." },
+  { tag: "Launch", tagColor: "#EA580C", date: "Jul 2026", title: "Ligo is live at Howard.", excerpt: "Our second campus is in. The chart, the daily take, the events. All of it, all Bison." },
   { tag: "Product", tagColor: "#4FA6CB", date: "Jun 2026", title: "The daily hot take gets a reveal moment.", excerpt: "Vote, wait, then watch the whole campus’ answer roll in at 8pm sharp." },
-  { tag: "Blog", tagColor: "#A13D99", date: "Jun 2026", title: "Why we’ll never add a bio.", excerpt: "A short manifesto on letting the music do the introducing — and why that changes who you meet." },
+  { tag: "Blog", tagColor: "#A13D99", date: "Jun 2026", title: "Why we’ll never add a bio.", excerpt: "A short manifesto on letting the music do the introducing, and why that changes who you meet." },
   { tag: "Announcement", tagColor: "#EA580C", date: "May 2026", title: "We raised our seed round.", excerpt: "What the next year looks like, and the campuses we’re heading to next." },
-  { tag: "Blog", tagColor: "#A13D99", date: "Apr 2026", title: "Georgetown’s song of the semester.", excerpt: "We counted every vote. One track ran away with it — and it’s not what you’d guess." },
+  { tag: "Blog", tagColor: "#A13D99", date: "Apr 2026", title: "Georgetown’s song of the semester.", excerpt: "We counted every vote. One track ran away with it, and it’s not what you’d guess." },
 ];
 
 // ---- Partner --------------------------------------------------------------
@@ -176,7 +176,7 @@ export const partners: Partner[] = [
     icon: "☕",
     iconBg: "rgba(155,216,236,0.28)",
     title: "Local businesses",
-    sub: "Cafés, venues, and record stores — become the room students actually show up to.",
+    sub: "Cafés, venues, and record stores. Become the room students actually show up to.",
     points: [
       "Reach students by taste, not ads",
       "Feature open-mic nights, happy hours, listening sessions",
@@ -202,10 +202,10 @@ export const faqGroups: FaqGroup[] = [
     name: "For students",
     color: "#F97316",
     items: [
-      { q: "Is this a dating app?", a: "No. Ligo is about meeting people through music — friends, a group, a crew for the concert. If something more happens, that’s on you." },
+      { q: "Is this a dating app?", a: "No. Ligo is about meeting people through music: friends, a group, a crew for the concert. If something more happens, that’s on you." },
       { q: "Do I need a profile with photos and a bio?", a: "Nope. Just your name and a school email so we know you’re real. Your music taste is your profile." },
       { q: "Is it free?", a: "Yes, free for students." },
-      { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us — we go where students pull us." },
+      { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us. We go where students pull us." },
     ],
   },
   {
@@ -214,14 +214,14 @@ export const faqGroups: FaqGroup[] = [
     items: [
       { q: "How do students find my events?", a: "Your events surface to students on the campus you’re near, matched by the music taste your event is tagged with." },
       { q: "What does it cost?", a: "Partnerships are tiered by campus and reach. Start on the Become a Partner page and we’ll size it with you." },
-      { q: "What kind of spots work best?", a: "Cafés, venues, and record stores do great — anywhere students already gather around sound." },
+      { q: "What kind of spots work best?", a: "Cafés, venues, and record stores do great. Anywhere students already gather around sound." },
     ],
   },
   {
     name: "For clubs",
     color: "#A13D99",
     items: [
-      { q: "Can we run invite-only events?", a: "Yes. Post openly to campus or keep it invite-only to your members — your call, per event." },
+      { q: "Can we run invite-only events?", a: "Yes. Post openly to campus or keep it invite-only to your members. Your call, per event." },
       { q: "Do we get an admin view?", a: "Every club gets an organizer view to create events, manage groups, and see who’s coming." },
       { q: "Is it free for student orgs?", a: "Yes. Recognized student clubs use Ligo events for free." },
     ],

@@ -4,7 +4,7 @@ import { TeamSection } from "@/components/about/TeamSection";
 import { AdvisorsSection } from "@/components/about/AdvisorsSection";
 
 export const metadata: Metadata = {
-  title: "About — Ligo",
+  title: "About · Ligo",
   description: "How Ligo started, the team building it, and the advisors in our corner.",
 };
 

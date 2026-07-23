@@ -169,7 +169,7 @@ export function HomeHero() {
     if (!pick || submitting) return;
     const raw = email.trim().toLowerCase();
     if (!/^[^@\s]+@[^@\s]+\.edu$/.test(raw)) {
-      setBoardError("Enter your school email (ends in .edu) — the board is verified students only.");
+      setBoardError("Enter your school email (ends in .edu). The board is verified students only.");
       return;
     }
     setSubmitting(true);
@@ -185,7 +185,7 @@ export function HomeHero() {
       await fetchWall();
       setBoardPosted(true);
     } catch (err) {
-      setBoardError(`Couldn't lock it — ${err instanceof Error ? err.message : "try again"}.`);
+      setBoardError(`Couldn't lock it. ${err instanceof Error ? err.message : "Try again"}.`);
     } finally {
       setSubmitting(false);
     }
@@ -258,7 +258,7 @@ export function HomeHero() {
           Meet people <span className="italic text-[#E8A24C]">through music.</span>
         </h1>
         <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#ECEBE6]/[0.74] sm:text-[18px]">
-          Ligo connects college students who love the same music — start with one song and meet people near you.
+          Ligo connects college students who love the same music. Start with one song and meet people near you.
         </p>
 
         {/* the search — always present */}
@@ -321,7 +321,7 @@ export function HomeHero() {
                       </button>
                     ))}
                     <button type="button" onClick={revealTyped} className="flex w-full items-center gap-2 border-t border-white/[0.06] px-4 py-3 text-left text-[13px] text-[#EDB264] hover:bg-white/[0.04]">
-                      {searchError ? "Search hiccup — " : !searching && results.length === 0 ? "No matches — " : "Can't find it? "}
+                      {searchError ? "Search hiccup, " : !searching && results.length === 0 ? "No matches, " : "Can't find it? "}
                       <span className="font-semibold">reveal &ldquo;{song.trim()}&rdquo; anyway →</span>
                     </button>
                   </div>
@@ -448,7 +448,7 @@ function RevealChart({
           <div className="flex flex-col gap-[6px]">
             <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264]">Lock it onto the board</div>
             <p className="text-[15px] leading-[1.5] text-[#ECEBE6]/[0.72]">
-              Drop your school email and &ldquo;{pick?.song_name}&rdquo; counts permanently. Verified students only — one pick each.
+              Drop your school email and &ldquo;{pick?.song_name}&rdquo; counts permanently. Verified students only. One pick each.
             </p>
           </div>
           <div className="flex items-center gap-[9px] rounded-[14px] border border-[#CBD3DB]/[0.22] bg-[#CBD3DB]/[0.08] py-[7px] pl-4 pr-[7px] shadow-[inset_0_1px_0_rgba(236,235,230,0.12)]">
@@ -494,7 +494,7 @@ function RevealChart({
         </div>
 
         {lbLeft.length === 0 ? (
-          <div className="py-4 text-center text-[13px] text-[#ECEBE6]/40">The chart&rsquo;s just getting started — be the first to lock a pick.</div>
+          <div className="py-4 text-center text-[13px] text-[#ECEBE6]/40">The chart&rsquo;s just getting started. Be the first to lock a pick.</div>
         ) : (
           <div className="grid grid-cols-1 gap-x-9 sm:grid-cols-2">
             <div className="flex flex-col">{lbLeft.map(row)}</div>

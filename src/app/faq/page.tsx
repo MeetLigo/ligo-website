@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { FaqAccordion } from "@/components/faq/FaqAccordion";
 
 export const metadata: Metadata = {
-  title: "FAQ — Ligo",
-  description: "Questions from students, investors, local businesses, and clubs — answered.",
+  title: "FAQ · Ligo",
+  description: "Questions from students, investors, local businesses, and clubs, answered.",
 };
 
 export default function FaqPage() {

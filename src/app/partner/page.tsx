@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { partners } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Become a Partner — Ligo",
+  title: "Become a Partner · Ligo",
   description: "Put your room in front of the whole campus. For clubs, orgs, and local businesses.",
 };
 
@@ -17,7 +17,7 @@ export default function PartnerPage() {
           </h1>
           <p className="mt-4 max-w-[520px] text-[18px] text-ink/[0.62]">
             Clubs fill their events. Local spots fill their tables. Both reach students by the one thing they
-            can&apos;t fake — their taste.
+            can&apos;t fake: their taste.
           </p>
         </div>
       </section>
@@ -63,7 +63,7 @@ export default function PartnerPage() {
             <div>
               <div className="font-display text-[26px] font-semibold tracking-[-0.02em]">Let&apos;s get your room full.</div>
               <div className="mt-[6px] text-[15px] text-white/60">
-                Tell us who you are — we&apos;ll set you up in a day.
+                Tell us who you are. We&apos;ll set you up in a day.
               </div>
             </div>
             <a

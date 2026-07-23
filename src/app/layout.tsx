@@ -5,9 +5,9 @@ import { DrawerProvider } from "@/components/chrome/DrawerProvider";
 import { Chrome } from "@/components/chrome/Chrome";
 
 export const metadata: Metadata = {
-  title: "Ligo — Events bring the room. Music tells you who.",
+  title: "Ligo · Events bring the room. Music tells you who.",
   description:
-    "Answer a song, meet your people. Ligo connects students on campus through music taste — no login, no bio, just the song.",
+    "Answer a song, meet your people. Ligo connects students on campus through music taste. No login, no bio, just the song.",
   metadataBase: new URL("https://meetligo.com"),
 };
 
