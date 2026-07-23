@@ -198,8 +198,9 @@ export function HomeHero() {
 
   return (
     <section className="relative flex min-h-[94vh] w-full flex-col bg-[#0E1216]">
-      {/* full-bleed cool friends photo */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/* full-bleed cool friends photo — pinned to a fixed viewport height so its
+          framing never changes when the reveal grows the section (no zoom). */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[94vh] overflow-hidden">
         <img src="/hero/hero-friends-cool.jpg" alt="" className="h-full w-full object-cover" style={{ objectPosition: "center 34%" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0.52) 0%,rgba(14,18,22,0.32) 32%,rgba(14,18,22,0.58) 70%,rgba(14,18,22,0.9) 100%)" }} />
         <div className="absolute inset-x-0 bottom-0 h-[340px]" style={{ background: "linear-gradient(180deg,rgba(14,18,22,0) 0%,rgba(14,18,22,0.5) 58%,#0E1216 100%)" }} />
@@ -241,13 +242,18 @@ export function HomeHero() {
 
       {/* hero content */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-5 px-6 py-16 text-center">
-        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
-        <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#ECEBE6]">
-          Meet people <span className="italic text-[#E8A24C]">through music.</span>
-        </h1>
-        <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#ECEBE6]/[0.74] sm:text-[18px]">
-          Ligo connects college students who love the same music — start with one song and meet people near you.
-        </p>
+        {/* the hero pitch — replaced by the reveal once a song is named */}
+        {!revealed && (
+          <>
+            <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
+            <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#ECEBE6]">
+              Meet people <span className="italic text-[#E8A24C]">through music.</span>
+            </h1>
+            <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#ECEBE6]/[0.74] sm:text-[18px]">
+              Ligo connects college students who love the same music — start with one song and meet people near you.
+            </p>
+          </>
+        )}
 
         {/* answer zone: search  ⟷  chart */}
         <div className="mt-2 flex w-full max-w-[940px] flex-col items-center">
