@@ -25,8 +25,8 @@ const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 // Ambient hero slideshow — each photo is pre-graded per-photo (in /public/hero)
 // to a matched warm, medium-dark tone so the cream headline + search read the
 // same on every slide, whatever the source photo's brightness was.
-const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg"];
-const SLIDE_POS = ["center 32%", "center 40%", "center 44%"];
+const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg"];
+const SLIDE_POS = ["center 32%", "center 40%", "center 44%", "center 30%"];
 const SLIDE_MS = 6000; // hold per slide (crossfade is ~1.1s)
 
 function deriveSchool(email: string) {
