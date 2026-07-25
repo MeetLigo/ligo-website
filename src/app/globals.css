@@ -8,8 +8,10 @@
   body {
     margin: 0;
     padding: 0;
-    background: theme("colors.cream");
-    color: theme("colors.ink");
+    /* site canvas is the warm near-black — no cream ever peeks through
+       (over-scroll, paint gaps, short pages) */
+    background: #130f0a;
+    color: #efe8db;
   }
   a {
     color: theme("colors.ember");

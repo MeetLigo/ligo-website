@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${fraunces.variable} ${inter.variable}`}>
       <body className="font-sans">
         <DrawerProvider>
-          <div className="relative min-h-screen overflow-x-hidden bg-cream text-ink">
+          <div className="relative min-h-screen overflow-x-hidden bg-[#130F0A] text-[#EFE8DB]">
             <Chrome>{children}</Chrome>
           </div>
         </DrawerProvider>

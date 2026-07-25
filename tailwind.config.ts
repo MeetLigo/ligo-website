@@ -82,6 +82,30 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        anthemDrift: {
+          "0%,100%": { transform: "scale(1.2) translate(0,0)" },
+          "50%": { transform: "scale(1.32) translate(1.5%,-1.5%)" },
+        },
+        revealUp: {
+          "0%": { opacity: "0", transform: "translateY(40px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        revealFade: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        pressIn: {
+          "0%": { opacity: "0", transform: "translateY(12px) scale(1.05)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        markerDraw: {
+          "0%": { strokeDashoffset: "700" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        arrowDraw: {
+          "0%": { strokeDashoffset: "60" },
+          "100%": { strokeDashoffset: "0" },
+        },
       },
       animation: {
         floatY: "floatY 7s ease-in-out infinite",
@@ -90,6 +114,12 @@ const config: Config = {
         eq: "eq .9s ease-in-out infinite",
         marquee: "marquee 16s linear infinite",
         "marquee-slow": "marquee 34s linear infinite",
+        anthemDrift: "anthemDrift 38s ease-in-out infinite",
+        revealUp: "revealUp .38s cubic-bezier(.2,.7,.2,1) both",
+        revealFade: "revealFade .38s ease both",
+        pressIn: "pressIn .45s cubic-bezier(.2,.7,.2,1) both",
+        markerDraw: "markerDraw .7s ease-out .75s both",
+        arrowDraw: "arrowDraw .5s ease-out .8s both",
       },
     },
   },

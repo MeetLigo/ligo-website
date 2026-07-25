@@ -9,16 +9,17 @@ import { PersonCard } from "./PersonCard";
 export function TeamSection() {
   return (
     <section
-      className="px-6 py-20 sm:px-10 sm:py-24"
-      style={{ background: "linear-gradient(180deg,rgba(235,190,78,0.16),rgba(249,115,22,0.05) 60%,#FFF7E9)" }}
+      id="team"
+      className="px-6 pb-16 pt-12 sm:px-10 sm:pb-20 sm:pt-14"
+      style={{ background: "linear-gradient(180deg,#130F0A,#1B150E 55%,#130F0A)" }}
     >
       <div className="mx-auto max-w-[1100px]">
         <div className="text-center">
-          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-ember">the team</div>
-          <h2 className="mt-3 font-display text-section-title font-semibold text-ink">The people building it.</h2>
+          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EDB264]">the team</div>
+          <h2 className="mt-3 font-serif text-section-title font-semibold text-[#EFE8DB]">The people building it.</h2>
         </div>
 
-        <div className="mt-14 flex flex-wrap justify-center gap-8 sm:gap-x-10 sm:gap-y-12">
+        <div className="mt-10 flex flex-wrap justify-center gap-6 sm:gap-8">
           {team.map((p) => (
             <PersonCard key={p.name} person={p} variant="team" />
           ))}
