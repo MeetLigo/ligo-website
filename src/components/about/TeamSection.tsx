@@ -19,7 +19,9 @@ export function TeamSection() {
           <h2 className="mt-3 font-serif text-section-title font-semibold text-[#EFE8DB]">The people building it.</h2>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-6 sm:gap-8">
+        {/* five cards don't fit one row at the standard card size, so at 5+ the
+            row is capped to wrap as a centered 3 + 2 — card size never changes */}
+        <div className={`mx-auto mt-10 flex flex-wrap justify-center gap-6 sm:gap-8 ${team.length >= 5 ? "max-w-[840px]" : ""}`}>
           {team.map((p) => (
             <PersonCard key={p.name} person={p} variant="team" />
           ))}
