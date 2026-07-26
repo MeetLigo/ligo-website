@@ -13,7 +13,7 @@ import type { Person } from "@/lib/content";
 export function PersonCard({ person, variant = "team" }: { person: Person; variant?: "team" | "advisor" }) {
   const team = variant === "team";
   return (
-    <div className={team ? "w-full sm:w-[230px]" : "w-[150px] sm:w-[168px]"}>
+    <div className={team ? "w-full" : "w-[150px] sm:w-[168px]"}>
       <div className="group relative aspect-[3/4] overflow-hidden rounded-[18px] border border-[#E8A24C]/[0.13] bg-[#1E1710] transition-all duration-300 hover:-translate-y-[3px] hover:border-[#E8A24C]/[0.26]">
         <Image
           src={person.img}
