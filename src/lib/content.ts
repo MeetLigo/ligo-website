@@ -123,10 +123,8 @@ export const team: Person[] = [
   { name: "Mekhi Simpson", role: "Content & Marketing", img: "/photos/mekhi.png" },
   // Leonard — Product Design: card held until /public/photos/leonard.png is provided.
   // { name: "Leonard", role: "Product Design", img: "/photos/leonard.png" },
-  // TODO(Will): held until /public/team/will.jpg + his last name and role are
-  // provided — uncomment and fill in, and the five-card grid takes over (see
-  // TeamSection's max-width note).
-  // { name: "Will LASTNAME", role: "ROLE", img: "/team/will.jpg" },
+  // TODO(Will): last name + role still needed — fill both in below.
+  { name: "Will", role: "", img: "/team/will.jpg" },
 ];
 
 // Advisors — separate, lighter tier. Editable list; some names pending public
