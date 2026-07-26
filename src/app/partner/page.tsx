@@ -6,7 +6,7 @@ import { PartnerFaq } from "@/components/faq/FaqList";
 
 export const metadata: Metadata = {
   title: "Become a Partner · Ligo",
-  description: "Put your room in front of the whole campus. For clubs, orgs, and local businesses.",
+  description: "Fill the room with your people. Ligo for student clubs and organizations.",
 };
 
 export default function PartnerPage() {
@@ -14,11 +14,11 @@ export default function PartnerPage() {
     <main className="animate-riseIn">
       <PageHero
         eyebrow="become a partner"
-        title={<>Put your room in front of <Accent>the whole campus.</Accent></>}
+        title={<>Fill the room with <Accent>your people.</Accent></>}
         sub={
           <>
-            Clubs fill their events. Local spots fill their tables. Both reach students by the one thing they
-            can&apos;t fake: their taste.
+            Clubs and orgs fill their shows, mixers, and meetings with the people who already vibe with
+            their sound.
           </>
         }
         image="/hero/slide-1.jpg"
@@ -26,30 +26,15 @@ export default function PartnerPage() {
         width="max-w-[900px]"
       />
 
-      <section className="mx-auto grid max-w-[900px] grid-cols-1 gap-[22px] px-6 pb-5 pt-9 sm:px-10 md:grid-cols-2">
-        {partners.map((p) => (
-          <div
-            key={p.title}
-            className="rounded-[22px] border border-[#D7CCBC]/10 bg-[#1B150E] p-7"
-          >
-            <div
-              className="flex h-[52px] w-[52px] items-center justify-center rounded-2xl text-2xl"
-              style={{ background: p.iconBg }}
-            >
-              {p.icon}
-            </div>
-            <div className="my-4 mb-[6px] font-serif text-2xl font-semibold tracking-[-0.01em] text-[#EFE8DB]">{p.title}</div>
-            <div className="mb-[18px] text-[15px] leading-[1.55] text-[#EFE8DB]/[0.58]">{p.sub}</div>
-            <div className="flex flex-col gap-[10px]">
-              {p.points.map((pt) => (
-                <div key={pt} className="flex items-start gap-[10px] text-sm text-[#EFE8DB]/90">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71C07F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="mt-[1px] flex-none">
-                    <path d="M4 12l5 5L20 6" />
-                  </svg>
-                  <span>{pt}</span>
-                </div>
-              ))}
-            </div>
+      {/* clubs & orgs only for now — the three things Ligo does for them, each
+          given its own block in the existing card styling */}
+      <section className="mx-auto grid max-w-[900px] grid-cols-1 gap-[18px] px-6 pb-5 pt-9 sm:px-10 md:grid-cols-3">
+        {partners[0].points.map((pt) => (
+          <div key={pt} className="rounded-[22px] border border-[#D7CCBC]/10 bg-[#1B150E] p-6">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71C07F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 12l5 5L20 6" />
+            </svg>
+            <div className="mt-4 font-serif text-[19px] font-medium leading-snug tracking-[-0.01em] text-[#EFE8DB]">{pt}</div>
           </div>
         ))}
       </section>

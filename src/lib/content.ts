@@ -123,8 +123,7 @@ export const team: Person[] = [
   { name: "Mekhi Simpson", role: "Content & Marketing", img: "/photos/mekhi.png" },
   // Leonard — Product Design: card held until /public/photos/leonard.png is provided.
   // { name: "Leonard", role: "Product Design", img: "/photos/leonard.png" },
-  // TODO(Will): last name + role still needed — fill both in below.
-  { name: "Will", role: "", img: "/team/will.jpg" },
+  { name: "Will Carragher", role: "Student Associate", img: "/team/will.jpg" },
 ];
 
 // Advisors — separate, lighter tier. Editable list; some names pending public
@@ -163,6 +162,7 @@ export interface Partner {
   points: string[];
 }
 
+// The partner page currently targets student clubs & orgs ONLY.
 export const partners: Partner[] = [
   {
     icon: "🎟",
@@ -175,17 +175,20 @@ export const partners: Partner[] = [
       "See who’s coming, invite-only or open",
     ],
   },
-  {
-    icon: "☕",
-    iconBg: "rgba(155,216,236,0.28)",
-    title: "Local businesses",
-    sub: "Cafés, venues, and record stores. Become the room students actually show up to.",
-    points: [
-      "Reach students by taste, not ads",
-      "Feature open-mic nights, happy hours, listening sessions",
-      "A partner profile students can follow",
-    ],
-  },
+  // PRESERVED — local businesses/venues audience, removed from the page for now.
+  // Restore this entry (and the "For local businesses" FAQ group's rendering in
+  // PartnerFaq, plus the old two-card layout if desired) when we re-add them.
+  // {
+  //   icon: "☕",
+  //   iconBg: "rgba(155,216,236,0.28)",
+  //   title: "Local businesses",
+  //   sub: "Cafés, venues, and record stores. Become the room students actually show up to.",
+  //   points: [
+  //     "Reach students by taste, not ads",
+  //     "Feature open-mic nights, happy hours, listening sessions",
+  //     "A partner profile students can follow",
+  //   ],
+  // },
 ];
 
 // ---- FAQ: four audience groups --------------------------------------------
@@ -211,6 +214,9 @@ export const faqGroups: FaqGroup[] = [
       { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us. We go where students pull us." },
     ],
   },
+  // PRESERVED but not currently rendered anywhere — PartnerFaq shows only the
+  // "For clubs" group while the page targets clubs & orgs. Re-include this
+  // group in PartnerFaq's filter when the business audience returns.
   {
     name: "For local businesses",
     color: "#71C07F",

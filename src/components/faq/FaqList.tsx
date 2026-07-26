@@ -67,9 +67,11 @@ export function HomeFaq() {
   );
 }
 
-/** Partner page strip — the business + club groups with their colored-dot headers. */
+/** Partner page strip — clubs only while the page targets clubs & orgs.
+ *  (Add /business/ back to the filter when the local-business audience returns;
+ *  its questions are preserved in faqGroups.) */
 export function PartnerFaq() {
-  const groups = faqGroups.filter((g) => /business|club/i.test(g.name));
+  const groups = faqGroups.filter((g) => /club/i.test(g.name));
   if (groups.length === 0) return null;
   return (
     <section className="mx-auto w-full max-w-[900px] px-6 pb-2 pt-10 sm:px-10">
