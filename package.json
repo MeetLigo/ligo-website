@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@portabletext/react": "^3.0.0",
+    "@sanity/image-url": "^1.0.0",
     "@supabase/supabase-js": "^2.110.7",
     "framer-motion": "^11.11.9",
     "next": "^16.2.10",
+    "next-sanity": "^9.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1"
