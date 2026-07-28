@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
+const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
 const MENU: [string, string][] = [
   ["Home", "/"],
   ["About", "/about"],
@@ -46,6 +47,9 @@ export function HomeFooter() {
           <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EFE8DB]/40">Get Ligo</div>
           <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[#EFE8DB]/[0.82] transition-colors hover:text-[#EFE8DB]">
             Download on the App Store →
+          </a>
+          <a href={GOOGLE_PLAY} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[#EFE8DB]/[0.82] transition-colors hover:text-[#EFE8DB]">
+            Get it on Google Play →
           </a>
         </div>
       </div>
