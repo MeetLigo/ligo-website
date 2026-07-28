@@ -21,7 +21,7 @@ const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 // same on every slide, whatever the source photo's brightness was.
 const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg"];
 const SLIDE_POS = ["center 32%", "center 40%", "center 44%", "center 30%"];
-const SLIDE_MS = 6000; // hold per slide (crossfade is ~1.1s)
+const SLIDE_MS = 4000; // hold per slide (crossfade is ~1s)
 
 function deriveSchool(email: string) {
   const domain = (email.split("@")[1] || "").toLowerCase();
@@ -255,7 +255,7 @@ export function HomeHero() {
               src={src}
               alt=""
               fetchPriority={i === 0 ? "high" : "low"}
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2200ms] ease-in-out motion-reduce:transition-none"
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1000ms] ease-in-out motion-reduce:transition-none"
               style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
             />
           ))}
@@ -397,7 +397,7 @@ export function HomeHero() {
                   src={src}
                   alt=""
                   fetchPriority="low"
-                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[2200ms] ease-in-out motion-reduce:transition-none"
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1000ms] ease-in-out motion-reduce:transition-none"
                   style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
                 />
               ))}
@@ -534,7 +534,7 @@ function RevealChart({
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && submitBoard()}
                 type="email"
-                placeholder="you@georgetown.edu"
+                placeholder="you@school.edu"
                 aria-label="School email"
                 className="min-w-0 flex-1 border-none bg-transparent text-[14px] text-[#EFE8DB] placeholder:text-[#EFE8DB]/40"
               />
