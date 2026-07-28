@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { navItems } from "@/lib/content";
-import { AppleIcon } from "./StoreIcons";
+import { AppleIcon, PlayIcon } from "./StoreIcons";
 
 /** Dark footer, repeated on every page. */
 export function Footer() {
@@ -44,7 +44,6 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-[11px] font-bold uppercase tracking-eyebrow text-white/35">get the app</div>
-              {/* App Store is live; no Android build yet, so no Google Play button. */}
               <a
                 href="https://apps.apple.com/us/app/ligo/id6753926105"
                 target="_blank"
@@ -52,6 +51,14 @@ export function Footer() {
                 className="inline-flex items-center gap-[9px] self-start rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"
               >
                 <AppleIcon size={16} /> App Store
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-[9px] self-start rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"
+              >
+                <PlayIcon size={16} /> Google Play
               </a>
             </div>
           </div>
