@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useDrawer } from "./DrawerProvider";
 
 /**
  * THE site header — extracted verbatim from the homepage hero nav and shared by
@@ -11,6 +12,10 @@ import { usePathname } from "next/navigation";
  *
  * Active link = warm amber, no box. Keyboard users get a visible focus ring
  * (focus-visible only — it does not appear on mere click/navigation).
+ *
+ * Below md, the inline nav links give way to a hamburger button that opens
+ * the shared NavDrawer (mounted once in layout.tsx) — same destinations,
+ * drawer styling.
  */
 const NAV = [
   { label: "Home", href: "/" },
@@ -25,6 +30,7 @@ const FOCUS =
 
 export function SiteHeader() {
   const path = usePathname();
+  const { openDrawer } = useDrawer();
   const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
   return (
     <div className="relative z-20 flex items-center justify-between gap-5 px-6 pt-7 sm:px-10">
@@ -58,14 +64,26 @@ export function SiteHeader() {
           Get the app →
         </a>
       </nav>
-      <a
-        href={APP_STORE}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[13px] py-2 text-[13px] font-semibold text-[#241603] md:hidden ${FOCUS}`}
-      >
-        Get the app
-      </a>
+      <div className="flex items-center gap-2.5 md:hidden">
+        <a
+          href={APP_STORE}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[13px] py-2 text-[13px] font-semibold text-[#241603] ${FOCUS}`}
+        >
+          Get the app
+        </a>
+        <button
+          type="button"
+          onClick={openDrawer}
+          aria-label="Open menu"
+          className={`flex h-[38px] w-[38px] flex-shrink-0 flex-col items-center justify-center gap-[5px] rounded-[10px] bg-white/10 backdrop-blur-sm transition-colors hover:bg-white/[0.16] ${FOCUS}`}
+        >
+          <span className="block h-[2px] w-[18px] rounded-[2px] bg-[#EFE8DB]" />
+          <span className="block h-[2px] w-[18px] rounded-[2px] bg-[#EFE8DB]" />
+          <span className="block h-[2px] w-[11px] self-end rounded-[2px] bg-[#E8A24C]" />
+        </button>
+      </div>
     </div>
   );
 }
