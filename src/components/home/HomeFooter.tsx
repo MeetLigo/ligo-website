@@ -47,8 +47,6 @@ export function HomeFooter() {
           <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[#EFE8DB]/[0.82] transition-colors hover:text-[#EFE8DB]">
             Download on the App Store →
           </a>
-          {/* Google Play: placeholder until the Play Store link exists — not a live link yet. */}
-          <span className="border-b border-dashed border-[#E8A24C]/50 pb-[1px] text-[15px] text-[#EFE8DB]/[0.72]">Get it on Google Play →</span>
         </div>
       </div>
 
