@@ -5,11 +5,26 @@ import { DrawerProvider } from "@/components/chrome/DrawerProvider";
 import { Chrome } from "@/components/chrome/Chrome";
 import { NavDrawer } from "@/components/chrome/NavDrawer";
 
+const TITLE = "Ligo · Events bring the room. Music tells you who.";
+const DESCRIPTION =
+  "Answer a song, meet your people. Ligo connects students on campus through music taste. No login, no bio, just the song.";
+
 export const metadata: Metadata = {
-  title: "Ligo · Events bring the room. Music tells you who.",
-  description:
-    "Answer a song, meet your people. Ligo connects students on campus through music taste. No login, no bio, just the song.",
+  title: TITLE,
+  description: DESCRIPTION,
   metadataBase: new URL("https://meetligo.com"),
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "https://meetligo.com",
+    siteName: "Ligo",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
