@@ -1,12 +1,17 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { Tape } from "@/components/ui/Tape";
 
 /**
  * The Partner page's cream CTA sheet — collects org, school, and email so we
  * can follow up directly instead of linking nowhere. Posts to
  * /api/partner-lead, which emails the lead to the team.
+ *
+ * The school field is a lightweight typeahead over a bundled list of US
+ * colleges/universities (public/schools.json, ~2.3k names) — type "ala" and
+ * "University of Alabama", "Alabama A&M University", etc. show up. Free text
+ * still works for anyone whose school isn't in the list.
  */
 export function PartnerCTA() {
   const [org, setOrg] = useState("");
@@ -15,6 +20,65 @@ export function PartnerCTA() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
+
+  // school typeahead
+  const [schools, setSchools] = useState<string[]>([]);
+  const [schoolOpen, setSchoolOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const schoolsLoaded = useRef(false);
+
+  function ensureSchoolsLoaded() {
+    if (schoolsLoaded.current) return;
+    schoolsLoaded.current = true;
+    fetch("/schools.json")
+      .then((r) => r.json())
+      .then((list: string[]) => setSchools(list))
+      .catch(() => {
+        /* typeahead just won't populate — free text still works */
+      });
+  }
+
+  const q = school.trim().toLowerCase();
+  const matches =
+    q.length > 0
+      ? schools
+          .filter((name) => name.toLowerCase().split(/\s+/).some((word) => word.startsWith(q)))
+          .sort((a, b) => {
+            const aStarts = a.toLowerCase().startsWith(q) ? 0 : 1;
+            const bStarts = b.toLowerCase().startsWith(q) ? 0 : 1;
+            return aStarts - bStarts || a.length - b.length;
+          })
+          .slice(0, 7)
+      : [];
+
+  function onSchoolChange(value: string) {
+    setSchool(value);
+    setActiveIndex(-1);
+    setSchoolOpen(value.trim().length > 0);
+  }
+
+  function selectSchool(name: string) {
+    setSchool(name);
+    setSchoolOpen(false);
+    setActiveIndex(-1);
+  }
+
+  function onSchoolKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (!schoolOpen || matches.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, matches.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, -1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      selectSchool(matches[activeIndex]);
+    } else if (e.key === "Escape") {
+      setSchoolOpen(false);
+      setActiveIndex(-1);
+    }
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -70,13 +134,40 @@ export function PartnerCTA() {
                 aria-label="Club or org name"
                 className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
               />
-              <input
-                value={school}
-                onChange={(e) => setSchool(e.target.value)}
-                placeholder="School"
-                aria-label="School"
-                className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
-              />
+              <div className="relative min-w-0">
+                <input
+                  value={school}
+                  onChange={(e) => onSchoolChange(e.target.value)}
+                  onKeyDown={onSchoolKeyDown}
+                  onFocus={() => {
+                    ensureSchoolsLoaded();
+                    if (school.trim()) setSchoolOpen(true);
+                  }}
+                  onBlur={() => setSchoolOpen(false)}
+                  autoComplete="off"
+                  placeholder="School"
+                  aria-label="School"
+                  className="min-w-0 w-full rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
+                />
+                {schoolOpen && matches.length > 0 && (
+                  <div
+                    onMouseDown={(e) => e.preventDefault()}
+                    className="absolute left-0 right-0 top-full z-30 mt-1 max-h-[220px] overflow-y-auto rounded-[12px] border border-ink/10 bg-white text-left shadow-[0_20px_40px_-16px_rgba(0,0,0,0.35)]"
+                  >
+                    {matches.map((name, i) => (
+                      <button
+                        key={name}
+                        type="button"
+                        onClick={() => selectSchool(name)}
+                        onMouseEnter={() => setActiveIndex(i)}
+                        className={`block w-full truncate px-4 py-[9px] text-left text-[13.5px] text-ink ${i === activeIndex ? "bg-[#E8A24C]/15" : "hover:bg-ink/[0.04]"}`}
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
