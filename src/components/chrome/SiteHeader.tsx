@@ -77,11 +77,11 @@ export function SiteHeader() {
           type="button"
           onClick={openDrawer}
           aria-label="Open menu"
-          className={`flex h-[38px] w-[38px] flex-shrink-0 flex-col items-center justify-center gap-[5px] rounded-[10px] bg-white/10 backdrop-blur-sm transition-colors hover:bg-white/[0.16] ${FOCUS}`}
+          className={`flex h-[38px] w-[38px] flex-shrink-0 flex-col justify-center gap-[5px] rounded-[10px] bg-white/10 px-[10px] backdrop-blur-sm transition-colors hover:bg-white/[0.16] ${FOCUS}`}
         >
           <span className="block h-[2px] w-[18px] rounded-[2px] bg-[#EFE8DB]" />
           <span className="block h-[2px] w-[18px] rounded-[2px] bg-[#EFE8DB]" />
-          <span className="block h-[2px] w-[11px] self-end rounded-[2px] bg-[#E8A24C]" />
+          <span className="block h-[2px] w-[11px] rounded-[2px] bg-[#E8A24C]" />
         </button>
       </div>
     </div>
