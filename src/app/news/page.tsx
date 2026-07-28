@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getNewsPosts } from "@/lib/sanity";
+import { getNewsPosts, urlFor } from "@/lib/sanity";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { Tape } from "@/components/ui/Tape";
@@ -19,6 +19,7 @@ export default async function NewsPage() {
     title: p.title,
     excerpt: p.excerpt ?? "",
     href: `/news/${p.slug}`,
+    imageUrl: p.image ? urlFor(p.image).width(480).height(370).fit("crop").url() : null,
   }));
 
   return (
@@ -48,7 +49,12 @@ export default async function NewsPage() {
                 <Tape className="-top-[11px] left-8 -rotate-[4deg]" />
                 <Tape className="-top-[11px] right-10 rotate-[3deg]" />
                 <div className="aspect-[1.3] overflow-hidden rounded-[2px] ring-1 ring-ink/10">
-                  <Placeholder label={post.tag} />
+                  {post.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={post.imageUrl} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <Placeholder label={post.tag} />
+                  )}
                 </div>
                 <div className="self-center">
                   <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.12em] text-ink/[0.55]">
@@ -67,7 +73,12 @@ export default async function NewsPage() {
                 className="grid grid-cols-[180px_1fr] gap-5 rounded-[22px] border border-[#D7CCBC]/10 bg-[#1B150E] p-4 text-[#EFE8DB] transition-transform hover:-translate-y-[3px] hover:border-[#D7CCBC]/20"
               >
                 <div className="aspect-[1.3] overflow-hidden rounded-[14px]">
-                  <Placeholder label={post.tag} />
+                  {post.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={post.imageUrl} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <Placeholder label={post.tag} />
+                  )}
                 </div>
                 <div className="self-center">
                   <div
