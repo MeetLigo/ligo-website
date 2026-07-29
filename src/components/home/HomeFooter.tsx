@@ -3,7 +3,6 @@ import Link from "next/link";
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
 const MENU: [string, string][] = [
-  ["Home", "/"],
   ["About", "/about"],
   ["Ligo News", "/news"],
   ["Become a Partner", "/partner"],
@@ -26,8 +25,9 @@ export function HomeFooter() {
             Connect through <span className="italic text-[#E8A24C]">music.</span>
           </p>
           <p className="text-[13px] leading-[1.5] text-[#EFE8DB]/[0.42]">
-            Ligo is where college students who love the same music actually meet.
+            Ligo is where college students meet through the music they love.
           </p>
+          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Live at Georgetown &amp; Howard.</p>
         </div>
 
         {/* menu — one clean column */}
@@ -56,7 +56,6 @@ export function HomeFooter() {
 
       <div className="mx-auto mt-8 flex max-w-[1080px] flex-wrap justify-between gap-3 border-t border-[#D7CCBC]/[0.08] pt-3">
         <span className="font-mono text-[12px] text-[#EFE8DB]/35">meetligo.com · 2026</span>
-        <span className="font-mono text-[12px] text-[#EFE8DB]/35">Georgetown · Howard</span>
       </div>
     </footer>
   );
