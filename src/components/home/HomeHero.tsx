@@ -278,10 +278,10 @@ export function HomeHero() {
       <div className="relative z-10 flex flex-1 animate-riseIn flex-col items-center justify-center gap-5 px-6 py-16 text-center">
         <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
         <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#EFE8DB]">
-          Meet people <span className="italic text-[#E8A24C]">through music.</span>
+          Meet new people <span className="italic text-[#E8A24C]">through music.</span>
         </h1>
         <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#EFE8DB]/[0.74] sm:text-[18px]">
-          Ligo connects college students who love the same music. Start with one song and meet people near you.
+          Ligo&rsquo;s how college students meet through the music they&rsquo;re into &mdash; no profile, just a song.
         </p>
 
         {/* the search — always present */}
@@ -290,7 +290,7 @@ export function HomeHero() {
               <div className="relative w-full max-w-[500px]">
                 <form
                   onSubmit={onSubmit}
-                  className="flex h-[76px] items-center gap-3 rounded-[18px] border border-[#D7CCBC]/[0.22] bg-[#D7CCBC]/[0.08] px-[11px] pl-[22px] shadow-[inset_0_1px_0_rgba(239,232,219,0.14),0_18px_40px_-14px_rgba(0,0,0,0.55)] backdrop-blur-md"
+                  className="flex h-[76px] items-center gap-3 rounded-[18px] border border-[#D7CCBC]/[0.30] bg-[#1B150E]/[0.90] px-[11px] pl-[22px] shadow-[inset_0_1px_0_rgba(239,232,219,0.10),0_22px_46px_-16px_rgba(0,0,0,0.75)] backdrop-blur-md"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(215,204,188,0.72)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
                     <circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /><path d="M9 18V5l12-2v13" />
@@ -506,13 +506,13 @@ function RevealChart({
       <div className="relative flex flex-col gap-[14px]">
         {!pick ? (
           <p className="mx-auto max-w-[440px] text-center font-serif text-[19px] italic leading-[1.5] text-[#EFE8DB]/[0.72]">
-            Name a song above to put yours up.
+            Pick a song up top and it&rsquo;ll show up here.
           </p>
         ) : boardPosted ? (
           <div className="flex flex-col items-center gap-3 text-center">
             <div className="inline-flex items-center gap-[9px] rounded-full border border-[#71C07F]/[0.42] bg-[#130F0A]/[0.72] px-[18px] py-[11px] backdrop-blur-xl">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#71C07F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-              <span className="text-[14px] font-semibold text-[#EFE8DB]">&ldquo;{pick?.song_name}&rdquo; is locked onto the Ligo board.</span>
+              <span className="text-[14px] font-semibold text-[#EFE8DB]">&ldquo;{pick?.song_name}&rdquo; is on the board.</span>
             </div>
             <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#E8A24C] px-6 py-[13px] text-[15px] font-semibold text-[#241603] shadow-[0_12px_28px_-8px_rgba(232,162,76,0.55)]">
               Get Ligo to find your people →
@@ -523,7 +523,7 @@ function RevealChart({
              matches the hero search; no framing box). Fades in with each new pick. */
           <div key={pick.spotify_track_id || pick.song_name} className="mx-auto flex w-full max-w-[480px] animate-revealFade flex-col items-stretch gap-[10px] text-center motion-reduce:animate-none">
             <p className="text-[14px] leading-[1.5] text-[#EFE8DB]/[0.82] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
-              Drop your school email and &ldquo;{pick?.song_name}&rdquo; counts permanently. Verified students only. One pick each.
+              Add your school email to lock in &ldquo;{pick?.song_name}&rdquo;. We only let real students on the board, one pick per person.
             </p>
             <div className="flex items-center gap-[9px] rounded-full border border-[#E8A24C]/[0.26] bg-[#14100C]/[0.55] py-[6px] pl-4 pr-[6px] shadow-[inset_0_1px_0_rgba(232,162,76,0.12),0_16px_40px_-16px_rgba(0,0,0,0.6)] backdrop-blur-md">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(237,178,100,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">

@@ -18,7 +18,6 @@ import { useDrawer } from "./DrawerProvider";
  * drawer styling.
  */
 const NAV = [
-  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "News", href: "/news" },
   { label: "Partners", href: "/partner" },
@@ -59,7 +58,7 @@ export function SiteHeader() {
           href={APP_STORE}
           target="_blank"
           rel="noopener noreferrer"
-          className={`whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[15px] py-[9px] text-[13.5px] font-semibold text-[#241603] shadow-[0_10px_24px_-8px_rgba(0,0,0,0.5)] ${FOCUS}`}
+          className={`whitespace-nowrap text-[14px] font-semibold text-[#E8A24C] [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors hover:text-[#F5D783] ${FOCUS}`}
         >
           Get the app →
         </a>
@@ -69,7 +68,7 @@ export function SiteHeader() {
           href={APP_STORE}
           target="_blank"
           rel="noopener noreferrer"
-          className={`whitespace-nowrap rounded-[11px] bg-[#E8A24C] px-[13px] py-2 text-[13px] font-semibold text-[#241603] ${FOCUS}`}
+          className={`whitespace-nowrap text-[13px] font-semibold text-[#E8A24C] ${FOCUS}`}
         >
           Get the app
         </a>

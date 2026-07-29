@@ -14,10 +14,9 @@ export interface NavItem {
 
 // Tracklist drawer — nav items styled as "songs".
 export const navItems: NavItem[] = [
-  { n: "01", title: "Home", dur: "2:14", href: "/" },
-  { n: "02", title: "About", dur: "3:41", href: "/about" },
-  { n: "03", title: "Ligo News", dur: "2:58", href: "/news" },
-  { n: "04", title: "Become a Partner", dur: "4:07", href: "/partner" },
+  { n: "01", title: "About", dur: "3:41", href: "/about" },
+  { n: "02", title: "Ligo News", dur: "2:58", href: "/news" },
+  { n: "03", title: "Become a Partner", dur: "4:07", href: "/partner" },
   ];
 
 // ---- Homepage polaroid collage --------------------------------------------
@@ -207,7 +206,7 @@ export const faqGroups: FaqGroup[] = [
     name: "For students",
     color: "#F97316",
     items: [
-      { q: "Is this a dating app?", a: "No. Ligo is about meeting people through music: friends, a group, a crew for the concert. If something more happens, that’s on you." },
+      { q: "Is this a dating app?", a: "No. Ligo is about meeting people through music: friends, a group, a crew for the concert. It’s not built for dating, but we’re not going to stop you either." },
       { q: "Do I need a profile with photos and a bio?", a: "Nope. Just your name and a school email so we know you’re real. Your music taste is your profile." },
       { q: "Is it free?", a: "Yes, free for students." },
       { q: "Which schools is Ligo on?", a: "Georgetown and Howard right now, with more campuses rolling out. Not on yours yet? Tell us. We go where students pull us." },

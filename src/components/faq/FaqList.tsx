@@ -57,7 +57,7 @@ export function HomeFaq() {
   return (
     <section id="faq" className="relative w-full scroll-mt-16 px-6 pb-20 pt-2 sm:px-10">
       <div className="mx-auto w-full max-w-[720px]">
-        {/* no eyebrow — "QUESTIONS" over "Frequently asked questions." would be redundant */}
+        <div className="mb-3 text-[11px] font-bold uppercase tracking-eyebrow text-[#EDB264]">Questions</div>
         <h2 className="mb-4 font-serif text-[26px] font-medium leading-[1.1] tracking-[-0.01em] text-[#EFE8DB]">
           Frequently asked questions.
         </h2>
