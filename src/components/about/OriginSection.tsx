@@ -121,7 +121,7 @@ export function OriginSection() {
             <p>That guy is one of my closest friends today. That was 2½ years ago.</p>
             <p>
               I went home that night and couldn&apos;t stop thinking about it. How many times does that not happen? How many people
-              walk past each other every day who would actually connect, if they just had a reason to say something?
+              walk past each other every day who’d connect, if they just had a reason to say something?
               That question is Ligo.
             </p>
 
@@ -130,7 +130,7 @@ export function OriginSection() {
               <Tape className="-top-[11px] left-9 -rotate-[4deg]" />
               <Tape className="-top-[11px] right-9 rotate-[3deg]" />
               <p className="m-0 font-serif text-[21px] font-medium leading-[1.4] tracking-[-0.01em] text-ink sm:text-[23px]">
-                &ldquo;How many people walk past each other every day who would actually connect, if they just had a
+                &ldquo;How many people walk past each other every day who’d connect, if they just had a
                 reason to say something?&rdquo;
               </p>
               <footer className="mt-3 font-hand text-[18px] text-ink/[0.55]">— that question is Ligo</footer>
