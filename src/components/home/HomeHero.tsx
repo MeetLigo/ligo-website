@@ -241,42 +241,47 @@ export function HomeHero() {
 
   return (
     <>
-      <section className="relative flex min-h-[94vh] w-full flex-col">
-      {/* the party — ambient crossfade slideshow. In the hero state it's pinned to
-          the top 94vh; in the reveal state it goes FIXED full-viewport and eases to
-          dimmed + just barely softened — the people stay recognizable behind the
-          paper artifacts, like a wall the posters are taped to. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[94vh] overflow-hidden">
-        <div className="absolute inset-0">
-          {SLIDES.map((src, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={src}
-              src={src}
-              alt=""
-              fetchPriority={i === 0 ? "high" : "low"}
-              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1000ms] ease-in-out motion-reduce:transition-none"
-              style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
-            />
-          ))}
-        </div>
-        {/* legibility scrim — top-weighted, sits behind the text then fades out so the
-            lower photo stays clearly visible (no wash over the bottom half) */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0.58) 0%,rgba(19,15,10,0.44) 22%,rgba(19,15,10,0.4) 52%,rgba(19,15,10,0.14) 70%,rgba(19,15,10,0) 84%)" }} />
-        {/* tall bottom fade — the photo eases into the espresso base over ~260px
-            so the hand-off to the board section has no detectable edge */}
-        <div className="absolute inset-x-0 bottom-0 h-[260px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0) 0%,rgba(19,15,10,0.45) 40%,rgba(19,15,10,0.85) 72%,#130F0A 100%)" }} />
-        <div className="absolute -left-28 top-[6%] h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle,rgba(232,162,76,0.14),transparent 66%)" }} />
-        <div className="absolute -right-20 top-[40%] h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle,rgba(90,166,224,0.13),transparent 66%)" }} />
+      <section className="relative flex w-full flex-col bg-[#130F0A] pb-4">
+      {/* ambient atmosphere on the flat espresso field — decorative only, no
+          text sits on top of a photo anymore so no scrim/vignette is needed */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-28 top-[6%] h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle,rgba(232,162,76,0.12),transparent 66%)" }} />
+        <div className="absolute -right-20 top-[30%] h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle,rgba(90,166,224,0.10),transparent 66%)" }} />
       </div>
 
-      {/* nav — the one shared header (see chrome/SiteHeader) overlaying the hero photo */}
+      {/* nav — the one shared header, on the flat espresso field */}
       <SiteHeader />
+
+      {/* THE PRINT — the party photo as a single contained, taped-up print
+          above the headline (leans into the analog/Polaroid aesthetic used
+          everywhere else) instead of a full-bleed background. Same crossfade
+          slideshow, just contained. */}
+      <div className="relative z-10 flex justify-center px-6 pb-2 pt-14">
+        <div className="w-full max-w-[640px] rotate-[0.6deg]">
+          <div className="relative rounded-[3px] bg-cream p-[10px] pb-[16px] shadow-[0_34px_60px_-22px_rgba(0,0,0,0.65),0_16px_44px_-18px_rgba(232,162,76,0.3)]">
+            <Tape className="-top-[11px] left-8 -rotate-[4deg]" />
+            <Tape className="-top-[11px] right-9 rotate-[3deg]" />
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2px] sm:aspect-[16/9]">
+              {SLIDES.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={src}
+                  src={src}
+                  alt=""
+                  fetchPriority={i === 0 ? "high" : "low"}
+                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1000ms] ease-in-out motion-reduce:transition-none"
+                  style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* hero content — always present; picking a song glides the page down to
           the board section below rather than swapping states */}
-      <div className="relative z-10 flex flex-1 animate-riseIn flex-col items-center justify-center gap-5 px-6 py-16 text-center">
-        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
+      <div className="relative z-10 flex flex-1 animate-riseIn flex-col items-center justify-center gap-5 px-6 py-10 text-center">
+        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264]">For college students</div>
         <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#EFE8DB]">
           Meet new people <span className="italic text-[#E8A24C]">through music.</span>
         </h1>
