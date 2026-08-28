@@ -55,7 +55,7 @@ export function Landing() {
           <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-medium leading-[1.06] tracking-[-0.02em] text-[#EFE8DB]">
             Your social scene <span className="italic text-[#E8A24C]">starts&nbsp;here.</span>
           </h1>
-          <p className="max-w-[52ch] text-[17px] leading-[1.55] text-[#EFE8DB]/[0.85] sm:text-[19px]">
+          <p className="max-w-[52ch] font-serif text-[18px] leading-[1.5] text-[#EFE8DB]/[0.85] sm:text-[21px]">
             Every club and event on your campus, in one place.
           </p>
 
