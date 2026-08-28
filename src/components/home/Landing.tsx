@@ -78,14 +78,6 @@ export function Landing() {
             {mode === "student" && <StudentPanel />}
             {mode === "club" && <ClubClaimForm />}
 
-            {mode !== "club" && (
-              <p className="mt-2 text-[15px] text-[#EFE8DB]/[0.8]">
-                Ligo is a free app.{" "}
-                <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="font-medium text-[#E8A24C] transition-colors hover:text-[#F5D783]">
-                  Download on the App Store →
-                </a>
-              </p>
-            )}
           </div>
         </div>
       </section>
