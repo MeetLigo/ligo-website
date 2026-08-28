@@ -36,7 +36,7 @@ export function SiteHeader() {
       <Link href="/" className={`flex flex-shrink-0 items-center gap-[12px] ${FOCUS}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-mark.svg" alt="" width={34} height={34} className="block [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]" />
-        <span className="font-serif text-[30px] font-semibold italic leading-none tracking-[-0.01em] text-[#EFE8DB] [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">Ligo</span>
+        <span className="font-serif text-[30px] font-medium italic leading-none tracking-[-0.01em] text-[#EFE8DB] [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">Ligo</span>
       </Link>
       <nav className="hidden items-center gap-7 md:flex">
         {NAV.map((l) => (
@@ -44,7 +44,7 @@ export function SiteHeader() {
             key={l.href}
             href={l.href}
             aria-current={isActive(l.href) ? "page" : undefined}
-            className={`whitespace-nowrap text-[14px] font-semibold [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors ${FOCUS} ${
+            className={`whitespace-nowrap font-serif text-[16px] font-medium [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors ${FOCUS} ${
               isActive(l.href) ? "text-[#E8A24C]" : "text-[#EFE8DB]/[0.62] hover:text-[#EFE8DB]"
             }`}
           >
@@ -55,7 +55,7 @@ export function SiteHeader() {
           href={APP_STORE}
           target="_blank"
           rel="noopener noreferrer"
-          className={`whitespace-nowrap text-[14px] font-semibold text-[#E8A24C] [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors hover:text-[#F5D783] ${FOCUS}`}
+          className={`whitespace-nowrap font-serif text-[16px] font-medium text-[#E8A24C] [text-shadow:0_1px_10px_rgba(0,0,0,0.6)] transition-colors hover:text-[#F5D783] ${FOCUS}`}
         >
           Get the app →
         </a>
@@ -65,7 +65,7 @@ export function SiteHeader() {
           href={APP_STORE}
           target="_blank"
           rel="noopener noreferrer"
-          className={`whitespace-nowrap text-[13px] font-semibold text-[#E8A24C] ${FOCUS}`}
+          className={`whitespace-nowrap font-serif text-[15px] font-medium text-[#E8A24C] ${FOCUS}`}
         >
           Get the app
         </a>
