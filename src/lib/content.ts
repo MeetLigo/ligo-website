@@ -234,3 +234,38 @@ export const faqGroups: FaqGroup[] = [
     ],
   },
 ];
+
+// ---- Landing (broad ethos, Aug 2026 redesign) -----------------------------
+// Ported from the Claude Design export "Ligo Landing v3" — audience-split hero,
+// club benefits, category showcase. No music framing on the landing (8/28 call).
+
+export const eventChips = ["Backyard darty", "Salsa night", "Open mic", "Trivia Thursday"];
+
+export interface ClubBenefit {
+  title: string;
+  body: string;
+  /** icon key rendered by BenefitIcon in Landing.tsx */
+  icon: "reach" | "people" | "chat" | "free";
+}
+
+export const clubBenefits: ClubBenefit[] = [
+  { icon: "reach", title: "Reach past your followers", body: "Your event shows up for every student on Ligo, not just the ones who already follow you." },
+  { icon: "people", title: "See who’s going", body: "RSVPs roll in with names, not just a number — you know your turnout before doors." },
+  { icon: "chat", title: "A chat with everyone coming", body: "Every event gets a group chat with its attendees, so the room knows each other before it fills." },
+  { icon: "free", title: "Free for clubs", body: "Clubs post events for free. That’s the whole pricing page." },
+];
+
+export interface ClubCategory {
+  name: string;
+  /** placeholder logo slots to fill with real club logos */
+  slots: number;
+}
+
+// Shown as "live at Georgetown, more DMV schools soon" — categories keep the
+// strip broad so any student sees themselves in it (8/28 call).
+export const clubCategories: ClubCategory[] = [
+  { name: "Greek life", slots: 3 },
+  { name: "Pre-professional", slots: 3 },
+  { name: "Cultural", slots: 3 },
+  { name: "Sports & rec", slots: 3 },
+];

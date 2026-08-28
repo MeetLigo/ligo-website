@@ -38,7 +38,7 @@ export function SiteHeader() {
         <img src="/logo-mark.svg" alt="Ligo" width={40} height={40} className="block rounded-[10px] [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]" />
         <span className="flex flex-col leading-none">
           <span className="font-serif text-[24px] font-semibold tracking-[-0.01em] text-[#EFE8DB] [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">Ligo</span>
-          <span className="mt-1 hidden text-[11px] font-medium text-[#D7CCBC] [text-shadow:0_1px_6px_rgba(0,0,0,0.55)] sm:block">Connect through music</span>
+          <span className="mt-1 hidden text-[11px] font-medium text-[#D7CCBC] [text-shadow:0_1px_6px_rgba(0,0,0,0.55)] sm:block">Your campus, one app</span>
         </span>
       </Link>
       <nav className="hidden items-center gap-7 md:flex">

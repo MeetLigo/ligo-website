@@ -22,12 +22,12 @@ export function HomeFooter() {
             <span className="font-serif text-[26px] font-semibold tracking-[-0.01em] text-[#EFE8DB]">Ligo</span>
           </div>
           <p className="font-serif text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-[#EFE8DB]">
-            Connect through <span className="italic text-[#E8A24C]">music.</span>
+            Your social scene <span className="italic text-[#E8A24C]">starts here.</span>
           </p>
           <p className="text-[13px] leading-[1.5] text-[#EFE8DB]/[0.42]">
-            Ligo is where college students meet through the music they love.
+            The cheat code to an easy social life in college.
           </p>
-          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Live at Georgetown &amp; Howard.</p>
+          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Live at Georgetown &amp; Howard — more DMV schools soon.</p>
         </div>
 
         {/* menu — one clean column */}

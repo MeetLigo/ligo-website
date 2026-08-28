@@ -1,16 +1,16 @@
-import { HomeHero } from "@/components/home/HomeHero";
+import { Landing } from "@/components/home/Landing";
 import { HomeFooter } from "@/components/home/HomeFooter";
-import { HomeFaq } from "@/components/faq/FaqList";
 
 /**
- * The homepage flow: hero ("Meet people through music" → name a song) → the
- * board (paper chart + polaroid anthem) → the students' FAQ strip → footer.
+ * The homepage: broad-ethos landing (audience-split hero over the slideshow →
+ * club strip → club benefits → claim band) → footer. The music-era hero
+ * (HomeHero) and home FAQ strip are retired from this page but kept in the
+ * tree for reference.
  */
 export default function HomePage() {
   return (
     <main className="bg-[#130F0A]">
-      <HomeHero />
-      <HomeFaq />
+      <Landing />
       <HomeFooter />
     </main>
   );
