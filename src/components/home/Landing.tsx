@@ -51,7 +51,7 @@ export function Landing() {
         <SiteHeader />
 
         <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col items-center justify-center gap-6 px-6 pb-24 pt-12 text-center sm:px-10">
-          <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264]">For college students</div>
+          <div className="font-serif text-[14px] font-medium uppercase tracking-eyebrow text-[#EDB264]">For college students</div>
           <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-medium leading-[1.06] tracking-[-0.02em] text-[#EFE8DB]">
             Your social scene <span className="italic text-[#E8A24C]">starts&nbsp;here.</span>
           </h1>
