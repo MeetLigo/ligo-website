@@ -27,9 +27,9 @@ const config: Config = {
         "photo-bg-2": "#F3EFE7",
       },
       fontFamily: {
-        // display headings + captions + body
-        display: ["var(--font-bricolage)", "system-ui", "sans-serif"],
-        serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
+        // display headings + captions + body (brand: Gelica for display, Inter for body)
+        display: ["var(--font-gelica)", "Georgia", "serif"],
+        serif: ["var(--font-gelica)", "Georgia", "serif"],
         hand: ["var(--font-caveat)", "cursive"],
         sans: ["var(--font-inter)", "-apple-system", "SF Pro Display", "Inter", "system-ui", "sans-serif"],
       },
