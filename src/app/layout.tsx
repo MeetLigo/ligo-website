@@ -7,7 +7,7 @@ import { NavDrawer } from "@/components/chrome/NavDrawer";
 
 const TITLE = "Ligo · Your social scene starts here.";
 const DESCRIPTION =
-  "Ligo is a social app for college campuses. Every club and event in one place — see what's on tonight, who's going, and walk in with a plan.";
+  "Ligo is a social app for college campuses. Every club and event in one place. See what's on tonight, who's going, and walk in with a plan.";
 
 export const metadata: Metadata = {
   title: TITLE,

@@ -27,7 +27,7 @@ export function HomeFooter() {
           <p className="text-[13px] leading-[1.5] text-[#EFE8DB]/[0.42]">
             The cheat code to an easy social life in college.
           </p>
-          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Launched at Georgetown — expanding across the DMV soon.</p>
+          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Launched at Georgetown. Expanding across the DMV soon.</p>
         </div>
 
         {/* menu — one clean column */}

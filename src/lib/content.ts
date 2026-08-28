@@ -239,22 +239,6 @@ export const faqGroups: FaqGroup[] = [
 // Ported from the Claude Design export "Ligo Landing v3" — audience-split hero,
 // club benefits, category showcase. No music framing on the landing (8/28 call).
 
-export const eventChips = ["Backyard darty", "Salsa night", "Open mic", "Trivia Thursday"];
-
-export interface ClubBenefit {
-  title: string;
-  body: string;
-  /** icon key rendered by BenefitIcon in Landing.tsx */
-  icon: "reach" | "people" | "chat" | "free";
-}
-
-export const clubBenefits: ClubBenefit[] = [
-  { icon: "reach", title: "Reach past your followers", body: "Your event shows up for every student on Ligo, not just the ones who already follow you." },
-  { icon: "people", title: "See who’s going", body: "RSVPs roll in with names, not just a number — you know your turnout before doors." },
-  { icon: "chat", title: "A chat with everyone coming", body: "Every event gets a group chat with its attendees, so the room knows each other before it fills." },
-  { icon: "free", title: "Free for clubs", body: "Clubs post events for free. That’s the whole pricing page." },
-];
-
 export interface ClubLogo {
   /** file under /public/clubs */
   src: string;
@@ -267,13 +251,13 @@ export interface ClubLogo {
 export const clubLogos: ClubLogo[] = [
   { src: "aepi.png", name: "AEPi" },
   { src: "sae.png", name: "SAE" },
-  { src: "sas.png", name: "South Asian Society" },
-  { src: "aasa.png", name: "AASA" },
-  { src: "lasa.png", name: "LASA" },
+  { src: "lecture-fund.png", name: "Lecture Fund" },
+  { src: "asg.png", name: "African Society of Georgetown" },
   { src: "bsa.png", name: "Black Student Alliance" },
+  { src: "lasa.png", name: "LASA" },
+  { src: "aasa.png", name: "AASA" },
+  { src: "sas.png", name: "South Asian Society" },
+  { src: "prospect.png", name: "Prospect Records" },
   { src: "guzaarish.png", name: "Guzaarish" },
   { src: "rangila.png", name: "Rangila" },
-  { src: "prospect.png", name: "Prospect" },
-  { src: "lecture-fund.png", name: "Lecture Fund" },
-  { src: "asg.png", name: "ASG" },
 ];
