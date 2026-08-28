@@ -97,7 +97,7 @@ export function Landing() {
             We launched at Georgetown, and we&rsquo;re expanding to more DMV schools soon.
           </h2>
           <p className="max-w-[54ch] text-[15px] leading-[1.55] text-[#EFE8DB]/[0.6]">
-            10+ Georgetown clubs are already home on Ligo: Greek life, pre-professional, cultural, sports and everything in between.
+            Greek life, pre-professional, cultural and sports clubs are already on Ligo.
           </p>
           <div className="flex max-w-[760px] flex-wrap items-center justify-center gap-x-11 gap-y-9">
             {clubLogos.map((c) => (
