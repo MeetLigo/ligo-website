@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
-import { clubBenefits, clubCategories, eventChips, type ClubBenefit } from "@/lib/content";
+import { clubBenefits, clubLogos, eventChips, type ClubBenefit } from "@/lib/content";
 
 /**
  * Broad-ethos landing (ported from the design export "Ligo Landing v3").
@@ -115,24 +115,21 @@ export function Landing() {
       <section className="w-full px-6 py-16 sm:px-10">
         <div className="mx-auto flex max-w-[1080px] flex-col items-center gap-7 text-center">
           <h2 className="font-serif text-[28px] font-medium leading-[1.2] tracking-[-0.01em] text-[#EFE8DB] sm:text-[32px]">
-            Already home to 10+ clubs at our launch campus, Georgetown.
+            We launched at Georgetown — and we&rsquo;re expanding to more DMV schools soon.
           </h2>
           <p className="max-w-[54ch] text-[15px] leading-[1.55] text-[#EFE8DB]/[0.6]">
-            Greek life, pre-professional, cultural, sports and everything in between — with more DMV schools coming soon.
+            10+ Georgetown clubs are already home on Ligo — Greek life, pre-professional, cultural, sports and everything in between.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-8">
-            {clubCategories.map((cat) => (
-              <div key={cat.name} className="flex flex-col items-center gap-3">
-                <div className="flex gap-3">
-                  {Array.from({ length: cat.slots }, (_, i) => (
-                    // TODO(content): drop real club logos into these slots
-                    <span key={i} className="flex h-[68px] w-[68px] items-center justify-center rounded-full border border-dashed border-white/[0.22] bg-white/[0.05] text-[10px] uppercase tracking-wide text-white/35">
-                      logo
-                    </span>
-                  ))}
-                </div>
-                <span className="text-[13px] font-semibold text-[#EFE8DB]/[0.72]">{cat.name}</span>
-              </div>
+          <div className="flex max-w-[820px] flex-wrap justify-center gap-4">
+            {clubLogos.map((c) => (
+              <span
+                key={c.src}
+                title={c.name}
+                className="flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-full border border-white/[0.14] bg-white/[0.92]"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/clubs/${c.src}`} alt={c.name} className="h-full w-full object-contain p-1.5" />
+              </span>
             ))}
           </div>
         </div>
@@ -233,7 +230,7 @@ function StudentPanel() {
         </span>
       </a>
       <span className="text-[13px] text-[#EFE8DB]/[0.7]">
-        Free for students. Live at Georgetown &amp; Howard —{" "}
+        Free for students. Live at Georgetown for our launch, more DMV schools soon —{" "}
         <a href={GOOGLE_PLAY} target="_blank" rel="noopener noreferrer" className="underline decoration-white/30 underline-offset-2 hover:text-[#EFE8DB]">
           also on Google Play
         </a>

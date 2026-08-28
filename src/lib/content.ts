@@ -255,17 +255,25 @@ export const clubBenefits: ClubBenefit[] = [
   { icon: "free", title: "Free for clubs", body: "Clubs post events for free. That’s the whole pricing page." },
 ];
 
-export interface ClubCategory {
+export interface ClubLogo {
+  /** file under /public/clubs */
+  src: string;
   name: string;
-  /** placeholder logo slots to fill with real club logos */
-  slots: number;
 }
 
-// Shown as "live at Georgetown, more DMV schools soon" — categories keep the
-// strip broad so any student sees themselves in it (8/28 call).
-export const clubCategories: ClubCategory[] = [
-  { name: "Greek life", slots: 3 },
-  { name: "Pre-professional", slots: 3 },
-  { name: "Cultural", slots: 3 },
-  { name: "Sports & rec", slots: 3 },
+// Real Georgetown club logos (from Micah/Mekhi, 8/28). Shown as one flat strip
+// under the launch-campus heading; the categories live in the copy line so no
+// club gets mislabeled. Names are display/alt text.
+export const clubLogos: ClubLogo[] = [
+  { src: "aepi.png", name: "AEPi" },
+  { src: "sae.png", name: "SAE" },
+  { src: "sas.png", name: "South Asian Society" },
+  { src: "aasa.png", name: "AASA" },
+  { src: "lasa.png", name: "LASA" },
+  { src: "bsa.png", name: "Black Student Alliance" },
+  { src: "guzaarish.png", name: "Guzaarish" },
+  { src: "rangila.png", name: "Rangila" },
+  { src: "prospect.png", name: "Prospect" },
+  { src: "lecture-fund.png", name: "Lecture Fund" },
+  { src: "asg.png", name: "ASG" },
 ];
