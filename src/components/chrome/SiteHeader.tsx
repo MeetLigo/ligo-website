@@ -33,13 +33,10 @@ export function SiteHeader() {
   const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
   return (
     <div className="relative z-20 flex items-center justify-between gap-5 px-6 pt-7 sm:px-10">
-      <Link href="/" className={`flex flex-shrink-0 items-center gap-[11px] ${FOCUS}`}>
+      <Link href="/" className={`flex flex-shrink-0 items-center gap-[12px] ${FOCUS}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-mark.svg" alt="Ligo" width={40} height={40} className="block rounded-[10px] [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]" />
-        <span className="flex flex-col leading-none">
-          <span className="font-serif text-[24px] font-semibold tracking-[-0.01em] text-[#EFE8DB] [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">Ligo</span>
-          <span className="mt-1 hidden text-[11px] font-medium text-[#D7CCBC] [text-shadow:0_1px_6px_rgba(0,0,0,0.55)] sm:block">Your campus, one app</span>
-        </span>
+        <img src="/logo-mark.svg" alt="" width={34} height={34} className="block [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]" />
+        <span className="font-serif text-[30px] font-semibold italic leading-none tracking-[-0.01em] text-[#EFE8DB] [text-shadow:0_2px_12px_rgba(0,0,0,0.5)]">Ligo</span>
       </Link>
       <nav className="hidden items-center gap-7 md:flex">
         {NAV.map((l) => (

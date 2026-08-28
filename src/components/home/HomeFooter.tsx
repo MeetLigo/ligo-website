@@ -18,8 +18,8 @@ export function HomeFooter() {
         <div className="flex max-w-[360px] flex-col gap-[11px]">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-mark.svg" alt="Ligo" width={36} height={36} className="rounded-[9px]" />
-            <span className="font-serif text-[26px] font-semibold tracking-[-0.01em] text-[#EFE8DB]">Ligo</span>
+            <img src="/logo-mark.svg" alt="Ligo" width={30} height={30} />
+            <span className="font-serif text-[26px] font-semibold italic tracking-[-0.01em] text-[#EFE8DB]">Ligo</span>
           </div>
           <p className="font-serif text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-[#EFE8DB]">
             Your social scene <span className="italic text-[#E8A24C]">starts here.</span>

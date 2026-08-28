@@ -28,8 +28,8 @@ const config: Config = {
       },
       fontFamily: {
         // display headings + captions + body (brand: Gelica for display, Inter for body)
-        display: ["var(--font-gelica)", "Georgia", "serif"],
-        serif: ["var(--font-gelica)", "Georgia", "serif"],
+        display: ["gelica", "Georgia", "serif"],
+        serif: ["gelica", "Georgia", "serif"],
         hand: ["var(--font-caveat)", "cursive"],
         sans: ["var(--font-inter)", "-apple-system", "SF Pro Display", "Inter", "system-ui", "sans-serif"],
       },
