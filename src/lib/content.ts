@@ -3,7 +3,7 @@
  * Keeping it in one place mirrors the original's single data source.
  */
 
-export type Route = "/" | "/about" | "/news" | "/partner";
+export type Route = "/" | "/about" | "/news";
 
 export interface NavItem {
   n: string;
@@ -16,7 +16,6 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { n: "01", title: "About", dur: "3:41", href: "/about" },
   { n: "02", title: "Ligo News", dur: "2:58", href: "/news" },
-  { n: "03", title: "Become a Partner", dur: "4:07", href: "/partner" },
   ];
 
 // ---- Homepage polaroid collage --------------------------------------------

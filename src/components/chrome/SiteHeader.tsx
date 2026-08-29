@@ -20,7 +20,6 @@ import { useDrawer } from "./DrawerProvider";
 const NAV = [
   { label: "About", href: "/about" },
   { label: "News", href: "/news" },
-  { label: "Partners", href: "/partner" },
 ];
 
 const FOCUS =

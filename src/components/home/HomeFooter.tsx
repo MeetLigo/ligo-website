@@ -6,8 +6,6 @@ const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.l
 const MENU: [string, string][] = [
   ["About", "/about"],
   ["Ligo News", "/news"],
-  ["Become a Partner", "/partner"],
-  ["FAQ", "/#faq"],
 ];
 
 /** Charcoal footer (ported from the design export). */
