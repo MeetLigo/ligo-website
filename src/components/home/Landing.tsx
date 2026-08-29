@@ -15,9 +15,14 @@ import { clubLogos } from "@/lib/content";
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
 
-// Ambient hero slideshow, the pre-graded originals only (8/28: keep the
-// pictures that were already on the site).
-const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg"];
+// Ambient hero slideshow (8/29 reshoot: all of college life, no class, no
+// going out). Interim Pinterest picks until clubs send real photos:
+// club fair, movie night, dance team, club booth, cafe hangout, studio
+// mirror, dance class, campus fest.
+const SLIDES = [
+  "/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg",
+  "/hero/slide-5.jpg", "/hero/slide-6.jpg", "/hero/slide-7.jpg", "/hero/slide-8.jpg",
+];
 const SLIDE_MS = 4000;
 
 type Mode = null | "student" | "club";
