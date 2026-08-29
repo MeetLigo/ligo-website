@@ -52,7 +52,7 @@ export function Landing() {
 
         <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col items-center justify-center gap-6 px-6 pb-24 pt-12 text-center sm:px-10">
           <div className="font-serif text-[14px] font-medium uppercase tracking-eyebrow text-[#F97316]">For college students</div>
-          <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-medium leading-[1.06] tracking-[-0.02em] text-[#FAF6EF]">
+          <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-normal leading-[1.06] tracking-[-0.02em] text-[#FAF6EF]">
             Your social scene <span className="italic text-[#F97316]">starts&nbsp;here.</span>
           </h1>
           <p className="max-w-[52ch] font-serif text-[18px] leading-[1.5] text-[#FAF6EF]/[0.85] sm:text-[21px]">
