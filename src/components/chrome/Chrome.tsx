@@ -14,7 +14,7 @@ export function Chrome({ children }: { children: React.ReactNode }) {
   const isHome = usePathname() === "/";
   if (isHome) return <>{children}</>;
   return (
-    <div className="relative flex min-h-screen flex-col bg-[#130F0A] text-[#EFE8DB]">
+    <div className="relative flex min-h-screen flex-col bg-[#171717] text-[#FAF6EF]">
       <header className="absolute inset-x-0 top-0 z-40">
         <SiteHeader />
       </header>

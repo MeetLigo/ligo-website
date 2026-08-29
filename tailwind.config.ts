@@ -13,7 +13,7 @@ const config: Config = {
         ink: "#14110D", // primary text, drawer, footer, dark cards
         flame: "#F97316", // primary / CTA orange
         ember: "#EA580C", // links, eyebrows (deeper orange)
-        gold: "#F5D783", // highlights, ::selection, "now playing"
+        gold: "#FB923C", // highlights, ::selection, "now playing"
         amber: "#EBBE4E", // gold gradients, logo glow
         sky: "#9BD8EC", // light blue (hero, partner gradient)
         "sky-deep": "#4FA6CB", // blue category / icon

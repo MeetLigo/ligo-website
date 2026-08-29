@@ -14,7 +14,7 @@ export default function CommunityGuidelinesPage() {
     <LegalPage title="Community Guidelines" updated={UPDATED}>
       <LegalP>
         Ligo only works if people feel safe using it. These guidelines are the ground rules — on top of our{" "}
-        <a href="/terms" className="text-[#E8A24C] underline underline-offset-2">Terms of Service</a>{" "}
+        <a href="/terms" className="text-[#F97316] underline underline-offset-2">Terms of Service</a>{" "}
         — for what we expect from everyone in the community. Break them and we&apos;ll act on it, up to and
         including a permanent ban.
       </LegalP>
@@ -70,7 +70,7 @@ export default function CommunityGuidelinesPage() {
         See a message, profile, or event that crosses a line? Use the report button right where you see it —
         on a profile, a message, or an event. We look at every report. If it&apos;s urgent or you&apos;d
         rather reach us directly, email{" "}
-        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#E8A24C] underline underline-offset-2">
+        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#F97316] underline underline-offset-2">
           {CONTACT_EMAIL}
         </a>
         .

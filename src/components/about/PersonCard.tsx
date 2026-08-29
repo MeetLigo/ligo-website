@@ -14,7 +14,7 @@ export function PersonCard({ person, variant = "team" }: { person: Person; varia
   const team = variant === "team";
   return (
     <div className={team ? "w-full" : "w-[150px] sm:w-[168px]"}>
-      <div className="group relative aspect-[3/4] overflow-hidden rounded-[18px] border border-[#E8A24C]/[0.13] bg-[#1E1710] transition-all duration-300 hover:-translate-y-[3px] hover:border-[#E8A24C]/[0.26]">
+      <div className="group relative aspect-[3/4] overflow-hidden rounded-[18px] border border-[#F97316]/[0.13] bg-[#1E1710] transition-all duration-300 hover:-translate-y-[3px] hover:border-[#F97316]/[0.26]">
         <Image
           src={person.img}
           alt={person.name}
@@ -25,8 +25,8 @@ export function PersonCard({ person, variant = "team" }: { person: Person; varia
         {/* bottom gradient the caption sits on */}
         <div aria-hidden className="absolute inset-x-0 bottom-0 h-[64%]" style={{ background: "linear-gradient(180deg,transparent,rgba(10,13,16,0.4) 42%,rgba(10,13,16,0.9))" }} />
         <div className={`absolute inset-x-0 bottom-0 flex flex-col ${team ? "gap-[4px] p-4" : "gap-[3px] p-3"}`}>
-          <div className={`font-serif font-semibold leading-tight text-[#EFE8DB] ${team ? "text-[19px]" : "text-[14px]"}`}>{person.name}</div>
-          <div className={`font-bold uppercase leading-snug tracking-[0.13em] text-[#EDB264] ${team ? "text-[10.5px]" : "text-[8.5px]"}`}>{person.role}</div>
+          <div className={`font-serif font-semibold leading-tight text-[#FAF6EF] ${team ? "text-[19px]" : "text-[14px]"}`}>{person.name}</div>
+          <div className={`font-bold uppercase leading-snug tracking-[0.13em] text-[#F97316] ${team ? "text-[10.5px]" : "text-[8.5px]"}`}>{person.role}</div>
         </div>
       </div>
     </div>

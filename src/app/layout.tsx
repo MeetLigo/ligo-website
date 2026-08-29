@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <link rel="stylesheet" href="https://use.typekit.net/tjf6yyv.css" precedence="default" />
       <body className="font-sans">
         <DrawerProvider>
-          <div className="relative min-h-screen overflow-x-hidden bg-[#130F0A] text-[#EFE8DB]">
+          <div className="relative min-h-screen overflow-x-hidden bg-[#171717] text-[#FAF6EF]">
             <Chrome>{children}</Chrome>
           </div>
           <NavDrawer />

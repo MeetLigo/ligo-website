@@ -9,7 +9,7 @@ import { HomeFooter } from "@/components/home/HomeFooter";
  */
 export default function HomePage() {
   return (
-    <main className="bg-[#130F0A]">
+    <main className="bg-[#171717]">
       <Landing />
       <HomeFooter />
     </main>

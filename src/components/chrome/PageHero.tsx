@@ -36,15 +36,15 @@ export function PageHero({
         style={{ background: "linear-gradient(180deg,rgba(19,15,10,0.66) 0%,rgba(19,15,10,0.38) 40%,rgba(19,15,10,0.56) 72%,rgba(19,15,10,0.9) 100%)" }}
       />
       {/* bottom edge dissolves into the page canvas */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0),#130F0A)" }} />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0),#171717)" }} />
 
       <div className={`relative z-10 mx-auto w-full ${width} px-6 pb-11 pt-32 sm:px-10`}>
-        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{eyebrow}</div>
-        <h1 className="mt-3 max-w-[840px] text-balance font-serif text-[clamp(34px,4.8vw,54px)] font-medium leading-[1.04] tracking-[-0.015em] text-[#EFE8DB]">
+        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#F97316] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{eyebrow}</div>
+        <h1 className="mt-3 max-w-[840px] text-balance font-serif text-[clamp(34px,4.8vw,54px)] font-medium leading-[1.04] tracking-[-0.015em] text-[#FAF6EF]">
           {title}
         </h1>
         {sub && (
-          <p className="mt-4 max-w-[560px] text-[16px] leading-[1.55] text-[#EFE8DB]/[0.78] sm:text-[18px]">{sub}</p>
+          <p className="mt-4 max-w-[560px] text-[16px] leading-[1.55] text-[#FAF6EF]/[0.78] sm:text-[18px]">{sub}</p>
         )}
       </div>
     </section>
@@ -53,5 +53,5 @@ export function PageHero({
 
 /** The italic amber accent phrase, exactly as the home headline does it. */
 export function Accent({ children }: { children: ReactNode }) {
-  return <span className="italic text-[#E8A24C]">{children}</span>;
+  return <span className="italic text-[#F97316]">{children}</span>;
 }

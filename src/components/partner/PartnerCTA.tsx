@@ -132,7 +132,7 @@ export function PartnerCTA() {
                 onChange={(e) => setOrg(e.target.value)}
                 placeholder="Club or org name"
                 aria-label="Club or org name"
-                className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
+                className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#F97316]/60"
               />
               <div className="relative min-w-0">
                 <input
@@ -147,7 +147,7 @@ export function PartnerCTA() {
                   autoComplete="off"
                   placeholder="School"
                   aria-label="School"
-                  className="min-w-0 w-full rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
+                  className="min-w-0 w-full rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#F97316]/60"
                 />
                 {schoolOpen && matches.length > 0 && (
                   <div
@@ -160,7 +160,7 @@ export function PartnerCTA() {
                         type="button"
                         onClick={() => selectSchool(name)}
                         onMouseEnter={() => setActiveIndex(i)}
-                        className={`block w-full truncate px-4 py-[9px] text-left text-[13.5px] text-ink ${i === activeIndex ? "bg-[#E8A24C]/15" : "hover:bg-ink/[0.04]"}`}
+                        className={`block w-full truncate px-4 py-[9px] text-left text-[13.5px] text-ink ${i === activeIndex ? "bg-[#F97316]/15" : "hover:bg-ink/[0.04]"}`}
                       >
                         {name}
                       </button>
@@ -174,7 +174,7 @@ export function PartnerCTA() {
                 type="email"
                 placeholder="Email"
                 aria-label="Email"
-                className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#E8A24C]/60"
+                className="min-w-0 rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[14px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#F97316]/60"
               />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -182,7 +182,7 @@ export function PartnerCTA() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center gap-[9px] rounded-[14px] bg-[#E8A24C] px-6 py-[14px] text-[15px] font-semibold text-[#241603] shadow-[0_10px_24px_-8px_rgba(199,122,46,0.55)] transition-transform active:scale-[0.97] disabled:opacity-70"
+                className="inline-flex items-center gap-[9px] rounded-[14px] bg-[#F97316] px-6 py-[14px] text-[15px] font-semibold text-[#241603] shadow-[0_10px_24px_-8px_rgba(199,122,46,0.55)] transition-transform active:scale-[0.97] disabled:opacity-70"
               >
                 {submitting ? "Sending…" : "Get started"}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#241603" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg>

@@ -34,7 +34,7 @@ export default function PartnerPage() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71C07F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 12l5 5L20 6" />
             </svg>
-            <div className="mt-4 font-serif text-[19px] font-medium leading-snug tracking-[-0.01em] text-[#EFE8DB]">{pt}</div>
+            <div className="mt-4 font-serif text-[19px] font-medium leading-snug tracking-[-0.01em] text-[#FAF6EF]">{pt}</div>
           </div>
         ))}
       </section>

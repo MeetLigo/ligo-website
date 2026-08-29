@@ -70,7 +70,7 @@ export default async function NewsPage() {
               <a
                 key={post.href}
                 href={post.href}
-                className="grid grid-cols-[180px_1fr] gap-5 rounded-[22px] border border-[#D7CCBC]/10 bg-[#1B150E] p-4 text-[#EFE8DB] transition-transform hover:-translate-y-[3px] hover:border-[#D7CCBC]/20"
+                className="grid grid-cols-[180px_1fr] gap-5 rounded-[22px] border border-[#D7CCBC]/10 bg-[#1B150E] p-4 text-[#FAF6EF] transition-transform hover:-translate-y-[3px] hover:border-[#D7CCBC]/20"
               >
                 <div className="aspect-[1.3] overflow-hidden rounded-[14px]">
                   {post.imageUrl ? (
@@ -87,10 +87,10 @@ export default async function NewsPage() {
                   >
                     {post.tag} · {post.date}
                   </div>
-                  <div className="my-2 mb-[6px] text-balance font-serif text-[22px] font-semibold leading-[1.15] tracking-[-0.01em] text-[#EFE8DB]">
+                  <div className="my-2 mb-[6px] text-balance font-serif text-[22px] font-semibold leading-[1.15] tracking-[-0.01em] text-[#FAF6EF]">
                     {post.title}
                   </div>
-                  <div className="text-sm leading-[1.5] text-[#EFE8DB]/55">{post.excerpt}</div>
+                  <div className="text-sm leading-[1.5] text-[#FAF6EF]/55">{post.excerpt}</div>
                 </div>
               </a>
             ),

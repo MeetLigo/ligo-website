@@ -29,17 +29,17 @@ export default function PrivacyPage() {
       <LegalH2>Information we collect</LegalH2>
       <LegalP>We collect information in three ways: what you give us, what we collect automatically, and what we get from services you connect.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Account &amp; profile information.</strong> Your school email, name, pronouns, gender, class year, and profile photo. If you choose to answer optional profile prompts, we store those answers too.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Account &amp; profile information.</strong> Your school email, name, pronouns, gender, class year, and profile photo. If you choose to answer optional profile prompts, we store those answers too.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Location.</strong> With your permission, we collect your device&apos;s location — including in the background when the app isn&apos;t open — to power features that depend on knowing where you are relative to other students on or near campus, and to show you relevant nearby events. You can disable location access at any time in your device settings, though some features won&apos;t work without it.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Location.</strong> With your permission, we collect your device&apos;s location — including in the background when the app isn&apos;t open — to power features that depend on knowing where you are relative to other students on or near campus, and to show you relevant nearby events. You can disable location access at any time in your device settings, though some features won&apos;t work without it.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Motion &amp; fitness data.</strong> With your permission, we use your device&apos;s motion sensors to detect a physical gesture (a &quot;bump&quot; of two phones) that triggers certain in-app moments. We do not use motion data for any other purpose, and we don&apos;t use it to infer your broader physical activity or health.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Motion &amp; fitness data.</strong> With your permission, we use your device&apos;s motion sensors to detect a physical gesture (a &quot;bump&quot; of two phones) that triggers certain in-app moments. We do not use motion data for any other purpose, and we don&apos;t use it to infer your broader physical activity or health.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Music listening data.</strong> If you connect Apple Music, we access a limited set of your listening data (such as top artists and genres) to power music-compatibility features. We do not receive your Apple ID credentials — that connection is handled by Apple&apos;s own authorization flow, and we only receive the specific data Apple Music&apos;s API returns for the scopes you approve.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Music listening data.</strong> If you connect Apple Music, we access a limited set of your listening data (such as top artists and genres) to power music-compatibility features. We do not receive your Apple ID credentials — that connection is handled by Apple&apos;s own authorization flow, and we only receive the specific data Apple Music&apos;s API returns for the scopes you approve.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Content you create.</strong> Messages you send in club and event group chats, event RSVPs, club memberships, reports you file, and any content (like photos) you upload or share through the Service.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Content you create.</strong> Messages you send in club and event group chats, event RSVPs, club memberships, reports you file, and any content (like photos) you upload or share through the Service.</LegalP>
 
-      <LegalP><strong className="text-[#EFE8DB]">Device &amp; usage information.</strong> Device type, operating system, app version, push-notification tokens, crash and error logs, and general usage data (like which features you use) collected automatically as you use the Service.</LegalP>
+      <LegalP><strong className="text-[#FAF6EF]">Device &amp; usage information.</strong> Device type, operating system, app version, push-notification tokens, crash and error logs, and general usage data (like which features you use) collected automatically as you use the Service.</LegalP>
 
       <LegalH2>How we use your information</LegalH2>
       <LegalUl>
@@ -53,11 +53,11 @@ export default function PrivacyPage() {
       <LegalH2>Who we share information with</LegalH2>
       <LegalP>We don&apos;t sell your personal information. We share it only in these situations:</LegalP>
       <LegalUl>
-        <li><strong className="text-[#EFE8DB]">Other students, as intended by the feature.</strong> Your profile is visible to students you&apos;re matched or connected with; club rosters are visible to fellow members; event RSVPs and club chat messages are visible to the relevant club or event audience.</li>
-        <li><strong className="text-[#EFE8DB]">Service providers.</strong> Companies that host our infrastructure, send email and push notifications, and store our data on our behalf, bound by contracts limiting their use of it to providing that service to us.</li>
-        <li><strong className="text-[#EFE8DB]">Apple Music.</strong> If you connect your account, per Apple&apos;s own terms for that integration.</li>
-        <li><strong className="text-[#EFE8DB]">Legal &amp; safety reasons.</strong> If required by law, or if we believe in good faith it&apos;s necessary to protect the rights, safety, or property of Ligo, our users, or the public.</li>
-        <li><strong className="text-[#EFE8DB]">Business transfers.</strong> If Ligo is involved in a merger, acquisition, or sale of assets, your information may transfer as part of that deal — we&apos;ll notify you if that happens.</li>
+        <li><strong className="text-[#FAF6EF]">Other students, as intended by the feature.</strong> Your profile is visible to students you&apos;re matched or connected with; club rosters are visible to fellow members; event RSVPs and club chat messages are visible to the relevant club or event audience.</li>
+        <li><strong className="text-[#FAF6EF]">Service providers.</strong> Companies that host our infrastructure, send email and push notifications, and store our data on our behalf, bound by contracts limiting their use of it to providing that service to us.</li>
+        <li><strong className="text-[#FAF6EF]">Apple Music.</strong> If you connect your account, per Apple&apos;s own terms for that integration.</li>
+        <li><strong className="text-[#FAF6EF]">Legal &amp; safety reasons.</strong> If required by law, or if we believe in good faith it&apos;s necessary to protect the rights, safety, or property of Ligo, our users, or the public.</li>
+        <li><strong className="text-[#FAF6EF]">Business transfers.</strong> If Ligo is involved in a merger, acquisition, or sale of assets, your information may transfer as part of that deal — we&apos;ll notify you if that happens.</li>
       </LegalUl>
 
       <LegalH2>Your choices</LegalH2>
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
       <LegalH2>Contact us</LegalH2>
       <LegalP>
         Questions about this policy or your data? Email us at{" "}
-        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#E8A24C] underline underline-offset-2">
+        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#F97316] underline underline-offset-2">
           {CONTACT_EMAIL}
         </a>
         .

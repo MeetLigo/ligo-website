@@ -97,7 +97,7 @@ export function NavDrawer() {
                 )}
                 <span
                   className="flex-1 font-display text-[19px] font-semibold tracking-[-0.02em]"
-                  style={{ color: active ? "#F5D783" : "#fff" }}
+                  style={{ color: active ? "#FB923C" : "#fff" }}
                 >
                   {item.title}
                 </span>

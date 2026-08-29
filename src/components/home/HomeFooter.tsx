@@ -13,30 +13,30 @@ const MENU: [string, string][] = [
 /** Charcoal footer (ported from the design export). */
 export function HomeFooter() {
   return (
-    <footer className="w-full border-t border-[#D7CCBC]/[0.08] bg-[#0D0A06] px-6 pb-[18px] pt-[34px] sm:px-10">
+    <footer className="w-full border-t border-[#D7CCBC]/[0.08] bg-[#101010] px-6 pb-[18px] pt-[34px] sm:px-10">
       <div className="mx-auto grid max-w-[1080px] grid-cols-1 items-start gap-x-10 gap-y-10 sm:grid-cols-[1.7fr_1fr_1fr]">
         {/* brand */}
         <div className="flex max-w-[360px] flex-col gap-[11px]">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-mark.svg" alt="Ligo" width={30} height={30} />
-            <span className="font-serif text-[26px] font-medium italic tracking-[-0.01em] text-[#EFE8DB]">Ligo</span>
+            <span className="font-serif text-[26px] font-medium italic tracking-[-0.01em] text-[#FAF6EF]">Ligo</span>
           </div>
-          <p className="font-serif text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-[#EFE8DB]">
-            Your social scene <span className="italic text-[#E8A24C]">starts here.</span>
+          <p className="font-serif text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-[#FAF6EF]">
+            Your social scene <span className="italic text-[#F97316]">starts here.</span>
           </p>
-          <p className="text-[13px] leading-[1.5] text-[#EFE8DB]/[0.42]">
+          <p className="text-[13px] leading-[1.5] text-[#FAF6EF]/[0.42]">
             The cheat code to an easy social life in college.
           </p>
-          <p className="font-mono text-[12px] text-[#EFE8DB]/35">Launched at Georgetown. Expanding across the DMV soon.</p>
+          <p className="font-mono text-[12px] text-[#FAF6EF]/35">Launched at Georgetown. Expanding across the DMV soon.</p>
         </div>
 
         {/* menu — one clean column */}
         <div className="flex flex-col gap-[11px]">
-          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EFE8DB]/40">Menu</div>
+          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#FAF6EF]/40">Menu</div>
           <nav className="flex flex-col gap-[9px]">
             {MENU.map(([label, href]) => (
-              <Link key={label} href={href} className="text-[15px] text-[#EFE8DB]/[0.72] transition-colors hover:text-[#EFE8DB]">
+              <Link key={label} href={href} className="text-[15px] text-[#FAF6EF]/[0.72] transition-colors hover:text-[#FAF6EF]">
                 {label}
               </Link>
             ))}
@@ -45,7 +45,7 @@ export function HomeFooter() {
 
         {/* get ligo — column sits right, items left-aligned for a clean left edge */}
         <div className="flex flex-col items-start gap-[11px] sm:justify-self-end">
-          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EFE8DB]/40">Get Ligo</div>
+          <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#FAF6EF]/40">Get Ligo</div>
           <a
             href={APP_STORE}
             target="_blank"
@@ -76,7 +76,7 @@ export function HomeFooter() {
       </div>
 
       <div className="mx-auto mt-8 flex max-w-[1080px] flex-wrap justify-between gap-3 border-t border-[#D7CCBC]/[0.08] pt-3">
-        <span className="font-mono text-[12px] text-[#EFE8DB]/35">meetligo.com · 2026</span>
+        <span className="font-mono text-[12px] text-[#FAF6EF]/35">meetligo.com · 2026</span>
       </div>
     </footer>
   );
