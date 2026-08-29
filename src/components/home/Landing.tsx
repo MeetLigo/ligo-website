@@ -17,12 +17,13 @@ const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.l
 
 // Ambient hero slideshow (8/29 reshoot: all of college life, no class, no
 // going out). Interim Pinterest picks until clubs send real photos:
-// movie night, dance team, club booth, cafe hangout, friends selfie,
-// dance class, campus fest.
+// movie night, dance team, club booth, friends selfie, dance class,
+// campus fest. Per-slide crop keeps the PEOPLE in frame, not sky/screens.
 const SLIDES = [
-  "/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg",
-  "/hero/slide-5.jpg", "/hero/slide-6.jpg", "/hero/slide-7.jpg",
+  "/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg",
+  "/hero/slide-4.jpg", "/hero/slide-5.jpg", "/hero/slide-6.jpg",
 ];
+const SLIDE_POS = ["center 72%", "center 45%", "center 45%", "center 55%", "center 62%", "center 55%"];
 const SLIDE_MS = 4000;
 
 type Mode = null | "student" | "club";
@@ -48,7 +49,7 @@ export function Landing() {
             src={src}
             alt=""
             className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
-            style={{ opacity: i === slide ? 1 : 0, objectPosition: "center 35%" }}
+            style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
           />
         ))}
         <div className="absolute inset-0 bg-black/55" />
