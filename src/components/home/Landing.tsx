@@ -86,7 +86,7 @@ export function Landing() {
       <section className="w-full px-6 py-16 sm:px-10">
         <div className="mx-auto flex max-w-[1080px] flex-col items-center gap-7 text-center">
           <h2 className="font-serif text-[28px] font-medium leading-[1.2] tracking-[-0.01em] text-[#EFE8DB] sm:text-[32px]">
-            We launched at Georgetown, and we&rsquo;re expanding to more DMV schools soon.
+            Live at Georgetown, expanding to universities throughout the DMV soon.
           </h2>
           <p className="max-w-[54ch] text-[15px] leading-[1.55] text-[#EFE8DB]/[0.6]">
             Greek life, pre-professional, cultural and sports clubs are already on Ligo.
