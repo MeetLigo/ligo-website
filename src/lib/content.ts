@@ -250,7 +250,6 @@ export interface ClubLogo {
 export const clubLogos: ClubLogo[] = [
   { src: "aepi.png", name: "AEPi" },
   { src: "sae.png", name: "SAE" },
-  { src: "bsa.png", name: "Black Student Alliance" },
   { src: "lasa.png", name: "LASA" },
   { src: "aasa.png", name: "AASA" },
   { src: "sas.png", name: "South Asian Society" },
