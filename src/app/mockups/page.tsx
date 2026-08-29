@@ -1,5 +1,5 @@
-import { PhoneFrame } from "@/components/mockups/PhoneFrame";
-import { ClubScreen, CreateClubScreen, EventChatScreen, EventDetailScreen, ExploreScreen } from "@/components/mockups/screens";
+import { PhoneFrame, ScreenImage } from "@/components/mockups/PhoneFrame";
+import { ClubScreen, EventChatScreen, EventDetailScreen, ExploreScreen } from "@/components/mockups/screens";
 
 /**
  * Internal gallery of the phone-mockup library (unlinked from the site nav).
@@ -9,12 +9,13 @@ import { ClubScreen, CreateClubScreen, EventChatScreen, EventDetailScreen, Explo
  */
 export const metadata = { title: "Ligo · Mockup library", robots: { index: false } };
 
-const SCREENS = [
+type Entry = { name: string; node: React.ReactNode; chrome?: boolean };
+const SCREENS: Entry[] = [
   { name: "Explore feed — every club event, one place", node: <ExploreScreen /> },
   { name: "Event detail — say you're going in one tap", node: <EventDetailScreen /> },
   { name: "Event chat — a group chat for every event", node: <EventChatScreen /> },
   { name: "Club page — follow your clubs", node: <ClubScreen /> },
-  { name: "Create club — set up in minutes", node: <CreateClubScreen /> },
+  { name: "Create club — set up in minutes (exact export)", node: <ScreenImage src="/mockups/create-club-empty.svg" />, chrome: false },
 ];
 
 export default function MockupsPage() {
@@ -29,9 +30,9 @@ export default function MockupsPage() {
           <section key={s.name} className="mt-8 flex flex-col gap-5">
             <h2 className="font-serif text-[20px] font-medium text-[#171717]">{s.name}</h2>
             <div className="flex flex-wrap items-start gap-10">
-              <PhoneFrame size="sm">{s.node}</PhoneFrame>
-              <PhoneFrame size="md">{s.node}</PhoneFrame>
-              <PhoneFrame size="lg">{s.node}</PhoneFrame>
+              <PhoneFrame size="sm" chrome={s.chrome ?? true}>{s.node}</PhoneFrame>
+              <PhoneFrame size="md" chrome={s.chrome ?? true}>{s.node}</PhoneFrame>
+              <PhoneFrame size="lg" chrome={s.chrome ?? true}>{s.node}</PhoneFrame>
             </div>
           </section>
         ))}

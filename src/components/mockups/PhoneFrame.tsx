@@ -29,7 +29,7 @@ export function PhoneFrame({
       className={`flex flex-col rounded-[calc(var(--pw)*0.142)] border border-black/[0.08] bg-white shadow-[0_24px_60px_rgba(23,23,23,0.18)] ${className}`}
       style={{ width: w, padding: w * 0.039, ["--pw" as string]: `${w}px` }}
     >
-      <div className="flex min-h-[calc(var(--pw)*1.85)] flex-col overflow-hidden rounded-[calc(var(--pw)*0.11)] bg-[#F6F5F4]">
+      <div className={`flex flex-col overflow-hidden rounded-[calc(var(--pw)*0.11)] bg-[#F6F5F4] ${chrome ? "min-h-[calc(var(--pw)*1.85)]" : "h-[calc(var(--pw)*1.85)]"}`}>
         <div className="flex flex-1 flex-col">{children}</div>
         {chrome && <BottomNav />}
       </div>
