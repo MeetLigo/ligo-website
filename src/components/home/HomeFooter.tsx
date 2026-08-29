@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
 
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
 const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
@@ -45,11 +46,31 @@ export function HomeFooter() {
         {/* get ligo — column sits right, items left-aligned for a clean left edge */}
         <div className="flex flex-col items-start gap-[11px] sm:justify-self-end">
           <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EFE8DB]/40">Get Ligo</div>
-          <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[#EFE8DB]/[0.82] transition-colors hover:text-[#EFE8DB]">
-            Download on the App Store →
+          <a
+            href={APP_STORE}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download on the App Store"
+            className="inline-flex h-[46px] w-[156px] items-center gap-[9px] rounded-[10px] border border-white/25 bg-black px-[14px] text-white transition-colors hover:border-white/45"
+          >
+            <AppleIcon size={22} fill="#FFFFFF" />
+            <span className="flex flex-col text-left leading-[1.15]">
+              <span className="text-[10px]">Download on the</span>
+              <span className="text-[16px] font-semibold tracking-[-0.01em]">App Store</span>
+            </span>
           </a>
-          <a href={GOOGLE_PLAY} target="_blank" rel="noopener noreferrer" className="text-[15px] text-[#EFE8DB]/[0.82] transition-colors hover:text-[#EFE8DB]">
-            Get it on Google Play →
+          <a
+            href={GOOGLE_PLAY}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Get it on Google Play"
+            className="inline-flex h-[46px] w-[156px] items-center gap-[9px] rounded-[10px] border border-white/25 bg-black px-[14px] text-white transition-colors hover:border-white/45"
+          >
+            <PlayIcon size={20} />
+            <span className="flex flex-col text-left leading-[1.15]">
+              <span className="text-[10px] uppercase tracking-[0.04em]">Get it on</span>
+              <span className="text-[16px] font-semibold tracking-[-0.01em]">Google Play</span>
+            </span>
           </a>
         </div>
       </div>
