@@ -17,11 +17,11 @@ const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.l
 
 // Ambient hero slideshow (8/29 reshoot: all of college life, no class, no
 // going out). Interim Pinterest picks until clubs send real photos:
-// club fair, movie night, dance team, club booth, cafe hangout, studio
-// mirror, dance class, campus fest.
+// movie night, dance team, club booth, cafe hangout, studio mirror,
+// dance class, campus fest.
 const SLIDES = [
   "/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "/hero/slide-4.jpg",
-  "/hero/slide-5.jpg", "/hero/slide-6.jpg", "/hero/slide-7.jpg", "/hero/slide-8.jpg",
+  "/hero/slide-5.jpg", "/hero/slide-6.jpg", "/hero/slide-7.jpg",
 ];
 const SLIDE_MS = 4000;
 
