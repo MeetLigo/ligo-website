@@ -38,19 +38,22 @@ export function Landing() {
   return (
     <>
       <section className="relative flex min-h-screen w-full flex-col overflow-hidden">
-        {/* slideshow + scrim */}
-        {SLIDES.map((src, i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={src}
-            src={src}
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
-            style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
-          />
-        ))}
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-b from-transparent to-[#171717]" />
+        {/* slideshow + scrim, pinned to viewport height so the crop never
+            changes when a panel below pushes the section taller */}
+        <div className="absolute inset-x-0 top-0 h-screen overflow-hidden">
+          {SLIDES.map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={src}
+              src={src}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
+              style={{ opacity: i === slide ? 1 : 0, objectPosition: SLIDE_POS[i] }}
+            />
+          ))}
+          <div className="absolute inset-0 bg-black/55" />
+          <div className="absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-b from-transparent to-[#171717]" />
+        </div>
 
         <SiteHeader />
 
@@ -64,7 +67,7 @@ export function Landing() {
           </p>
 
           <div className="mt-1 flex flex-col items-center gap-4">
-            <div className="grid w-full max-w-[440px] grid-cols-2 gap-3">
+            <div className="grid w-[min(440px,92vw)] grid-cols-2 gap-3">
               <AudienceCard
                 selected={mode === "student"}
                 onClick={() => setMode("student")}
@@ -150,7 +153,7 @@ function StudentPanel() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Download on the App Store"
-          className="inline-flex h-[56px] items-center gap-3 whitespace-nowrap rounded-[14px] bg-white px-[20px] text-[#171717] transition-[filter] hover:brightness-95"
+          className="inline-flex h-[56px] w-[192px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] bg-white text-[#171717] transition-[filter] hover:brightness-95"
         >
           <svg width="22" height="26" viewBox="0 0 384 512" fill="currentColor" aria-hidden="true">
             <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
@@ -165,7 +168,7 @@ function StudentPanel() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Get it on Google Play"
-          className="inline-flex h-[56px] items-center gap-3 whitespace-nowrap rounded-[14px] bg-white px-[20px] text-[#171717] transition-[filter] hover:brightness-95"
+          className="inline-flex h-[56px] w-[192px] items-center justify-center gap-3 whitespace-nowrap rounded-[14px] bg-white text-[#171717] transition-[filter] hover:brightness-95"
         >
           <PlayIcon size={24} />
           <span className="flex flex-col text-left leading-[1.15]">
