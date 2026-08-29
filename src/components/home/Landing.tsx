@@ -34,7 +34,7 @@ export function Landing() {
 
   return (
     <>
-      <section className="relative flex min-h-[94vh] w-full flex-col overflow-hidden">
+      <section className="relative flex min-h-screen w-full flex-col overflow-hidden">
         {/* slideshow + scrim */}
         {SLIDES.map((src, i) => (
           // eslint-disable-next-line @next/next/no-img-element
@@ -51,7 +51,7 @@ export function Landing() {
 
         <SiteHeader />
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col items-center justify-center gap-6 px-6 pb-24 pt-12 text-center sm:px-10">
+        <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col items-center justify-center gap-6 px-6 py-14 text-center sm:px-10">
           <div className="font-serif text-[14px] font-medium uppercase tracking-eyebrow text-[#F97316]">For college students</div>
           <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-normal leading-[1.06] tracking-[-0.02em] text-[#FAF6EF]">
             Your social scene <span className="italic text-[#F97316]">starts&nbsp;here.</span>
