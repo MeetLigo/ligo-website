@@ -138,19 +138,26 @@ export function EventChatScreen() {
   const msgs: Array<{ who: string; text: string; mine?: boolean }> = [
     { who: "Maya", text: "who's getting there early?" },
     { who: "Jordan", text: "me, saving a spot on the lawn" },
-    { who: "You", text: "omw, bringing blankets", mine: true },
+    { who: "Priya", text: "does anyone have an extra blanket" },
+    { who: "You", text: "omw, bringing two", mine: true },
     { who: "Sam", text: "W. see everyone at 8" },
   ];
   return (
     <Pad>
-      <div className="flex items-center" style={{ gap: pw(0.032) }}>
+      {/* header, anchored by a hairline so the thread reads as its own region */}
+      <div className="flex items-center border-b border-black/[0.07]" style={{ gap: pw(0.032), paddingBottom: pw(0.039) }}>
         <img src="/hero/slide-1.jpg" alt="" className="flex-shrink-0 object-cover" style={{ width: pw(0.123), height: pw(0.123), borderRadius: pw(0.032), objectPosition: "center 70%" }} />
         <div className="flex flex-col" style={{ gap: pw(0.003) }}>
           <span className="font-serif font-medium text-[#171717]" style={{ fontSize: pw(0.055) }}>Movie night</span>
           <span className="text-[#171717]/[0.5]" style={{ fontSize: pw(0.039) }}>42 in the chat</span>
         </div>
       </div>
-      <div className="flex flex-1 flex-col justify-end" style={{ gap: pw(0.026) }}>
+      {/* event context keeps the middle from reading as dead space */}
+      <div className="flex items-center self-center rounded-full bg-white text-[#171717]/[0.6]" style={{ gap: pw(0.019), fontSize: pw(0.035), padding: `${pw(0.016)} ${pw(0.042)}` }}>
+        Tonight · 8:00 PM · Copley Lawn
+      </div>
+      <div className="flex flex-1 flex-col justify-end" style={{ gap: pw(0.019) }}>
+        <span className="self-center text-[#171717]/[0.35]" style={{ fontSize: pw(0.032), marginBottom: pw(0.013) }}>Today</span>
         {msgs.map((m) => (
           <div key={m.text} className={`flex flex-col ${m.mine ? "items-end" : "items-start"}`} style={{ gap: pw(0.006) }}>
             {!m.mine && (
@@ -165,7 +172,7 @@ export function EventChatScreen() {
           </div>
         ))}
       </div>
-      <div className="flex items-center rounded-full bg-white text-[#171717]/[0.4]" style={{ height: pw(0.13), padding: `0 ${pw(0.045)}`, fontSize: pw(0.042) }}>
+      <div className="flex items-center rounded-full bg-white text-[#171717]/[0.4]" style={{ height: pw(0.13), padding: `0 ${pw(0.045)}`, fontSize: pw(0.042), marginTop: pw(0.026) }}>
         Message the event…
       </div>
     </Pad>
