@@ -116,7 +116,7 @@ function AudienceCard({ selected, onClick, title, sub }: { selected: boolean; on
     <button
       type="button"
       onClick={onClick}
-      className={`flex flex-col items-center gap-0.5 rounded-[18px] border px-6 py-3 transition-colors sm:px-7 ${
+      className={`flex w-[46vw] max-w-[210px] flex-col items-center gap-0.5 rounded-[18px] border px-3 py-3 transition-colors ${
         selected
           ? "border-[#F97316] bg-[#FFEDD5] text-[#7C2D12]"
           : "border-white/25 bg-white/10 text-[#FAF6EF] hover:bg-white/[0.16]"
