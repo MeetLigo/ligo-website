@@ -13,10 +13,14 @@ export type PhoneSize = keyof typeof SIZES;
 export function PhoneFrame({
   size = "md",
   children,
+  chrome = true,
   className = "",
 }: {
   size?: PhoneSize;
   children: React.ReactNode;
+  /** false = the screen content already includes its own UI chrome
+      (e.g. a full-screen SVG exported from the real app in Figma) */
+  chrome?: boolean;
   className?: string;
 }) {
   const w = SIZES[size];
@@ -27,9 +31,19 @@ export function PhoneFrame({
     >
       <div className="flex min-h-[calc(var(--pw)*1.85)] flex-col overflow-hidden rounded-[calc(var(--pw)*0.11)] bg-[#F6F5F4]">
         <div className="flex flex-1 flex-col">{children}</div>
-        <BottomNav />
+        {chrome && <BottomNav />}
       </div>
     </div>
+  );
+}
+
+/** Drop-in screen for exact app exports: give it an SVG/PNG of a full screen
+    (from the Figma app file) and it fills the frame edge to edge. Use with
+    <PhoneFrame chrome={false}>. Files live in /public/mockups/. */
+export function ScreenImage({ src, alt = "" }: { src: string; alt?: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} className="h-full w-full flex-1 object-cover object-top" />
   );
 }
 
