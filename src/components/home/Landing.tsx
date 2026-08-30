@@ -25,7 +25,23 @@ const SLIDE_MS = 4000;
 
 type Mode = null | "student" | "club";
 
-export function Landing() {
+export interface HeroCopy {
+  /** upright part of the H1 */
+  pre: string;
+  /** italic orange part of the H1 */
+  accent: string;
+  sub: string;
+}
+
+// Version A (live): the original tagline. Version B (/b): campus-connector
+// framing per Micah's 8/29 notes, for async comparison.
+export const HERO_COPY_A: HeroCopy = {
+  pre: "Your social scene",
+  accent: "starts\u00A0here.",
+  sub: "Every club and event on your campus, in one place.",
+};
+
+export function Landing({ copy = HERO_COPY_A }: { copy?: HeroCopy }) {
   const [mode, setMode] = useState<Mode>(null);
   const [slide, setSlide] = useState(0);
 
@@ -60,10 +76,10 @@ export function Landing() {
         <div className="relative z-10 mx-auto flex w-full max-w-[880px] flex-1 flex-col items-center justify-center gap-6 px-6 py-14 text-center sm:px-10">
           <div className="font-serif text-[14px] font-medium uppercase tracking-eyebrow text-[#F97316]">For college students</div>
           <h1 className="font-serif text-[clamp(44px,6.4vw,84px)] font-normal leading-[1.06] tracking-[-0.02em] text-[#FAF6EF]">
-            Your social scene <span className="italic text-[#F97316]">starts&nbsp;here.</span>
+            {copy.pre} <span className="italic text-[#F97316]">{copy.accent}</span>
           </h1>
           <p className="max-w-[52ch] font-serif text-[18px] leading-[1.5] text-[#FAF6EF]/[0.85] sm:text-[21px]">
-            Every club and event on your campus, in one place.
+            {copy.sub}
           </p>
 
           <div className="mt-1 flex flex-col items-center gap-4">

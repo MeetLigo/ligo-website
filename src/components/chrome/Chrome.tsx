@@ -11,7 +11,8 @@ import { HomeFooter } from "@/components/home/HomeFooter";
  * plus the shared footer, over the charcoal canvas.
  */
 export function Chrome({ children }: { children: React.ReactNode }) {
-  const isHome = usePathname() === "/";
+  const path = usePathname();
+  const isHome = path === "/" || path === "/b";
   if (isHome) return <>{children}</>;
   return (
     <div className="relative flex min-h-screen flex-col bg-[#171717] text-[#FAF6EF]">
