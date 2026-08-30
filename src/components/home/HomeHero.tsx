@@ -265,7 +265,7 @@ export function HomeHero() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0.58) 0%,rgba(19,15,10,0.44) 22%,rgba(19,15,10,0.4) 52%,rgba(19,15,10,0.14) 70%,rgba(19,15,10,0) 84%)" }} />
         {/* tall bottom fade — the photo eases into the espresso base over ~260px
             so the hand-off to the board section has no detectable edge */}
-        <div className="absolute inset-x-0 bottom-0 h-[260px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0) 0%,rgba(19,15,10,0.45) 40%,rgba(19,15,10,0.85) 72%,#130F0A 100%)" }} />
+        <div className="absolute inset-x-0 bottom-0 h-[260px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0) 0%,rgba(19,15,10,0.45) 40%,rgba(19,15,10,0.85) 72%,#171717 100%)" }} />
         <div className="absolute -left-28 top-[6%] h-[480px] w-[480px] rounded-full" style={{ background: "radial-gradient(circle,rgba(232,162,76,0.14),transparent 66%)" }} />
         <div className="absolute -right-20 top-[40%] h-[440px] w-[440px] rounded-full" style={{ background: "radial-gradient(circle,rgba(90,166,224,0.13),transparent 66%)" }} />
       </div>
@@ -276,11 +276,11 @@ export function HomeHero() {
       {/* hero content — always present; picking a song glides the page down to
           the board section below rather than swapping states */}
       <div className="relative z-10 flex flex-1 animate-riseIn flex-col items-center justify-center gap-5 px-6 py-16 text-center">
-        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
-        <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#EFE8DB]">
-          Meet new people <span className="italic text-[#E8A24C]">through music.</span>
+        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#F97316] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">For college students</div>
+        <h1 className="max-w-[900px] font-serif text-[clamp(38px,6.4vw,66px)] font-medium leading-[1.0] tracking-[-0.015em] text-[#FAF6EF]">
+          Meet new people <span className="italic text-[#F97316]">through music.</span>
         </h1>
-        <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#EFE8DB]/[0.74] sm:text-[18px]">
+        <p className="max-w-[560px] text-[15px] leading-[1.5] text-[#FAF6EF]/[0.74] sm:text-[18px]">
           Ligo&rsquo;s how college students meet through the music they&rsquo;re into &mdash; no profile, just a song.
         </p>
 
@@ -305,13 +305,13 @@ export function HomeHero() {
                     autoComplete="off"
                     aria-label="What's your favorite song?"
                     placeholder="What's your favorite song?"
-                    className="min-w-0 flex-1 border-none bg-transparent text-[18px] text-[#EFE8DB] placeholder:text-[#EFE8DB]/40"
+                    className="min-w-0 flex-1 border-none bg-transparent text-[18px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/40"
                   />
                   <button
                     type="submit"
                     aria-label="Reveal"
                     className="flex h-14 w-14 flex-none items-center justify-center rounded-[14px] text-[#241603] shadow-[0_8px_22px_-6px_rgba(232,162,76,0.65),inset_0_1px_0_rgba(255,244,230,0.4)] transition-transform active:scale-95"
-                    style={{ background: "linear-gradient(140deg,#EDB264,#E8A24C 55%,#C77A2E)" }}
+                    style={{ background: "linear-gradient(140deg,#F97316,#F97316 55%,#C77A2E)" }}
                   >
                     <svg width="19" height="19" viewBox="0 0 24 24" fill="#241603"><path d="M8 5v14l11-7z" /></svg>
                   </button>
@@ -322,14 +322,14 @@ export function HomeHero() {
                     onMouseDown={(e) => e.preventDefault()}
                     className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-[16px] border border-[#D7CCBC]/15 bg-[#1B150E] text-left shadow-[0_24px_50px_-20px_rgba(0,0,0,0.8)]"
                   >
-                    {searching && results.length === 0 && <div className="px-4 py-3 text-[13px] text-[#EFE8DB]/40">Searching…</div>}
+                    {searching && results.length === 0 && <div className="px-4 py-3 text-[13px] text-[#FAF6EF]/40">Searching…</div>}
                     {results.map((t, i) => (
                       <button
                         key={t.spotify_track_id ?? i}
                         type="button"
                         onClick={() => selectTrack(t)}
                         onMouseEnter={() => setActiveIndex(i)}
-                        className={`flex w-full items-center gap-3 px-3 py-2 text-left ${i === activeIndex ? "bg-[#E8A24C]/15" : "hover:bg-white/[0.04]"}`}
+                        className={`flex w-full items-center gap-3 px-3 py-2 text-left ${i === activeIndex ? "bg-[#F97316]/15" : "hover:bg-white/[0.04]"}`}
                       >
                         {t.album_art_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -338,12 +338,12 @@ export function HomeHero() {
                           <span className="h-9 w-9 flex-none rounded-[6px] bg-white/10" />
                         )}
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-[15px] font-medium text-[#EFE8DB]">{t.song_name}</span>
-                          {t.artist && <span className="block truncate text-[13px] text-[#EFE8DB]/50">{t.artist}</span>}
+                          <span className="block truncate text-[15px] font-medium text-[#FAF6EF]">{t.song_name}</span>
+                          {t.artist && <span className="block truncate text-[13px] text-[#FAF6EF]/50">{t.artist}</span>}
                         </span>
                       </button>
                     ))}
-                    <button type="button" onClick={revealTyped} className="flex w-full items-center gap-2 border-t border-white/[0.06] px-4 py-3 text-left text-[13px] text-[#EDB264] hover:bg-white/[0.04]">
+                    <button type="button" onClick={revealTyped} className="flex w-full items-center gap-2 border-t border-white/[0.06] px-4 py-3 text-left text-[13px] text-[#F97316] hover:bg-white/[0.04]">
                       {searchError ? "Search hiccup, " : !searching && results.length === 0 ? "No matches, " : "Can't find it? "}
                       <span className="font-semibold">reveal &ldquo;{song.trim()}&rdquo; anyway →</span>
                     </button>
@@ -353,15 +353,15 @@ export function HomeHero() {
 
               <div className="flex flex-wrap justify-center gap-2">
                 {CHIPS.map((c) => (
-                  <button key={c} type="button" onClick={() => pickChip(c)} className="rounded-full border border-[#D7CCBC]/[0.18] bg-[#D7CCBC]/[0.08] px-[14px] py-2 text-[13px] font-semibold text-[#EFE8DB]/[0.82] transition-colors hover:bg-[#D7CCBC]/[0.16]">
+                  <button key={c} type="button" onClick={() => pickChip(c)} className="rounded-full border border-[#D7CCBC]/[0.18] bg-[#D7CCBC]/[0.08] px-[14px] py-2 text-[13px] font-semibold text-[#FAF6EF]/[0.82] transition-colors hover:bg-[#D7CCBC]/[0.16]">
                     {c}
                   </button>
                 ))}
               </div>
 
-              <div className="mt-1 flex items-center gap-[7px] text-[13px] text-[#EFE8DB]/[0.58]">
+              <div className="mt-1 flex items-center gap-[7px] text-[13px] text-[#FAF6EF]/[0.58]">
                 <span>Ligo is a free app.</span>
-                <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#EDB264]">Download on the App Store →</a>
+                <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#F97316]">Download on the App Store →</a>
               </div>
           </div>
         </div>
@@ -505,16 +505,16 @@ function RevealChart({
           capture fades in. Scrolling up to the hero input is how you pick again. */}
       <div className="relative flex flex-col gap-[14px]">
         {!pick ? (
-          <p className="mx-auto max-w-[440px] text-center font-serif text-[19px] italic leading-[1.5] text-[#EFE8DB]/[0.72]">
+          <p className="mx-auto max-w-[440px] text-center font-serif text-[19px] italic leading-[1.5] text-[#FAF6EF]/[0.72]">
             Pick a song up top and it&rsquo;ll show up here.
           </p>
         ) : boardPosted ? (
           <div className="flex flex-col items-center gap-3 text-center">
-            <div className="inline-flex items-center gap-[9px] rounded-full border border-[#71C07F]/[0.42] bg-[#130F0A]/[0.72] px-[18px] py-[11px] backdrop-blur-xl">
+            <div className="inline-flex items-center gap-[9px] rounded-full border border-[#71C07F]/[0.42] bg-[#171717]/[0.72] px-[18px] py-[11px] backdrop-blur-xl">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#71C07F" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
-              <span className="text-[14px] font-semibold text-[#EFE8DB]">&ldquo;{pick?.song_name}&rdquo; is on the board.</span>
+              <span className="text-[14px] font-semibold text-[#FAF6EF]">&ldquo;{pick?.song_name}&rdquo; is on the board.</span>
             </div>
-            <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#E8A24C] px-6 py-[13px] text-[15px] font-semibold text-[#241603] shadow-[0_12px_28px_-8px_rgba(232,162,76,0.55)]">
+            <a href={APP_STORE} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#F97316] px-6 py-[13px] text-[15px] font-semibold text-[#241603] shadow-[0_12px_28px_-8px_rgba(232,162,76,0.55)]">
               Get Ligo to find your people →
             </a>
           </div>
@@ -522,10 +522,10 @@ function RevealChart({
           /* compact conversion strip — one line of copy + the glass pill (the pill
              matches the hero search; no framing box). Fades in with each new pick. */
           <div key={pick.spotify_track_id || pick.song_name} className="mx-auto flex w-full max-w-[480px] animate-revealFade flex-col items-stretch gap-[10px] text-center motion-reduce:animate-none">
-            <p className="text-[14px] leading-[1.5] text-[#EFE8DB]/[0.82] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
+            <p className="text-[14px] leading-[1.5] text-[#FAF6EF]/[0.82] [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">
               Add your school email to lock in &ldquo;{pick?.song_name}&rdquo;. We only let real students on the board, one pick per person.
             </p>
-            <div className="flex items-center gap-[9px] rounded-full border border-[#E8A24C]/[0.26] bg-[#14100C]/[0.55] py-[6px] pl-4 pr-[6px] shadow-[inset_0_1px_0_rgba(232,162,76,0.12),0_16px_40px_-16px_rgba(0,0,0,0.6)] backdrop-blur-md">
+            <div className="flex items-center gap-[9px] rounded-full border border-[#F97316]/[0.26] bg-[#14100C]/[0.55] py-[6px] pl-4 pr-[6px] shadow-[inset_0_1px_0_rgba(232,162,76,0.12),0_16px_40px_-16px_rgba(0,0,0,0.6)] backdrop-blur-md">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(237,178,100,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
                 <path d="M4 4h16v16H4z" /><path d="M4 7l8 6 8-6" />
               </svg>
@@ -536,9 +536,9 @@ function RevealChart({
                 type="email"
                 placeholder="you@school.edu"
                 aria-label="School email"
-                className="min-w-0 flex-1 border-none bg-transparent text-[14px] text-[#EFE8DB] placeholder:text-[#EFE8DB]/40"
+                className="min-w-0 flex-1 border-none bg-transparent text-[14px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/40"
               />
-              <button onClick={submitBoard} disabled={submitting} className="flex-none rounded-full bg-[#E8A24C] px-4 py-[9px] text-[13px] font-semibold text-[#241603] shadow-[0_8px_20px_-6px_rgba(232,162,76,0.55)] transition-transform active:scale-[0.97] disabled:opacity-70">
+              <button onClick={submitBoard} disabled={submitting} className="flex-none rounded-full bg-[#F97316] px-4 py-[9px] text-[13px] font-semibold text-[#241603] shadow-[0_8px_20px_-6px_rgba(232,162,76,0.55)] transition-transform active:scale-[0.97] disabled:opacity-70">
                 {submitting ? "…" : "Lock it in →"}
               </button>
             </div>

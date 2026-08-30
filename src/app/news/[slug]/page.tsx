@@ -58,25 +58,25 @@ export default async function NewsPostPage({
         )}
 
         {post.excerpt && (
-          <p className="mb-6 text-balance text-[19px] leading-[1.5] text-[#EFE8DB]/80">
+          <p className="mb-6 text-balance text-[19px] leading-[1.5] text-[#FAF6EF]/80">
             {post.excerpt}
           </p>
         )}
 
         {post.body ? (
-          <div className="space-y-5 text-[16px] leading-[1.7] text-[#EFE8DB]/85">
+          <div className="space-y-5 text-[16px] leading-[1.7] text-[#FAF6EF]/85">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             <PortableText value={post.body as any} />
           </div>
         ) : (
-          <p className="text-[16px] leading-[1.7] text-[#EFE8DB]/60">
+          <p className="text-[16px] leading-[1.7] text-[#FAF6EF]/60">
             Full story coming soon.
           </p>
         )}
 
         <a
           href="/news"
-          className="mt-12 inline-block text-sm font-semibold text-[#E8A24C] hover:opacity-75"
+          className="mt-12 inline-block text-sm font-semibold text-[#F97316] hover:opacity-75"
         >
           ← Back to all news
         </a>

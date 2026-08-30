@@ -77,7 +77,7 @@ export function OriginSection() {
         {/* nudged up + slightly fainter so the raised photo column slides over its
             tail cleanly — it reads in the open zone beside the headline */}
         <div
-          className="absolute right-[-5%] top-[120px] select-none whitespace-nowrap font-serif font-semibold leading-none tracking-[-0.02em] text-[#E8A24C]"
+          className="absolute right-[-5%] top-[120px] select-none whitespace-nowrap font-serif font-semibold leading-none tracking-[-0.02em] text-[#F97316]"
           style={{ fontSize: "26vw", opacity: 0.038 }}
         >
           3 AM
@@ -96,16 +96,16 @@ export function OriginSection() {
 
       <div className="relative mx-auto w-full max-w-[1100px] pt-36">
         {/* the opening — same container, same left edge as everything below */}
-        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#EDB264]">the origin</div>
-        <h1 className="mt-3 font-serif text-[clamp(34px,4.8vw,54px)] font-medium leading-[1.04] tracking-[-0.015em] text-[#EFE8DB]">
+        <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#F97316]">the origin</div>
+        <h1 className="mt-3 font-serif text-[clamp(34px,4.8vw,54px)] font-medium leading-[1.04] tracking-[-0.015em] text-[#FAF6EF]">
           How Ligo <Accent>started.</Accent>
         </h1>
         {/* the story grid starts AT the lede, so the photo column rides beside it
             from the very first line — no empty top-right */}
         <div className="mt-6 grid grid-cols-1 items-start gap-y-7 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-x-12">
-          <div className="space-y-[27px] text-[18px] leading-[1.65] text-[#EFE8DB]/[0.8]">
+          <div className="space-y-[27px] text-[18px] leading-[1.65] text-[#FAF6EF]/[0.8]">
             {/* the lede — paragraph one of the story, in the deck voice */}
-            <p className="max-w-[34ch] font-serif text-[22px] italic leading-[1.6] text-[#EFE8DB]/[0.85] sm:text-[25px]">
+            <p className="max-w-[34ch] font-serif text-[22px] italic leading-[1.6] text-[#FAF6EF]/[0.85] sm:text-[25px]">
               It&apos;s 3am. I&apos;m standing in line at a burger spot in the East Village, half asleep. I&apos;d been
               fired from my first job out of college, laid off from my second, and was going through a breakup with
               someone who meant a lot to me.

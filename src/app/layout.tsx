@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { bricolage, caveat, fraunces, inter } from "./fonts";
+import { caveat, inter } from "./fonts";
 import { DrawerProvider } from "@/components/chrome/DrawerProvider";
 import { Chrome } from "@/components/chrome/Chrome";
 import { NavDrawer } from "@/components/chrome/NavDrawer";
 
-const TITLE = "Ligo · Events bring the room. Music tells you who.";
+const TITLE = "Ligo · Your social scene starts here.";
 const DESCRIPTION =
-  "Answer a song, meet your people. Ligo connects students on campus through music taste. No login, no bio, just the song.";
+  "Ligo is a social app for college campuses. Every club and event in one place. See what's on tonight, who's going, and walk in with a plan.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -29,10 +29,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${caveat.variable} ${fraunces.variable} ${inter.variable}`}>
+    <html lang="en" className={`${caveat.variable} ${inter.variable}`}>
+      {/* Gelica, licensed via Micah's Adobe Fonts kit (weights 300-700 + italics) */}
+      <link rel="stylesheet" href="https://use.typekit.net/tjf6yyv.css" precedence="default" />
       <body className="font-sans">
         <DrawerProvider>
-          <div className="relative min-h-screen overflow-x-hidden bg-[#130F0A] text-[#EFE8DB]">
+          <div className="relative min-h-screen overflow-x-hidden bg-[#171717] text-[#FAF6EF]">
             <Chrome>{children}</Chrome>
           </div>
           <NavDrawer />

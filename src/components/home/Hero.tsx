@@ -184,7 +184,7 @@ export function Hero() {
               transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
               className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center gap-5"
             >
-              <div className="inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#F5D783] [text-shadow:0_1px_8px_rgba(0,0,0,0.55)]">
+              <div className="inline-flex items-center gap-[10px] text-[11px] font-bold uppercase tracking-eyebrow text-[#FB923C] [text-shadow:0_1px_8px_rgba(0,0,0,0.55)]">
                 <span className="relative h-[7px] w-[7px]">
                   <span className="absolute inset-0 rounded-full bg-flame" />
                   <span className="absolute inset-0 rounded-full bg-flame animate-pulseDot" />
@@ -194,7 +194,7 @@ export function Hero() {
 
               <h1 className="max-w-[860px] font-display text-[clamp(38px,6.6vw,66px)] font-semibold leading-[1.01] tracking-[-0.03em] text-[#FAFAF8]">
                 You didn&rsquo;t miss it because no one would go.{" "}
-                <span className="italic text-[#F5D783]">You just couldn&rsquo;t find them.</span>
+                <span className="italic text-[#FB923C]">You just couldn&rsquo;t find them.</span>
               </h1>
 
               <p className="max-w-[540px] text-[15px] leading-[1.5] text-white/65 sm:text-[18px]">
@@ -313,7 +313,7 @@ export function Hero() {
                     href="https://apps.apple.com/us/app/ligo/id6753926105"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold text-[#F5D783]"
+                    className="font-semibold text-[#FB923C]"
                   >
                     Download on the App Store →
                   </a>

@@ -3,7 +3,7 @@
  * Keeping it in one place mirrors the original's single data source.
  */
 
-export type Route = "/" | "/about" | "/news" | "/partner";
+export type Route = "/" | "/about" | "/news";
 
 export interface NavItem {
   n: string;
@@ -16,7 +16,6 @@ export interface NavItem {
 export const navItems: NavItem[] = [
   { n: "01", title: "About", dur: "3:41", href: "/about" },
   { n: "02", title: "Ligo News", dur: "2:58", href: "/news" },
-  { n: "03", title: "Become a Partner", dur: "4:07", href: "/partner" },
   ];
 
 // ---- Homepage polaroid collage --------------------------------------------
@@ -233,4 +232,28 @@ export const faqGroups: FaqGroup[] = [
       { q: "Is it free for student orgs?", a: "Yes. Recognized student clubs use Ligo events for free." },
     ],
   },
+];
+
+// ---- Landing (broad ethos, Aug 2026 redesign) -----------------------------
+// Ported from the Claude Design export "Ligo Landing v3" — audience-split hero,
+// club benefits, category showcase. No music framing on the landing (8/28 call).
+
+export interface ClubLogo {
+  /** file under /public/clubs */
+  src: string;
+  name: string;
+}
+
+// Real Georgetown club logos (from Micah/Mekhi, 8/28). Shown as one flat strip
+// under the launch-campus heading; the categories live in the copy line so no
+// club gets mislabeled. Names are display/alt text.
+export const clubLogos: ClubLogo[] = [
+  { src: "aepi.png", name: "AEPi" },
+  { src: "sae.png", name: "SAE" },
+  { src: "lasa.png", name: "LASA" },
+  { src: "aasa.png", name: "AASA" },
+  { src: "sas.png", name: "South Asian Society" },
+  { src: "prospect.png", name: "Prospect Records" },
+  { src: "guzaarish.png", name: "Guzaarish" },
+  { src: "rangila.png", name: "Rangila" },
 ];

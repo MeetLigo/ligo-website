@@ -44,7 +44,7 @@ export default function TermsPage() {
         <li>Misrepresent your identity, age, or school affiliation.</li>
       </LegalUl>
       <LegalP>
-        See our <a href="/community-guidelines" className="text-[#E8A24C] underline underline-offset-2">Community Guidelines</a>{" "}
+        See our <a href="/community-guidelines" className="text-[#F97316] underline underline-offset-2">Community Guidelines</a>{" "}
         for more on what we expect from the community.
       </LegalP>
 
@@ -105,7 +105,7 @@ export default function TermsPage() {
       <LegalH2>Contact us</LegalH2>
       <LegalP>
         Questions about these Terms? Email us at{" "}
-        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#E8A24C] underline underline-offset-2">
+        <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#F97316] underline underline-offset-2">
           {CONTACT_EMAIL}
         </a>
         .
