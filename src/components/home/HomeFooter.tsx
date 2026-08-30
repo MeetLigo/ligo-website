@@ -24,10 +24,10 @@ export function HomeFooter() {
             <span className="font-serif text-[26px] font-medium italic tracking-[-0.01em] text-[#FAF6EF]">Ligo</span>
           </div>
           <p className="font-serif text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-[#FAF6EF]">
-            Your social scene <span className="italic text-[#F97316]">starts here.</span>
+            The first <span className="italic text-[#F97316]">campus connector app.</span>
           </p>
           <p className="text-[13px] leading-[1.5] text-[#FAF6EF]/[0.42]">
-            The cheat code to an easy social life in college.
+            Every club, every event, and everyone going. One app.
           </p>
           <p className="font-mono text-[12px] text-[#FAF6EF]/35">Launched at Georgetown. Expanding across the DMV soon.</p>
         </div>

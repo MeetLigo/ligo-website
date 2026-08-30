@@ -33,15 +33,14 @@ export interface HeroCopy {
   sub: string;
 }
 
-// Version A (live): the original tagline. Version B (/b): campus-connector
-// framing per Micah's 8/29 notes, for async comparison.
-export const HERO_COPY_A: HeroCopy = {
-  pre: "Your social scene",
-  accent: "starts\u00A0here.",
-  sub: "Every club and event on your campus, in one place.",
+// The winner of the 8/30 A/B/C copy comparison: the category claim.
+export const HERO_COPY: HeroCopy = {
+  pre: "The first",
+  accent: "campus connector app.",
+  sub: "Every club, every event, and everyone going. One app.",
 };
 
-export function Landing({ copy = HERO_COPY_A }: { copy?: HeroCopy }) {
+export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
   const [mode, setMode] = useState<Mode>(null);
   const [slide, setSlide] = useState(0);
 

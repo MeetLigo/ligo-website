@@ -5,9 +5,9 @@ import { DrawerProvider } from "@/components/chrome/DrawerProvider";
 import { Chrome } from "@/components/chrome/Chrome";
 import { NavDrawer } from "@/components/chrome/NavDrawer";
 
-const TITLE = "Ligo · Your social scene starts here.";
+const TITLE = "Ligo · The first campus connector app.";
 const DESCRIPTION =
-  "Ligo is a social app for college campuses. Every club and event in one place. See what's on tonight, who's going, and walk in with a plan.";
+  "Ligo is the first campus connector app. Every club, every event, and everyone going. One app.";
 
 export const metadata: Metadata = {
   title: TITLE,
