@@ -12,7 +12,7 @@ import { HomeFooter } from "@/components/home/HomeFooter";
  */
 export function Chrome({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-  const isHome = path === "/" || path === "/b";
+  const isHome = path === "/" || path === "/b" || path === "/c";
   if (isHome) return <>{children}</>;
   return (
     <div className="relative flex min-h-screen flex-col bg-[#171717] text-[#FAF6EF]">
