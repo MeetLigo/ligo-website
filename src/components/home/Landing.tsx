@@ -153,12 +153,22 @@ function AudienceCard({ selected, onClick, title, sub }: { selected: boolean; on
 function StudentPanel() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  function joinWaitlist(e: FormEvent) {
+  async function joinWaitlist(e: FormEvent) {
     e.preventDefault();
-    if (!email.includes("@")) return;
-    // TODO(backend): POST { email } to the campus-waitlist endpoint
-    setSent(true);
+    if (!email.includes("@") || busy) return;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) setSent(true);
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -226,15 +236,33 @@ function ClubClaimForm() {
   const [hint, setHint] = useState("");
   const [sent, setSent] = useState(false);
 
-  function submit(e: FormEvent) {
+  const [busy, setBusy] = useState(false);
+
+  async function submit(e: FormEvent) {
     e.preventDefault();
+    if (busy) return;
     if (!name.trim() || !club.trim() || !email.includes("@")) {
       setHint("Fill in all three fields (school email needs an @).");
       return;
     }
-    // TODO(backend): POST { name, club, email } to the club-claims endpoint
-    setSent(true);
-    setHint("");
+    setBusy(true);
+    try {
+      const res = await fetch("/api/club-claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, club, email }),
+      });
+      if (res.ok) {
+        setSent(true);
+        setHint("");
+      } else {
+        setHint("Something went wrong on our end. Try once more?");
+      }
+    } catch {
+      setHint("Something went wrong on our end. Try once more?");
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (sent) {

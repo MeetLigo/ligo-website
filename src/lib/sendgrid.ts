@@ -37,3 +37,28 @@ export async function sendLeadEmail(params: { org: string; school: string; email
     throw new Error(`SendGrid ${res.status}: ${body.slice(0, 300)}`);
   }
 }
+
+/** Same transport, generic subject/body — used by /api/club-claim and /api/waitlist. */
+export async function sendNotificationEmail(params: { to?: string; subject: string; text: string; replyTo?: string }) {
+  const key = process.env.SENDGRID_API_KEY;
+  if (!key) throw new Error("SendGrid env vars are not set");
+
+  const res = await fetch(SENDGRID_URL, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      personalizations: [{ to: [{ email: params.to || TO_EMAIL }], subject: params.subject }],
+      from: { email: FROM_EMAIL, name: FROM_NAME },
+      ...(params.replyTo ? { reply_to: { email: params.replyTo } } : {}),
+      content: [{ type: "text/plain", value: params.text }],
+    }),
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`SendGrid ${res.status}: ${body.slice(0, 300)}`);
+  }
+}
