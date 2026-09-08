@@ -85,7 +85,13 @@ export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
             <div className="grid w-[min(440px,92vw)] grid-cols-2 gap-3">
               <AudienceCard
                 selected={mode === "student"}
-                onClick={() => setMode("student")}
+                onClick={() => {
+                  // phones go straight to their store; desktop shows both store buttons
+                  const ua = navigator.userAgent;
+                  if (/android/i.test(ua)) window.location.assign(GOOGLE_PLAY);
+                  else if (/iphone|ipad|ipod/i.test(ua)) window.location.assign(APP_STORE);
+                  else setMode("student");
+                }}
                 title="I'm a student"
                 sub="See what's happening"
               />
