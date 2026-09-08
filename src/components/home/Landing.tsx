@@ -23,7 +23,7 @@ const SLIDES = ["/hero/slide-1.jpg", "/hero/slide-2.jpg", "/hero/slide-3.jpg", "
 const SLIDE_POS = ["center 72%", "center 45%", "center 45%", "center 62%"];
 const SLIDE_MS = 4000;
 
-type Mode = null | "student" | "club";
+type Mode = null | "student";
 
 export interface HeroCopy {
   /** upright part of the H1 */
@@ -89,16 +89,10 @@ export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
                 title="I'm a student"
                 sub="See what's happening"
               />
-              <AudienceCard
-                selected={mode === "club"}
-                onClick={() => setMode("club")}
-                title="I run a club"
-                sub="Fill your next event"
-              />
+              <AudienceLink href={CLUB_PORTAL} title="I run a club" sub="Set up your club" />
             </div>
 
             {mode === "student" && <StudentPanel />}
-            {mode === "club" && <ClubClaimForm />}
 
           </div>
         </div>
@@ -129,6 +123,24 @@ export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
       </section>
 
     </>
+  );
+}
+
+/** The universal club portal: a club signs in with its Georgetown email and lands as admin. Micah owns it. */
+const CLUB_PORTAL = "https://ligo-clubs.appwrite.network";
+
+/** Same look as AudienceCard, but a plain link out to the club portal. */
+function AudienceLink({ href, title, sub }: { href: string; title: string; sub: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex w-full flex-col items-center gap-0.5 rounded-[18px] border border-white/25 bg-white/10 px-3 py-3 text-[#FAF6EF] transition-colors hover:bg-white/[0.16] hover:text-[#FAF6EF]"
+    >
+      <span className="text-[16px] font-semibold">{title}</span>
+      <span className="text-[13px] opacity-75">{sub}</span>
+    </a>
   );
 }
 
@@ -225,74 +237,5 @@ function StudentPanel() {
         </form>
       )}
     </div>
-  );
-}
-
-function ClubClaimForm() {
-  const [name, setName] = useState("");
-  const [club, setClub] = useState("");
-  const [email, setEmail] = useState("");
-  const [hint, setHint] = useState("");
-  const [sent, setSent] = useState(false);
-
-  const [busy, setBusy] = useState(false);
-
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    if (busy) return;
-    if (!name.trim() || !club.trim() || !email.includes("@")) {
-      setHint("Fill in all three fields (school email needs an @).");
-      return;
-    }
-    setBusy(true);
-    try {
-      const res = await fetch("/api/club-claim", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, club, email }),
-      });
-      if (res.ok) {
-        setSent(true);
-        setHint("");
-      } else {
-        setHint("Something went wrong on our end. Try once more?");
-      }
-    } catch {
-      setHint("Something went wrong on our end. Try once more?");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  if (sent) {
-    return (
-      <div className="mt-1 flex flex-col items-center gap-2 py-1.5">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F97316] text-[#171717]">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M4.5 12.5l5 5 10-11" />
-          </svg>
-        </span>
-        <span className="font-serif text-[22px] font-medium text-[#FAF6EF]">You&rsquo;re in.</span>
-        <span className="max-w-[40ch] text-[15px] leading-[1.5] text-[#FAF6EF]/[0.8]">
-          We&rsquo;ll email you within a day to set up your club before your next event.
-        </span>
-      </div>
-    );
-  }
-
-  const inputCls =
-    "h-[49px] rounded-[14px] border border-white/[0.22] bg-white/10 px-4 text-[15px] text-[#FAF6EF] placeholder:text-white/45 focus:border-[#F97316] focus:bg-white/[0.14] focus:outline-none";
-  return (
-    <form onSubmit={submit} className="mt-1 flex w-[min(400px,86vw)] flex-col gap-2.5 text-left">
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className={inputCls} />
-      <input type="text" value={club} onChange={(e) => setClub(e.target.value)} placeholder="Club name" className={inputCls} />
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="School email" className={inputCls} />
-      <button type="submit" className="mt-0.5 h-[52px] rounded-full bg-[#F97316] text-[15px] font-semibold text-[#171717] transition-[filter] hover:brightness-95 active:scale-[0.97]">
-        Claim your club
-      </button>
-      <span className={`text-[12px] ${hint ? "text-[#FCA5A5]" : "text-white/[0.55]"}`}>
-        {hint || "We only use this to set up your club. No spam."}
-      </span>
-    </form>
   );
 }
