@@ -13,7 +13,7 @@ import { clubLogos } from "@/lib/content";
  */
 
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
-const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
+const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligo&hl=en_US";
 
 // Ambient hero slideshow (8/29 reshoot: all of college life, no class, no
 // going out). Interim Pinterest picks until clubs send real photos:

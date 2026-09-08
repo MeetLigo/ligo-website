@@ -53,7 +53,7 @@ export function Footer() {
                 <AppleIcon size={16} /> App Store
               </a>
               <a
-                href="https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US"
+                href="https://play.google.com/store/apps/details?id=com.bardsai.ligo&hl=en_US"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-[9px] self-start rounded-xl bg-white px-4 py-[11px] text-[13px] font-semibold text-ink transition-transform active:scale-[0.97]"

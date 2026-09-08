@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AppleIcon, PlayIcon } from "@/components/chrome/StoreIcons";
 
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";
-const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligoapp&hl=en_US";
+const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.ligo&hl=en_US";
 const MENU: [string, string][] = [
   ["About", "/about"],
   ["Ligo News", "/news"],
