@@ -19,6 +19,7 @@ export function PageHero({
   position = "center 35%",
   width = "max-w-[900px]",
   fadeTo = "#171717",
+  fadeHeight = "h-[84px]",
 }: {
   eyebrow: string;
   title: ReactNode;
@@ -31,6 +32,8 @@ export function PageHero({
   /** colour the bottom edge dissolves into; match whatever section follows.
    *  null renders no fade, so the hero ends on a hard edge. */
   fadeTo?: string | null;
+  /** how far the fade reaches. Keep it small to soften an edge rather than wash it. */
+  fadeHeight?: string;
 }) {
   return (
     <section className="relative flex min-h-[45vh] w-full flex-col justify-end overflow-hidden">
@@ -44,7 +47,7 @@ export function PageHero({
       />
       {/* bottom edge dissolves into the page canvas */}
       {fadeTo && (
-        <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: `linear-gradient(180deg,rgba(19,15,10,0),${fadeTo})` }} />
+        <div aria-hidden className={`absolute inset-x-0 bottom-0 ${fadeHeight}`} style={{ background: `linear-gradient(180deg,rgba(19,15,10,0),${fadeTo})` }} />
       )}
 
       <div className={`relative z-10 mx-auto w-full ${width} px-6 pb-11 pt-32 sm:px-10`}>

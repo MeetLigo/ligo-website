@@ -48,7 +48,8 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
         image="/hero/slide-2.jpg"
         position="center 30%"
         width="max-w-[1300px]"
-        fadeTo={null}
+        fadeTo="#FAF6EF"
+        fadeHeight="h-[14px]"
         action={
           <a
             href="#apply"
@@ -62,7 +63,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
 
       {/* everything below the hero is one cream page, on the hero's gutters */}
       <div className="bg-cream text-ink">
-        <div className={`${SHELL} ${GRID} pb-20 pt-14 sm:pt-16`}>
+        <div className={`${SHELL} ${GRID} pb-20 pt-10 sm:pt-12`}>
           <RoleNav current={role.slug} />
 
           <div className={PROSE}>

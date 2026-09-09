@@ -35,7 +35,7 @@ const ICONS = [
 
 export function ProcessSteps() {
   return (
-    <ol className="mt-9 grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-5">
+    <ol className="mt-7 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
       {process.map((step, i) => (
         <li key={step.title} className="relative">
           {/* hairline to the next step, desktop only */}

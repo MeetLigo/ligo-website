@@ -27,18 +27,19 @@ export default function CareersPage() {
         image="/hero/slide-1.jpg"
         position="center 62%"
         width="max-w-[1300px]"
-        fadeTo={null}
+        fadeTo="#FAF6EF"
+        fadeHeight="h-[14px]"
       />
 
       {/* everything under the hero is one cream page, same as a job page */}
       <div className="bg-cream text-ink">
         <div className={SHELL}>
           {/* who we are, first thing under the hero */}
-          <section className="pt-14 sm:pt-16">
+          <section className="pt-10 sm:pt-12">
             <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
               The Georgetown campus team
             </h2>
-            <div className="mt-7 grid gap-8 md:grid-cols-[1.15fr_1fr] md:gap-16">
+            <div className="mt-5 grid gap-7 md:grid-cols-[1.15fr_1fr] md:gap-14">
               <p className="max-w-[640px] text-[17px] leading-[1.6] text-ink/[0.8] sm:text-[19px]">
                 We&apos;re a small team building the app that brings people together on campus, and Georgetown is where
                 it starts. We&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word. We&apos;re hiring
@@ -63,15 +64,15 @@ export default function CareersPage() {
           </section>
 
           {/* open roles */}
-          <section id="roles" className="scroll-mt-6 pt-16 sm:pt-20">
+          <section id="roles" className="scroll-mt-6 pt-12 sm:pt-14">
             <SectionLabel tone="cream">Open roles</SectionLabel>
-            <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
+            <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
               <h2 className="font-serif text-[clamp(32px,4.4vw,48px)] font-medium leading-[1.04] tracking-[-0.015em] text-ink">
                 Pick the one that&apos;s <span className="italic text-[#EA580C]">already you.</span>
               </h2>
               <div className="text-[14px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
             </div>
-            <div className="mt-6 border-t border-ink/[0.14]">
+            <div className="mt-5 border-t border-ink/[0.14]">
               {roles.map((r, i) => (
                 <RoleCard key={r.slug} role={r} index={i + 1} />
               ))}
@@ -79,7 +80,7 @@ export default function CareersPage() {
           </section>
 
           {/* how hiring works */}
-          <section className="pb-24 pt-14 sm:pb-28 sm:pt-16">
+          <section className="pb-20 pt-12 sm:pb-24 sm:pt-14">
             <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
               Application process
             </h2>
