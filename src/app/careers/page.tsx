@@ -3,7 +3,7 @@ import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { roles, program } from "@/lib/careers";
 import { RoleCard } from "@/components/careers/RoleCard";
 import { ProcessSteps } from "@/components/careers/ProcessSteps";
-import { SectionLabel } from "@/components/careers/SectionLabel";
+import { PageNav } from "@/components/careers/PageNav";
 
 export const metadata: Metadata = {
   title: "Careers · Ligo",
@@ -11,7 +11,20 @@ export const metadata: Metadata = {
     "Ligo is hiring its Georgetown campus team. Paid, part-time roles for current Georgetown students: partnerships, field growth, and content.",
 };
 
+/** same shell and rail as a job page, so the two read as one system */
 const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
+const GRID = "grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16";
+const PROSE = "max-w-[880px]";
+
+const SECTIONS = [
+  { id: "team", label: "The campus team" },
+  { id: "roles", label: "Open roles" },
+  { id: "process", label: "Application process" },
+];
+
+function Heading({ children }: { children: React.ReactNode }) {
+  return <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">{children}</h2>;
+}
 
 export default function CareersPage() {
   return (
@@ -31,21 +44,20 @@ export default function CareersPage() {
         fadeHeight="h-[14px]"
       />
 
-      {/* everything under the hero is one cream page, same as a job page */}
       <div className="bg-cream text-ink">
-        <div className={SHELL}>
-          {/* who we are, first thing under the hero */}
-          <section className="pt-10 sm:pt-12">
-            <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
-              The Georgetown campus team
-            </h2>
-            <div className="mt-5 grid gap-7 md:grid-cols-[1.15fr_1fr] md:gap-14">
-              <p className="max-w-[640px] text-[17px] leading-[1.6] text-ink/[0.8] sm:text-[19px]">
+        <div className={`${SHELL} ${GRID} pb-24 pt-10 sm:pt-12`}>
+          <PageNav sections={SECTIONS} />
+
+          <div className={PROSE}>
+            {/* who we are */}
+            <section id="team" className="scroll-mt-10">
+              <Heading>The Georgetown campus team</Heading>
+              <p className="mt-4 max-w-[680px] text-[16.5px] leading-[1.6] text-ink/[0.8] sm:text-[18px]">
                 We&apos;re a small team building the app that brings people together on campus, and Georgetown is where
                 it starts. We&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word. We&apos;re hiring
                 three people with three clear jobs, each with a number they own.
               </p>
-              <dl className="grid grid-cols-2 gap-x-8 gap-y-5 self-start">
+              <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
                 {(
                   [
                     ["Campus", program.campus],
@@ -56,36 +68,33 @@ export default function CareersPage() {
                 ).map(([k, v]) => (
                   <div key={k}>
                     <dt className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EA580C]">{k}</dt>
-                    <dd className="mt-1 text-[14.5px] leading-snug text-ink/[0.82]">{v}</dd>
+                    <dd className="mt-1 text-[14px] leading-snug text-ink/[0.82]">{v}</dd>
                   </div>
                 ))}
               </dl>
-            </div>
-          </section>
+            </section>
 
-          {/* open roles */}
-          <section id="roles" className="scroll-mt-6 pt-12 sm:pt-14">
-            <SectionLabel tone="cream">Open roles</SectionLabel>
-            <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
-              <h2 className="font-serif text-[clamp(32px,4.4vw,48px)] font-medium leading-[1.04] tracking-[-0.015em] text-ink">
-                Pick the one that&apos;s <span className="italic text-[#EA580C]">already you.</span>
-              </h2>
-              <div className="text-[14px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
-            </div>
-            <div className="mt-5 border-t border-ink/[0.14]">
-              {roles.map((r, i) => (
-                <RoleCard key={r.slug} role={r} index={i + 1} />
-              ))}
-            </div>
-          </section>
+            {/* open roles */}
+            <section id="roles" className="scroll-mt-10 pt-14 sm:pt-16">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <Heading>
+                  Open roles
+                </Heading>
+                <div className="text-[14px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
+              </div>
+              <div className="mt-4 border-t border-ink/[0.14]">
+                {roles.map((r) => (
+                  <RoleCard key={r.slug} role={r} />
+                ))}
+              </div>
+            </section>
 
-          {/* how hiring works */}
-          <section className="pb-20 pt-12 sm:pb-24 sm:pt-14">
-            <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
-              Application process
-            </h2>
-            <ProcessSteps />
-          </section>
+            {/* how hiring works */}
+            <section id="process" className="scroll-mt-10 pt-14 sm:pt-16">
+              <Heading>Application process</Heading>
+              <ProcessSteps />
+            </section>
+          </div>
         </div>
       </div>
     </main>
