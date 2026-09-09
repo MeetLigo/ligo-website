@@ -11,7 +11,7 @@ export function RoleCard({ role }: { role: Role }) {
   return (
     <article className="border-b border-ink/[0.14]">
       <Link href={href} className="group block py-6 text-ink hover:text-ink">
-        <h3 className="font-serif text-[21px] font-medium leading-[1.15] tracking-[-0.01em] text-ink transition-colors group-hover:text-[#EA580C] sm:text-[23px]">
+        <h3 className="font-serif text-[20px] font-normal leading-[1.15] tracking-[-0.005em] text-ink transition-colors group-hover:text-[#EA580C] sm:text-[22px]">
           {role.title}
         </h3>
         <p className="mt-[6px] max-w-[640px] text-[15px] leading-[1.5] text-ink/[0.75]">{role.summary}</p>
