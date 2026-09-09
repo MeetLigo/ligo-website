@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero, Accent } from "@/components/chrome/PageHero";
-import { roles, program, process } from "@/lib/careers";
+import { roles, program } from "@/lib/careers";
 import { RoleCard } from "@/components/careers/RoleCard";
+import { ProcessSteps } from "@/components/careers/ProcessSteps";
 import { SectionLabel } from "@/components/careers/SectionLabel";
 
 export const metadata: Metadata = {
@@ -82,16 +83,7 @@ export default function CareersPage() {
             <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
               Application process
             </h2>
-            <ol className="mt-4 flex max-w-[760px] flex-col gap-3">
-              {process.map((step, i) => (
-                <li key={step.title} className="grid grid-cols-[28px_1fr] gap-3">
-                  <span className="font-serif text-[13px] font-medium tabular-nums text-[#EA580C]">0{i + 1}</span>
-                  <span className="text-[15.5px] leading-[1.6] text-ink/[0.82]">
-                    <span className="font-semibold text-ink">{step.title}.</span> {step.body}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <ProcessSteps />
           </section>
         </div>
       </div>
