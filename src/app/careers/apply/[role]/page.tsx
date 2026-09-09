@@ -122,7 +122,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
                 <h2 className="font-serif text-[clamp(28px,3.4vw,36px)] font-medium leading-[1.06] tracking-[-0.015em] text-ink">
                   Apply for this role
                 </h2>
-                <p className="mt-2 text-[15px] text-ink/[0.6]">About ten minutes. Have your resume ready.</p>
+                <p className="mt-2 text-[15px] text-ink/[0.6]">Under five minutes. No resume needed.</p>
                 <div className="mt-8">
                   <ApplicationForm role={role} />
                 </div>

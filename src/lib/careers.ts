@@ -6,6 +6,8 @@
  * (Ligo/Hiring/CAMPUS-TEAM-ROLES.md in iCloud). Titles are working titles.
  */
 
+/** Asked on the first call, not on the application. Kept here so whoever runs
+ *  the call has the role's sharp questions in front of them. */
 export interface RoleQuestion {
   id: string;
   label: string;
@@ -40,6 +42,7 @@ export interface Role {
   lookingFor: string[];
   measuredOn: string;
   notThisRole: string[];
+  /** interview prompts for this role. Not rendered on the form. */
   questions: RoleQuestion[];
 }
 
@@ -48,7 +51,7 @@ const ALL_ROLES: Role[] = [
     slug: "club-growth-associate",
     title: "Club Growth Associate",
     lane: "Partnerships",
-    openings: "One position available",
+    openings: "One role remaining",
     openingsShort: "One",
     hours: "Part-time",
     tagline: "Turn your Georgetown network into partnerships.",
@@ -96,7 +99,7 @@ const ALL_ROLES: Role[] = [
     slug: "campus-growth-associate",
     title: "Campus Growth Associate",
     lane: "Field growth",
-    openings: "One position available",
+    openings: "One role remaining",
     openingsShort: "One",
     hours: "Part-time",
     tagline: "Run real-world growth experiments around campus.",
@@ -144,7 +147,7 @@ const ALL_ROLES: Role[] = [
     hidden: true, // parked 9/8 per Mekhi; flip to false to list it again
     title: "Consumer Insights Associate",
     lane: "Research",
-    openings: "One position available",
+    openings: "One role remaining",
     openingsShort: "One",
     hours: "Part-time",
     tagline: "Talk to students and help shape what Ligo builds.",
@@ -190,7 +193,7 @@ const ALL_ROLES: Role[] = [
     slug: "campus-content-creator",
     title: "Campus Content Creator",
     lane: "Content",
-    openings: "One position available",
+    openings: "One role remaining",
     openingsShort: "One",
     hours: "Part-time",
     tagline: "Capture what's actually happening at Georgetown.",
@@ -247,15 +250,15 @@ export const program = {
   campus: "Georgetown University",
   where: "Washington, D.C.",
   term: "10-week sprint, fall 2026",
-  pay: "Paid hourly, plus bonuses tied to what you actually deliver",
+  pay: "Paid, with pay tied to what you deliver",
   who: "Current Georgetown students",
 };
 
 /** The hiring process, in the order the applicant experiences it. */
 export const process = [
-  { title: "Apply", body: "About ten minutes. A few questions everyone answers, then two or three specific to the role." },
-  { title: "We read it", body: "Every application gets read by a person. Your role-specific answers matter most." },
-  { title: "A short call", body: "15 to 20 minutes with someone on the team. Structured, not a vibe check." },
+  { title: "Apply", body: "Under five minutes. Short on purpose: we would rather talk than read." },
+  { title: "We read it", body: "Every application gets read by a person, usually the same day." },
+  { title: "A short call", body: "15 to 20 minutes with someone on the team. This is where the real questions are." },
   { title: "A paid work sample", body: "A small piece of the real job, and you get paid for it." },
   { title: "Offer and onboarding", body: "A 90-minute onboarding, then a two-week ramp with clear targets." },
 ];

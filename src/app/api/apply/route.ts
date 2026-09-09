@@ -16,31 +16,16 @@ export const dynamic = "force-dynamic";
 const APPLICATIONS_TO = "mekhi@meetligo.com";
 const APPLICATIONS_CC = ["micah@meetligo.com"];
 
-const MAX_RESUME_BYTES = 5 * 1024 * 1024;
-const RESUME_TYPES: Record<string, string> = {
-  "application/pdf": "pdf",
-  "application/msword": "doc",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
-};
-
 const REQUIRED: [string, string][] = [
   ["first_name", "missing_first_name"],
   ["last_name", "missing_last_name"],
   ["year", "missing_year"],
-  ["grad_year", "missing_grad_year"],
-  ["major", "missing_major"],
-  ["elig_georgetown", "missing_elig_georgetown"],
-  ["elig_on_campus", "missing_elig_on_campus"],
+  ["motivation", "missing_motivation"],
   ["elig_work_auth", "missing_elig_work_auth"],
-  ["elig_18", "missing_elig_18"],
   ["role", "missing_role"],
   ["why_role", "missing_why_role"],
-  ["why_fit", "missing_why_fit"],
-  ["orgs", "missing_orgs"],
   ["availability", "missing_availability"],
   ["desired_pay", "missing_desired_pay"],
-  ["got_students_to_do", "missing_got_students_to_do"],
-  ["fifty_users", "missing_fifty_users"],
 ];
 
 function str(fd: FormData, key: string, max = 4000) {
@@ -49,7 +34,7 @@ function str(fd: FormData, key: string, max = 4000) {
 }
 
 // POST /api/apply → multipart form from /careers/apply. Validates, emails the
-// application (resume attached if given), and emails self-ID answers separately.
+// application, and writes self-ID answers anonymously (never emailed).
 export async function POST(req: Request) {
   let fd: FormData;
   try {
@@ -74,25 +59,7 @@ export async function POST(req: Request) {
   const role = getRole(roleSlug);
   if (!role) return NextResponse.json({ error: "invalid_role" }, { status: 400 });
 
-  for (const q of role.questions) {
-    if (q.required !== false && !str(fd, q.id)) return NextResponse.json({ error: `missing_${q.id}` }, { status: 400 });
-  }
-
-  // resume, required
   const attachments: EmailAttachment[] = [];
-  const resume = fd.get("resume");
-  if (!(resume instanceof File) || resume.size === 0) {
-    return NextResponse.json({ error: "missing_resume" }, { status: 400 });
-  }
-  if (resume.size > MAX_RESUME_BYTES) return NextResponse.json({ error: "resume_too_large" }, { status: 400 });
-  const ext = RESUME_TYPES[resume.type];
-  if (!ext) return NextResponse.json({ error: "resume_bad_type" }, { status: 400 });
-  {
-    const buf = Buffer.from(await resume.arrayBuffer());
-    const safeName = `${str(fd, "last_name")}-${str(fd, "first_name")}-resume.${ext}`.replace(/[^\w.-]+/g, "_");
-    attachments.push({ content: buf.toString("base64"), filename: safeName, type: resume.type });
-  }
-
   const name = `${str(fd, "first_name")} ${str(fd, "last_name")}`;
   const lines: string[] = [
     `New application from meetligo.com/careers`,
@@ -101,18 +68,13 @@ export async function POST(req: Request) {
     `NAME: ${name}`,
     `EMAIL: ${email}`,
     `PHONE: ${str(fd, "phone") || "(not given)"}`,
-    `YEAR: ${str(fd, "year")}, ${str(fd, "major")}, graduating ${str(fd, "grad_year")}`,
-    `AVAILABILITY: ${str(fd, "availability")}${str(fd, "availability_notes") ? ` (${str(fd, "availability_notes")})` : ""}`,
+    `YEAR: ${str(fd, "year")}`,
+    `AVAILABILITY: ${str(fd, "availability")}`,
     `DESIRED PAY: ${str(fd, "desired_pay")}`,
+    `DRAWN TO IT BY: ${str(fd, "motivation")}`,
     `HEARD ABOUT US: ${str(fd, "referral_source") || "(not given)"}`,
-    `RESUME: ${attachments.length ? attachments[0].filename : "(none)"}`,
     ``,
-    `--- Eligibility ---`,
-    `Current Georgetown student: ${str(fd, "elig_georgetown")}`,
-    `On campus for the full term: ${str(fd, "elig_on_campus")}`,
-    `Authorized to work in the US: ${str(fd, "elig_work_auth")}`,
-    `18 or older: ${str(fd, "elig_18")}`,
-    ``,
+    `AUTHORIZED TO WORK IN THE US: ${str(fd, "elig_work_auth")}`,
     `--- Links ---`,
     ...(
       [
@@ -130,23 +92,8 @@ export async function POST(req: Request) {
     `--- Why this role ---`,
     str(fd, "why_role"),
     ``,
-    `--- Why you're a fit ---`,
-    str(fd, "why_fit"),
-    ``,
-    `--- Organizations and communities ---`,
-    str(fd, "orgs"),
-    ``,
-    `--- Something you got other students to do ---`,
-    str(fd, "got_students_to_do"),
-    ``,
-    `--- A week to get 50 new users ---`,
-    str(fd, "fifty_users"),
-    ``,
-    `=== ${role.title}: role-specific ===`,
+
   ];
-  for (const q of role.questions) {
-    lines.push(``, `--- ${q.label} ---`, str(fd, q.id) || "(skipped)");
-  }
 
   // Voluntary self-identification, detached from the application on purpose:
   // written anonymously, never emailed, best effort so it can never block a

@@ -8,7 +8,8 @@ import type { Role } from "@/lib/careers";
  * The Georgetown campus team application, one per role
  * (/careers/apply/[role]). The role is fixed by the page above it, so this is
  * only the questions: about you, the ones everyone answers, the role's own
- * set from careers.ts, an optional resume, and voluntary self-identification.
+ * optional links, and voluntary self-identification. Role-specific questions
+ * moved to the first call on 9/9; the form stays short on purpose.
  * Posts multipart to /api/apply.
  *
  * Self-identification is stored anonymously and never emailed. See the route.
@@ -20,8 +21,13 @@ const TEXTAREA = `${INPUT} min-h-[120px] resize-y leading-[1.5]`;
 const SELECT = `${INPUT} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2314110D%22 stroke-width=%222.2%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-[length:16px_16px] bg-[right_14px_center] bg-no-repeat pr-10`;
 
 const YEARS = ["First-year", "Sophomore", "Junior", "Senior", "Graduate student"];
-const GRAD_YEARS = ["2026", "2027", "2028", "2029", "2030", "2031"];
-const YES_NO = ["Yes", "No"];
+const MOTIVATIONS = [
+  "I want the internship experience",
+  "I like the idea and want to help build it",
+  "I think what Ligo is doing matters",
+  "A friend or a club told me about it",
+  "Something else",
+];
 const WORK_AUTH = ["Yes", "No", "Not sure"];
 const AVAILABILITY = ["Under 4 hours a week", "4 to 6 hours a week", "6 to 8 hours a week", "8 or more hours a week"];
 const SOURCES = ["Instagram", "A friend or classmate", "A club or org", "The Ligo app", "LinkedIn", "Somewhere else"];
@@ -44,9 +50,6 @@ const VETERAN = ["I am a veteran", "I am not a veteran", "Prefer not to say"];
 const ERRORS: Record<string, string> = {
   invalid_email: "Enter a valid email.",
   invalid_role: "That role isn't open right now.",
-  missing_resume: "Attach your resume to finish.",
-  resume_too_large: "Resume needs to be under 5 MB.",
-  resume_bad_type: "Resume needs to be a PDF or Word doc.",
 };
 
 function Field({
@@ -112,7 +115,6 @@ export function ApplicationForm({ role }: { role: Role }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
-  const [resumeName, setResumeName] = useState("");
   const [genderSelf, setGenderSelf] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -209,19 +211,6 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Expected graduation" htmlFor="grad_year">
-              <select id="grad_year" name="grad_year" required defaultValue="" className={SELECT}>
-                <option value="" disabled>
-                  Select...
-                </option>
-                {GRAD_YEARS.map((y) => (
-                  <option key={y}>{y}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Major" htmlFor="major">
-              <input id="major" name="major" required placeholder="Government, or undeclared" className={INPUT} />
-            </Field>
             <Field label="How did you hear about this?" htmlFor="referral_source" required={false}>
               <select id="referral_source" name="referral_source" defaultValue="" className={SELECT}>
                 <option value="">Select...</option>
@@ -230,33 +219,11 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-          </div>
-        </Part>
-
-        {/* 02 eligibility */}
-        <Part n="02" title="Eligibility" sub="These roles are paid work with a for-profit company in Washington, D.C., so we have to ask.">
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Field label="Are you a current Georgetown student?" htmlFor="elig_georgetown" hint="Undergrad or graduate.">
-              <select id="elig_georgetown" name="elig_georgetown" required defaultValue="" className={SELECT}>
-                <option value="" disabled>
-                  Select...
-                </option>
-                {YES_NO.map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Will you be on campus for the full term?" htmlFor="elig_on_campus" hint="Roughly ten weeks this fall.">
-              <select id="elig_on_campus" name="elig_on_campus" required defaultValue="" className={SELECT}>
-                <option value="" disabled>
-                  Select...
-                </option>
-                {YES_NO.map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Are you authorized to work in the US?" htmlFor="elig_work_auth" hint="Not sure is a fine answer.">
+            <Field
+              label="Are you authorized to work in the US?"
+              htmlFor="elig_work_auth"
+              hint="These roles are paid, so we have to ask. Not sure is a fine answer."
+            >
               <select id="elig_work_auth" name="elig_work_auth" required defaultValue="" className={SELECT}>
                 <option value="" disabled>
                   Select...
@@ -266,35 +233,23 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Are you 18 or older?" htmlFor="elig_18" hint="These are paid positions.">
-              <select id="elig_18" name="elig_18" required defaultValue="" className={SELECT}>
-                <option value="" disabled>
-                  Select...
-                </option>
-                {YES_NO.map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </Field>
           </div>
         </Part>
 
-        {/* 03 everyone answers */}
-        <Part n="03" title="A few questions for everyone">
-          <Field label="Why are you interested in this role?" htmlFor="why_role">
-            <textarea id="why_role" name="why_role" required className={TEXTAREA} />
+        {/* 02 why you */}
+        <Part n="02" title="Why you">
+          <Field label="What's drawing you to this?" htmlFor="motivation">
+            <select id="motivation" name="motivation" required defaultValue="" className={SELECT}>
+              <option value="" disabled>
+                Select...
+              </option>
+              {MOTIVATIONS.map((m) => (
+                <option key={m}>{m}</option>
+              ))}
+            </select>
           </Field>
-          <Field label="Why are you a fit for it?" htmlFor="why_fit" hint="Specifics beat adjectives. Tell us what you've actually done.">
-            <textarea id="why_fit" name="why_fit" required className={TEXTAREA} />
-          </Field>
-          <Field label="What organizations and communities are you part of at Georgetown?" htmlFor="orgs" hint="Clubs, teams, jobs, group chats, whatever you're actually in.">
-            <textarea id="orgs" name="orgs" required className={TEXTAREA} />
-          </Field>
-          <Field label="Tell us about something you personally got other students to do." htmlFor="got_students_to_do">
-            <textarea id="got_students_to_do" name="got_students_to_do" required className={TEXTAREA} />
-          </Field>
-          <Field label="If you had a week to get 50 new users for us, how would you do it?" htmlFor="fifty_users">
-            <textarea id="fifty_users" name="fifty_users" required className={TEXTAREA} />
+          <Field label="Why this role?" htmlFor="why_role" hint="A few sentences is plenty.">
+            <textarea id="why_role" name="why_role" required rows={4} className={TEXTAREA} />
           </Field>
           <div className="grid gap-6 sm:grid-cols-2">
             <Field label="Weekly availability" htmlFor="availability" hint="Hours you can commit during the term.">
@@ -307,38 +262,14 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Desired pay range" htmlFor="desired_pay" hint="Hourly. A base rate plus bonuses.">
-              <input id="desired_pay" name="desired_pay" required placeholder="$20 to $23 an hour" className={INPUT} />
+            <Field label="Desired pay" htmlFor="desired_pay" hint="No set rate yet. Say what you'd want.">
+              <input id="desired_pay" name="desired_pay" required placeholder="A monthly number, or per project" className={INPUT} />
             </Field>
           </div>
-          <Field label="Schedule notes" htmlFor="availability_notes" required={false} hint="Classes, another job, anything that shapes your week.">
-            <input id="availability_notes" name="availability_notes" placeholder="Tuesdays and Thursdays are tough" className={INPUT} />
-          </Field>
         </Part>
 
-        {/* 04 resume and links */}
-        <Part n="04" title="Resume and links">
-          <Field label="Resume" hint="PDF or Word, under 5 MB." htmlFor="resume">
-            <label
-              htmlFor="resume"
-              className="flex cursor-pointer flex-wrap items-center justify-between gap-3 rounded-[12px] border border-dashed border-ink/[0.3] bg-white px-5 py-4 transition-colors hover:border-[#F97316]"
-            >
-              <span className="text-[14.5px] text-ink/[0.75]">{resumeName || "Choose a file"}</span>
-              <span className="rounded-full border border-ink/[0.3] px-4 py-[7px] text-[12px] font-semibold uppercase tracking-[0.1em] text-ink">
-                {resumeName ? "Change" : "Attach"}
-              </span>
-              <input
-                id="resume"
-                name="resume"
-                type="file"
-                required
-                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                className="sr-only"
-                onChange={(e) => setResumeName(e.target.files?.[0]?.name ?? "")}
-              />
-            </label>
-          </Field>
-
+        {/* 03 links */}
+        <Part n="03" title="Links" sub="All optional. Useful for us to see, never required.">
           <div className="grid gap-6 sm:grid-cols-2">
             <Field label="Instagram" htmlFor="link_instagram" required={false}>
               <input id="link_instagram" name="link_instagram" placeholder="@you" className={INPUT} />
@@ -355,43 +286,9 @@ export function ApplicationForm({ role }: { role: Role }) {
           </div>
         </Part>
 
-        {/* 05 the role's own questions */}
-        <Part n="05" title={`For the ${role.title}`} sub="These matter more than anything else on the form.">
-          {role.questions.map((q) => {
-            const req = q.required !== false;
-            return (
-              <Field key={q.id} label={q.label} htmlFor={q.id} hint={q.hint} required={req}>
-                {q.kind === "yesno" ? (
-                  <select id={q.id} name={q.id} required={req} defaultValue="" className={`${SELECT} sm:max-w-[320px]`}>
-                    <option value="" disabled>
-                      Select...
-                    </option>
-                    <option>Yes</option>
-                    <option>Mostly, with a little practice</option>
-                    <option>No</option>
-                  </select>
-                ) : q.kind === "select" ? (
-                  <select id={q.id} name={q.id} required={req} defaultValue="" className={`${SELECT} sm:max-w-[420px]`}>
-                    <option value="" disabled={req}>
-                      Select...
-                    </option>
-                    {(q.options ?? []).map((o) => (
-                      <option key={o}>{o}</option>
-                    ))}
-                  </select>
-                ) : q.kind === "text" ? (
-                  <input id={q.id} name={q.id} required={req} className={INPUT} />
-                ) : (
-                  <textarea id={q.id} name={q.id} required={req} className={TEXTAREA} />
-                )}
-              </Field>
-            );
-          })}
-        </Part>
-
-        {/* 06 self-ID */}
+        {/* 04 self-ID */}
         <Part
-          n="06"
+          n="04"
           title="Voluntary self-identification"
           sub={
             <>
