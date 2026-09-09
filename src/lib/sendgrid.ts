@@ -48,6 +48,7 @@ export interface EmailAttachment {
 
 export async function sendNotificationEmail(params: {
   to?: string | string[];
+  cc?: string[];
   subject: string;
   text: string;
   replyTo?: string;
@@ -66,6 +67,7 @@ export async function sendNotificationEmail(params: {
       personalizations: [
         {
           to: (Array.isArray(params.to) ? params.to : [params.to || TO_EMAIL]).map((email) => ({ email })),
+          ...(params.cc && params.cc.length > 0 ? { cc: params.cc.map((email) => ({ email })) } : {}),
           subject: params.subject,
         },
       ],

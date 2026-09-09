@@ -14,16 +14,22 @@ export function PageHero({
   eyebrow,
   title,
   sub,
+  action,
   image,
   position = "center 35%",
   width = "max-w-[900px]",
+  fadeTo = "#171717",
 }: {
   eyebrow: string;
   title: ReactNode;
   sub?: ReactNode;
+  /** optional call to action, rendered on the same line as `sub` */
+  action?: ReactNode;
   image: string;
   position?: string;
   width?: string;
+  /** colour the bottom edge dissolves into; match whatever section follows */
+  fadeTo?: string;
 }) {
   return (
     <section className="relative flex min-h-[45vh] w-full flex-col justify-end overflow-hidden">
@@ -36,15 +42,22 @@ export function PageHero({
         style={{ background: "linear-gradient(180deg,rgba(19,15,10,0.66) 0%,rgba(19,15,10,0.38) 40%,rgba(19,15,10,0.56) 72%,rgba(19,15,10,0.9) 100%)" }}
       />
       {/* bottom edge dissolves into the page canvas */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: "linear-gradient(180deg,rgba(19,15,10,0),#171717)" }} />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: `linear-gradient(180deg,rgba(19,15,10,0),${fadeTo})` }} />
 
       <div className={`relative z-10 mx-auto w-full ${width} px-6 pb-11 pt-32 sm:px-10`}>
         <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#F97316] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{eyebrow}</div>
         <h1 className="mt-3 max-w-[840px] text-balance font-serif text-[clamp(34px,4.8vw,54px)] font-medium leading-[1.04] tracking-[-0.015em] text-[#FAF6EF]">
           {title}
         </h1>
-        {sub && (
-          <p className="mt-4 max-w-[560px] text-[16px] leading-[1.55] text-[#FAF6EF]/[0.78] sm:text-[18px]">{sub}</p>
+        {(sub || action) && (
+          <div className="mt-4 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
+            {sub ? (
+              <p className="max-w-[560px] text-[16px] leading-[1.55] text-[#FAF6EF]/[0.78] sm:text-[18px]">{sub}</p>
+            ) : (
+              <span />
+            )}
+            {action}
+          </div>
         )}
       </div>
     </section>

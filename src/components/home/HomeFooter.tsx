@@ -6,6 +6,7 @@ const GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.bardsai.l
 const MENU: [string, string][] = [
   ["About", "/about"],
   ["Ligo News", "/news"],
+  ["Careers", "/careers"],
   ["Privacy", "/privacy"],
   ["Terms", "/terms"],
   ["Community Guidelines", "/community-guidelines"],
