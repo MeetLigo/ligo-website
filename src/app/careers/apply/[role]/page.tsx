@@ -87,7 +87,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
               {(
                 [
                   ["Campus", `${program.campus}, ${program.where}`],
-                  ["Openings", role.openings],
+                  ["Openings", role.openingsShort],
                   ["Commitment", `${role.hours}, ${program.term}`],
                   ["Pay", program.pay],
                   ["Who can apply", program.who],

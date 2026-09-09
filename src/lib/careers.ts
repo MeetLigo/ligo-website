@@ -26,7 +26,10 @@ export interface Role {
   title: string;
   /** one-word lane shown next to the title */
   lane: string;
+  /** shown on the card and the posting's meta row */
   openings: string;
+  /** the same fact, short enough for a label/value row */
+  openingsShort: string;
   hours: string;
   /** the one-liner on the card */
   tagline: string;
@@ -45,7 +48,8 @@ const ALL_ROLES: Role[] = [
     slug: "club-growth-associate",
     title: "Club Growth Associate",
     lane: "Partnerships",
-    openings: "1 opening",
+    openings: "One position available",
+    openingsShort: "One",
     hours: "Part-time",
     tagline: "Turn your Georgetown network into partnerships.",
     summary:
@@ -92,7 +96,8 @@ const ALL_ROLES: Role[] = [
     slug: "campus-growth-associate",
     title: "Campus Growth Associate",
     lane: "Field growth",
-    openings: "1 opening",
+    openings: "One position available",
+    openingsShort: "One",
     hours: "Part-time",
     tagline: "Run real-world growth experiments around campus.",
     summary:
@@ -139,7 +144,8 @@ const ALL_ROLES: Role[] = [
     hidden: true, // parked 9/8 per Mekhi; flip to false to list it again
     title: "Consumer Insights Associate",
     lane: "Research",
-    openings: "1 opening",
+    openings: "One position available",
+    openingsShort: "One",
     hours: "Part-time",
     tagline: "Talk to students and help shape what Ligo builds.",
     summary:
@@ -184,7 +190,8 @@ const ALL_ROLES: Role[] = [
     slug: "campus-content-creator",
     title: "Campus Content Creator",
     lane: "Content",
-    openings: "1 opening",
+    openings: "One position available",
+    openingsShort: "One",
     hours: "Part-time",
     tagline: "Capture what's actually happening at Georgetown.",
     summary:
