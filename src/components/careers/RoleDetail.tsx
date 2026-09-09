@@ -1,14 +1,20 @@
 import type { Role } from "@/lib/careers";
 
 /**
- * The full write-up for one role, top to bottom in a single column the way a
- * job posting reads. Shared by the /careers list and the job page so the two
- * can never drift. Deliberately not a grid: one thing after another, each
- * section the same shape, so the eye always knows where to go next.
+ * The posting body, set the way a job board sets it: small sans headings,
+ * 14px copy, tight bullets, no decoration. Reads as a document rather than a
+ * marketing page. Every role uses the same sections, so the three postings are
+ * comparable; anything genuinely specific to a role lives inside them.
+ *
+ * The application below it keeps the larger type. This part is for scanning.
  */
 export function RoleDetail({ role }: { role: Role }) {
   return (
-    <div className="flex flex-col gap-9">
+    <div className="flex flex-col gap-6">
+      <Section title="About the role">
+        <p className="text-[14.5px] leading-[1.6] text-ink/[0.78]">{role.summary}</p>
+      </Section>
+
       <Section title="What you'll do">
         <Bullets items={role.whatYouDo} />
       </Section>
@@ -22,11 +28,11 @@ export function RoleDetail({ role }: { role: Role }) {
       </Section>
 
       <Section title="What you're measured on">
-        <p className="text-[15.5px] leading-[1.6] text-ink/[0.82]">{role.measuredOn}</p>
+        <p className="text-[14.5px] leading-[1.6] text-ink/[0.78]">{role.measuredOn}</p>
       </Section>
 
       <Section title="What this role isn't">
-        <p className="text-[15.5px] leading-[1.6] text-ink/[0.82]">
+        <p className="text-[14.5px] leading-[1.6] text-ink/[0.78]">
           Someone else owns {joinList(role.notThisRole.map((n) => n.toLowerCase()))}.
         </p>
       </Section>
@@ -34,22 +40,26 @@ export function RoleDetail({ role }: { role: Role }) {
   );
 }
 
+export function PostingHeading({ children }: { children: React.ReactNode }) {
+  return <h2 className="text-[15px] font-semibold leading-snug text-ink">{children}</h2>;
+}
+
 function Section({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
   return (
     <section>
-      <h3 className="font-serif text-[21px] font-medium leading-tight tracking-[-0.01em] text-ink">{title}</h3>
-      {note && <p className="mt-1 text-[13.5px] text-ink/[0.5]">{note}</p>}
-      <div className="mt-3">{children}</div>
+      <PostingHeading>{title}</PostingHeading>
+      {note && <p className="mt-[3px] text-[13px] leading-snug text-ink/[0.5]">{note}</p>}
+      <div className="mt-2">{children}</div>
     </section>
   );
 }
 
 function Bullets({ items }: { items: string[] }) {
   return (
-    <ul className="flex flex-col gap-[10px]">
+    <ul className="flex flex-col gap-[7px]">
       {items.map((it) => (
-        <li key={it} className="grid grid-cols-[16px_1fr] gap-1 text-[15.5px] leading-[1.6] text-ink/[0.82]">
-          <span aria-hidden className="mt-[10px] block h-[5px] w-[5px] rounded-full bg-[#F97316]" />
+        <li key={it} className="grid grid-cols-[14px_1fr] text-[14.5px] leading-[1.6] text-ink/[0.78]">
+          <span aria-hidden className="mt-[9px] block h-[4px] w-[4px] rounded-full bg-ink/[0.38]" />
           <span>{it}</span>
         </li>
       ))}

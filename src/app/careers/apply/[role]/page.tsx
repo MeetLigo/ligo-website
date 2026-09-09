@@ -3,14 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/chrome/PageHero";
 import { ApplicationForm } from "@/components/careers/ApplicationForm";
-import { RoleDetail } from "@/components/careers/RoleDetail";
+import { RoleDetail, PostingHeading } from "@/components/careers/RoleDetail";
 import { RoleNav } from "@/components/careers/RoleNav";
 import { roles, getRole, program } from "@/lib/careers";
 
 const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
 /** sticky rail on the left, readable measure on the right, both inside the hero's gutters */
 const GRID = "grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16";
-const PROSE = "max-w-[820px]";
+const PROSE = "max-w-[760px]";
 
 export function generateStaticParams() {
   return roles.map((r) => ({ role: r.slug }));
@@ -24,10 +24,6 @@ export async function generateMetadata({ params }: { params: Promise<{ role: str
     title: `${role.title} · Ligo Careers`,
     description: `${role.tagline} ${role.openings}, part-time, at Georgetown.`,
   };
-}
-
-function SectionHeading({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-serif text-[21px] font-medium leading-tight tracking-[-0.01em] text-ink">{children}</h2>;
 }
 
 /**
@@ -75,15 +71,13 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
             <span>{program.term}</span>
           </div>
 
-          <p className="mt-6 font-serif text-[20px] font-medium leading-[1.4] text-ink sm:text-[23px]">{role.summary}</p>
-
-          <div className="mt-9 border-t border-ink/[0.1] pt-9">
+          <div className="mt-6">
             <RoleDetail role={role} />
           </div>
 
-          <div className="mt-9 border-t border-ink/[0.1] pt-9">
-            <SectionHeading>The details</SectionHeading>
-            <dl className="mt-3 flex flex-col divide-y divide-ink/[0.08] border-y border-ink/[0.08]">
+          <div className="mt-6">
+            <PostingHeading>The details</PostingHeading>
+            <dl className="mt-2 flex flex-col divide-y divide-ink/[0.08] border-y border-ink/[0.08]">
               {(
                 [
                   ["Campus", `${program.campus}, ${program.where}`],
@@ -93,9 +87,9 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
                   ["Who can apply", program.who],
                 ] as [string, string][]
               ).map(([k, v]) => (
-                <div key={k} className="grid grid-cols-[130px_1fr] gap-4 py-[10px]">
-                  <dt className="text-[14px] text-ink/[0.55]">{k}</dt>
-                  <dd className="text-[15.5px] leading-[1.5] text-ink/[0.85]">{v}</dd>
+                <div key={k} className="grid grid-cols-[120px_1fr] gap-4 py-[7px]">
+                  <dt className="text-[13.5px] text-ink/[0.5]">{k}</dt>
+                  <dd className="text-[14.5px] leading-[1.5] text-ink/[0.8]">{v}</dd>
                 </div>
               ))}
             </dl>
@@ -104,7 +98,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
         </article>
 
             {/* the application, straight after the posting */}
-            <section id="apply" className="scroll-mt-10 pt-14">
+            <section id="apply" className="scroll-mt-10 pt-12">
               <div className="border-t border-ink/[0.14] pt-10">
                 <h2 className="font-serif text-[clamp(28px,3.4vw,36px)] font-medium leading-[1.06] tracking-[-0.015em] text-ink">
                   Apply for this role
