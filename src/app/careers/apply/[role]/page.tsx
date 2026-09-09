@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/chrome/PageHero";
 import { ApplicationForm } from "@/components/careers/ApplicationForm";
-import { RoleDetail, PostingHeading } from "@/components/careers/RoleDetail";
+import { RoleDetail } from "@/components/careers/RoleDetail";
 import { RoleNav } from "@/components/careers/RoleNav";
 import { roles, getRole, program } from "@/lib/careers";
 
@@ -76,31 +76,11 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
             <RoleDetail role={role} />
           </div>
 
-          <div className="mt-6">
-            <PostingHeading>The details</PostingHeading>
-            <dl className="mt-2 flex flex-col divide-y divide-ink/[0.08] border-y border-ink/[0.08]">
-              {(
-                [
-                  ["Campus", `${program.campus}, ${program.where}`],
-                  ["Openings", role.openingsShort],
-                  ["Commitment", `${role.hours}, ${program.term}`],
-                  ["Pay", program.pay],
-                  ["Who can apply", program.who],
-                ] as [string, string][]
-              ).map(([k, v]) => (
-                <div key={k} className="grid grid-cols-[120px_1fr] gap-4 py-[7px]">
-                  <dt className="text-[13.5px] text-ink/[0.5]">{k}</dt>
-                  <dd className="text-[14.5px] leading-[1.5] text-ink/[0.8]">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
           <p className="mt-6 text-[13.5px] leading-[1.6] text-ink/[0.6]">
-            This is a paid position. Pay is tied to the deliverables outlined above and is agreed on before hire. Ligo
-            is an equal opportunity employer and does not discriminate on the basis of race, color, religion, sex,
-            sexual orientation, gender identity, national origin, disability, veteran status, or any other protected
-            characteristic.
+            This is a paid position open to current Georgetown students. Pay is tied to the deliverables outlined
+            above and is agreed on before hire. Ligo is an equal opportunity employer and does not discriminate on
+            the basis of race, color, religion, sex, sexual orientation, gender identity, national origin,
+            disability, veteran status, or any other protected characteristic.
           </p>
         </article>
 
