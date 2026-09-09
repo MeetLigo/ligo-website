@@ -5,7 +5,7 @@ import { PageHero } from "@/components/chrome/PageHero";
 import { ApplicationForm } from "@/components/careers/ApplicationForm";
 import { RoleDetail } from "@/components/careers/RoleDetail";
 import { RoleNav } from "@/components/careers/RoleNav";
-import { roles, getRole, program, process } from "@/lib/careers";
+import { roles, getRole, program } from "@/lib/careers";
 
 const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
 /** sticky rail on the left, readable measure on the right, both inside the hero's gutters */
@@ -101,20 +101,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
             </dl>
           </div>
 
-          <div className="mt-9 border-t border-ink/[0.1] pt-9">
-            <SectionHeading>How hiring works</SectionHeading>
-            <ol className="mt-3 flex flex-col gap-3">
-              {process.map((step, i) => (
-                <li key={step.title} className="grid grid-cols-[28px_1fr] gap-3">
-                  <span className="font-serif text-[13px] font-medium tabular-nums text-[#EA580C]">0{i + 1}</span>
-                  <span className="text-[15.5px] leading-[1.6] text-ink/[0.82]">
-                    <span className="font-semibold text-ink">{step.title}.</span> {step.body}
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </div>
-            </article>
+        </article>
 
             {/* the application, straight after the posting */}
             <section id="apply" className="scroll-mt-10 pt-14">

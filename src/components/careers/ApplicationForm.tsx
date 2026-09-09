@@ -2,7 +2,7 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
-import type { Role } from "@/lib/careers";
+import { process as hiringSteps, type Role } from "@/lib/careers";
 
 /**
  * The Georgetown campus team application, one per role
@@ -71,12 +71,10 @@ function Field({
     <div className="flex h-full flex-col gap-2">
       <label htmlFor={htmlFor} className="text-[14.5px] font-semibold leading-snug text-ink">
         {label}
-        {required ? (
+        {required && (
           <span aria-hidden className="ml-1 text-[#C0512B]">
             *
           </span>
-        ) : (
-          <span className="ml-2 text-[12px] font-medium uppercase tracking-[0.1em] text-ink/[0.45]">optional</span>
         )}
       </label>
       {hint && <div className="-mt-1 text-[13px] leading-snug text-ink/[0.55]">{hint}</div>}
@@ -89,12 +87,15 @@ function Part({
   n,
   title,
   sub,
+  optional = false,
   first = false,
   children,
 }: {
   n: string;
   title: string;
   sub?: React.ReactNode;
+  /** every field in here is optional, said once beside the heading */
+  optional?: boolean;
   /** the first section sits under the required-field key, so it needs no rule */
   first?: boolean;
   children: React.ReactNode;
@@ -104,6 +105,7 @@ function Part({
       <div className="flex items-baseline gap-3">
         <span className="font-serif text-[13px] font-medium tabular-nums text-[#EA580C]">{n}</span>
         <h3 className="font-serif text-[24px] font-medium leading-tight tracking-[-0.01em] text-ink">{title}</h3>
+        {optional && <span className="text-[14px] text-ink/[0.45]">optional</span>}
       </div>
       {sub && <p className="mt-2 max-w-[620px] text-[14px] leading-[1.55] text-ink/[0.6]">{sub}</p>}
       <div className="mt-6 flex flex-col gap-6">{children}</div>
@@ -157,10 +159,30 @@ export function ApplicationForm({ role }: { role: Role }) {
           <h3 className="font-serif text-[28px] font-medium leading-tight text-ink">Got it. Thank you.</h3>
         </div>
         <p className="mt-4 text-[16px] leading-[1.6] text-ink/[0.75]">
-          Your application for the {role.title} role is in. A person on the team reads every one. If it looks like a fit,
-          you&apos;ll hear from us about a short call. Either way, we&apos;ll let you know.
+          {`Your application for the ${role.title} role is in. Here’s what happens from here.`}
         </p>
-        <Link href="/careers#roles" className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-[#EA580C]">
+
+        <ol className="mt-8 flex flex-col gap-4 border-t border-ink/[0.12] pt-8">
+          {hiringSteps.map((step, i) => {
+            const done = i === 0;
+            return (
+              <li key={step.title} className="grid grid-cols-[30px_1fr] gap-3">
+                {done ? (
+                  <span className="mt-[2px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#71C07F]/[0.2]">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3E8A4B" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                  </span>
+                ) : (
+                  <span className="font-serif text-[13px] font-medium tabular-nums text-[#EA580C]">0{i + 1}</span>
+                )}
+                <span className={`text-[15.5px] leading-[1.6] ${done ? "text-ink/[0.45]" : "text-ink/[0.82]"}`}>
+                  <span className={done ? "font-semibold" : "font-semibold text-ink"}>{step.title}.</span> {step.body}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+
+        <Link href="/careers#roles" className="mt-8 inline-flex items-center gap-2 text-[15px] font-semibold text-[#EA580C]">
           Back to careers
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h13M13 6l6 6-6 6" /></svg>
         </Link>
@@ -269,7 +291,7 @@ export function ApplicationForm({ role }: { role: Role }) {
         </Part>
 
         {/* 03 links */}
-        <Part n="03" title="Links" sub="All optional. Useful for us to see, never required.">
+        <Part n="03" title="Links" optional sub="Useful for us to see. Whatever is relevant to the role.">
           <div className="grid gap-6 sm:grid-cols-2">
             <Field label="Instagram" htmlFor="link_instagram" required={false}>
               <input id="link_instagram" name="link_instagram" placeholder="@you" className={INPUT} />
@@ -290,10 +312,11 @@ export function ApplicationForm({ role }: { role: Role }) {
         <Part
           n="04"
           title="Voluntary self-identification"
+          optional
           sub={
             <>
-              Every question here is optional and defaults to prefer not to say. Your answers are saved separately from
-              your application, with nothing attached that could identify you. Nobody reading applications sees them.
+              Every question here defaults to prefer not to say. Your answers are saved separately from your
+              application, with nothing attached that could identify you. Nobody reading applications sees them.
               We use the totals to check that our hiring is fair across everyone who applies, and they have no effect on
               your chances.
             </>
