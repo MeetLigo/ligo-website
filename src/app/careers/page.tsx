@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero, Accent } from "@/components/chrome/PageHero";
-import { roles, program } from "@/lib/careers";
+import { roles } from "@/lib/careers";
 import { RoleCard } from "@/components/careers/RoleCard";
 import { ProcessSteps } from "@/components/careers/ProcessSteps";
 import { PageNav } from "@/components/careers/PageNav";
@@ -23,7 +23,7 @@ const SECTIONS = [
 ];
 
 function Heading({ children }: { children: React.ReactNode }) {
-  return <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">{children}</h2>;
+  return <h2 className="font-serif text-[26px] font-semibold leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">{children}</h2>;
 }
 
 export default function CareersPage() {
@@ -51,38 +51,23 @@ export default function CareersPage() {
           <div className={PROSE}>
             {/* who we are */}
             <section id="team" className="scroll-mt-10">
-              <Heading>The Georgetown campus team</Heading>
-              <p className="mt-4 max-w-[680px] text-[16.5px] leading-[1.6] text-ink/[0.8] sm:text-[18px]">
+              <div className="border-b border-ink/[0.14] pb-3">
+                <Heading>The Georgetown Campus Team</Heading>
+              </div>
+              <p className="mt-5 max-w-[680px] text-[16px] leading-[1.6] text-ink/[0.8] sm:text-[17px]">
                 We&apos;re a small team building the app that brings people together on campus, and Georgetown is where
                 it starts. We&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word. We&apos;re hiring
                 three people with three clear jobs, each with a number they own.
               </p>
-              <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-4">
-                {(
-                  [
-                    ["Campus", program.campus],
-                    ["Term", program.term],
-                    ["Pay", program.pay],
-                    ["Who", program.who],
-                  ] as [string, string][]
-                ).map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EA580C]">{k}</dt>
-                    <dd className="mt-1 text-[14px] leading-snug text-ink/[0.82]">{v}</dd>
-                  </div>
-                ))}
-              </dl>
             </section>
 
             {/* open roles */}
-            <section id="roles" className="scroll-mt-10 pt-14 sm:pt-16">
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <Heading>
-                  Open roles
-                </Heading>
-                <div className="text-[14px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
+            <section id="roles" className="scroll-mt-10 pt-12 sm:pt-14">
+              <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink/[0.14] pb-3">
+                <Heading>Open Roles</Heading>
+                <div className="text-[13.5px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
               </div>
-              <div className="mt-4 border-t border-ink/[0.14]">
+              <div>
                 {roles.map((r) => (
                   <RoleCard key={r.slug} role={r} />
                 ))}
@@ -90,8 +75,10 @@ export default function CareersPage() {
             </section>
 
             {/* how hiring works */}
-            <section id="process" className="scroll-mt-10 pt-14 sm:pt-16">
-              <Heading>Application process</Heading>
+            <section id="process" className="scroll-mt-10 pt-12 sm:pt-14">
+              <div className="border-b border-ink/[0.14] pb-3">
+                <Heading>Application Process</Heading>
+              </div>
               <ProcessSteps />
             </section>
           </div>
