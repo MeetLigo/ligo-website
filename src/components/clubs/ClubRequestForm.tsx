@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { CLUB_CATEGORIES, CLUB_ROLES } from "@/lib/clubs";
+import { CLUB_CATEGORIES, CLUB_PORTAL, CLUB_ROLES } from "@/lib/clubs";
 
 const INPUT =
   "min-w-0 w-full rounded-[12px] border border-ink/[0.14] bg-white px-4 py-[11px] text-[15px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-[#F97316]/60";
@@ -33,6 +33,7 @@ export function ClubRequestForm() {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [blocked, setBlocked] = useState<{ reason: "club_exists" | "request_pending"; clubName: string } | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,13 +54,58 @@ export function ClubRequestForm() {
       const j = await res.json().catch(() => ({}));
       if (!res.ok || !j.ok) {
         const key = typeof j.error === "string" ? j.error : "";
-        throw new Error(ERRORS[key] || j.message || "Couldn't send that. Try again.");
+        throw new Error(ERRORS[key] || (key === "intake_failed" ? "Our end hiccuped. Try again in a minute." : j.message || "Couldn't send that. Try again."));
+      }
+      if (j.accepted === false) {
+        // the platform already knows this club (or this email is waiting on review)
+        setBlocked({ reason: j.reason === "request_pending" ? "request_pending" : "club_exists", clubName: String(j.clubName || fd.get("club_name") || "your club") });
+        setSubmitting(false);
+        return;
       }
       router.push("/clubs/pending");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't send that. Try again.");
       setSubmitting(false);
     }
+  }
+
+  if (blocked) {
+    const exists = blocked.reason === "club_exists";
+    return (
+      <div className="rounded-[14px] border border-ink/[0.12] bg-white/60 p-6">
+        <div className="text-[11px] font-bold uppercase tracking-eyebrow text-[#EA580C]">{exists ? "already on ligo" : "already requested"}</div>
+        <h2 className="mt-2 font-serif text-[24px] font-medium leading-tight text-ink">
+          {exists ? `Looks like ${blocked.clubName} is already on Ligo.` : "Someone already asked for this account."}
+        </h2>
+        <p className="mt-3 text-[15px] leading-[1.55] text-ink/[0.72]">
+          {exists
+            ? "Your club has an account. Sign in at the portal with the club's Georgetown email and you'll land as admin."
+            : "A request with this email is already in our queue. We review by hand and reply from hello@meetligo.com, usually the same day. No need to send another."}
+        </p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          {exists && (
+            <a
+              href={CLUB_PORTAL}
+              className="flex flex-1 items-center justify-center rounded-[14px] bg-[#F97316] px-5 py-[13px] text-[14px] font-semibold text-[#241603] shadow-cta transition-transform hover:text-[#241603] active:scale-[0.97]"
+            >
+              Log in instead
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={() => setBlocked(null)}
+            className="flex flex-1 items-center justify-center rounded-[14px] border border-ink/[0.3] px-5 py-[13px] text-[14px] font-semibold text-ink transition-colors hover:border-ink"
+          >
+            {exists ? "That's not my club" : "Back to the form"}
+          </button>
+        </div>
+        {!exists && (
+          <p className="mt-4 text-center text-[13px] text-ink/[0.55]">
+            Think that's a mistake? Email <a href="mailto:hello@meetligo.com" className="font-medium text-[#2563EB]">hello@meetligo.com</a>.
+          </p>
+        )}
+      </div>
+    );
   }
 
   return (
