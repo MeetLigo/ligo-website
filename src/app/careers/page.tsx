@@ -3,7 +3,6 @@ import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { roles, program, process } from "@/lib/careers";
 import { RoleCard } from "@/components/careers/RoleCard";
 import { SectionLabel } from "@/components/careers/SectionLabel";
-import { HeroBleed } from "@/components/chrome/HeroBleed";
 
 export const metadata: Metadata = {
   title: "Careers · Ligo",
@@ -27,14 +26,14 @@ export default function CareersPage() {
         image="/hero/slide-1.jpg"
         position="center 62%"
         width="max-w-[1300px]"
+        fadeTo={null}
       />
 
       {/* everything under the hero is one cream page, same as a job page */}
       <div className="bg-cream text-ink">
-        <HeroBleed />
         <div className={SHELL}>
           {/* who we are, first thing under the hero */}
-          <section className="pt-4 sm:pt-6">
+          <section className="pt-14 sm:pt-16">
             <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
               The Georgetown campus team
             </h2>

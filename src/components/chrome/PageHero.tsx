@@ -28,8 +28,9 @@ export function PageHero({
   image: string;
   position?: string;
   width?: string;
-  /** colour the bottom edge dissolves into; match whatever section follows */
-  fadeTo?: string;
+  /** colour the bottom edge dissolves into; match whatever section follows.
+   *  null renders no fade, so the hero ends on a hard edge. */
+  fadeTo?: string | null;
 }) {
   return (
     <section className="relative flex min-h-[45vh] w-full flex-col justify-end overflow-hidden">
@@ -42,7 +43,9 @@ export function PageHero({
         style={{ background: "linear-gradient(180deg,rgba(19,15,10,0.66) 0%,rgba(19,15,10,0.38) 40%,rgba(19,15,10,0.56) 72%,rgba(19,15,10,0.9) 100%)" }}
       />
       {/* bottom edge dissolves into the page canvas */}
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: `linear-gradient(180deg,rgba(19,15,10,0),${fadeTo})` }} />
+      {fadeTo && (
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-[84px]" style={{ background: `linear-gradient(180deg,rgba(19,15,10,0),${fadeTo})` }} />
+      )}
 
       <div className={`relative z-10 mx-auto w-full ${width} px-6 pb-11 pt-32 sm:px-10`}>
         <div className="text-[12px] font-bold uppercase tracking-eyebrow text-[#F97316] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{eyebrow}</div>
