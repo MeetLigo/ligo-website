@@ -23,7 +23,6 @@ const REQUIRED: [string, string][] = [
   ["motivation", "missing_motivation"],
   ["elig_work_auth", "missing_elig_work_auth"],
   ["role", "missing_role"],
-  ["why_role", "missing_why_role"],
   ["availability", "missing_availability"],
   ["desired_pay", "missing_desired_pay"],
 ];
@@ -53,6 +52,10 @@ export async function POST(req: Request) {
   const email = str(fd, "email").toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return NextResponse.json({ error: "invalid_email" }, { status: 400 });
+  }
+
+  if (str(fd, "motivation") === "Something else" && !str(fd, "why_role")) {
+    return NextResponse.json({ error: "missing_why_role" }, { status: 400 });
   }
 
   const roleSlug = str(fd, "role");
@@ -89,9 +92,7 @@ export async function POST(req: Request) {
       .concat([["link_instagram", "link_linkedin", "link_tiktok", "link_portfolio"].every((k) => !str(fd, k)) ? "(none given)" : ""])
       .filter(Boolean),
     ``,
-    `--- Why this role ---`,
-    str(fd, "why_role"),
-    ``,
+    ...(str(fd, "why_role") ? [`--- In their words ---`, str(fd, "why_role"), ``] : []),
 
   ];
 

@@ -28,6 +28,7 @@ const MOTIVATIONS = [
   "A friend or a club told me about it",
   "Something else",
 ];
+const OTHER_MOTIVATION = "Something else";
 const WORK_AUTH = ["Yes", "No", "Not sure"];
 const AVAILABILITY = ["Under 4 hours a week", "4 to 6 hours a week", "6 to 8 hours a week", "8 or more hours a week"];
 const SOURCES = ["Instagram", "A friend or classmate", "A club or org", "The Ligo app", "LinkedIn", "Somewhere else"];
@@ -118,6 +119,8 @@ export function ApplicationForm({ role }: { role: Role }) {
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
   const [genderSelf, setGenderSelf] = useState(false);
+  const [motivation, setMotivation] = useState("");
+  const wantsWhy = motivation === OTHER_MOTIVATION;
   const formRef = useRef<HTMLFormElement>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -261,7 +264,14 @@ export function ApplicationForm({ role }: { role: Role }) {
         {/* 02 why you */}
         <Part n="02" title="Why you">
           <Field label="What's drawing you to this?" htmlFor="motivation">
-            <select id="motivation" name="motivation" required defaultValue="" className={SELECT}>
+            <select
+              id="motivation"
+              name="motivation"
+              required
+              value={motivation}
+              onChange={(e) => setMotivation(e.target.value)}
+              className={SELECT}
+            >
               <option value="" disabled>
                 Select...
               </option>
@@ -270,9 +280,12 @@ export function ApplicationForm({ role }: { role: Role }) {
               ))}
             </select>
           </Field>
-          <Field label="Why this role?" htmlFor="why_role" hint="A few sentences is plenty.">
-            <textarea id="why_role" name="why_role" required rows={4} className={TEXTAREA} />
-          </Field>
+          {/* the written answer only appears when none of the picks fit */}
+          {wantsWhy && (
+            <Field label="Tell us what it is" htmlFor="why_role" hint="A sentence or two is plenty.">
+              <textarea id="why_role" name="why_role" required rows={3} className={TEXTAREA} />
+            </Field>
+          )}
           <div className="grid gap-6 sm:grid-cols-2">
             <Field label="Weekly availability" htmlFor="availability" hint="Hours you can commit during the term.">
               <select id="availability" name="availability" required defaultValue="" className={SELECT}>

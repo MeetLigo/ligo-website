@@ -38,6 +38,7 @@ export interface Role {
   /** a short paragraph under the title on the detail page */
   summary: string;
   whatYouDo: string[];
+  /** starting weekly targets for the scorecard. Not shown on the posting (removed 9/9). */
   typicalWeek: string[];
   lookingFor: string[];
   measuredOn: string;

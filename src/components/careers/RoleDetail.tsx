@@ -19,10 +19,6 @@ export function RoleDetail({ role }: { role: Role }) {
         <Bullets items={role.whatYouDo} />
       </Section>
 
-      <Section title="A typical week" note="Starting targets. We recalibrate after two weeks.">
-        <Bullets items={role.typicalWeek} />
-      </Section>
-
       <Section title="Who we're looking for">
         <Bullets items={role.lookingFor} />
       </Section>
@@ -44,11 +40,10 @@ export function PostingHeading({ children }: { children: React.ReactNode }) {
   return <h2 className="text-[15px] font-semibold leading-snug text-ink">{children}</h2>;
 }
 
-function Section({ title, note, children }: { title: string; note?: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
       <PostingHeading>{title}</PostingHeading>
-      {note && <p className="mt-[3px] text-[13px] leading-snug text-ink/[0.5]">{note}</p>}
       <div className="mt-2">{children}</div>
     </section>
   );
