@@ -236,7 +236,7 @@ export function ApplicationForm({ role }: { role: Role }) {
         {/* 02 eligibility */}
         <Part n="02" title="Eligibility" sub="These roles are paid work with a for-profit company in Washington, D.C., so we have to ask.">
           <div className="grid gap-6 sm:grid-cols-2">
-            <Field label="Are you a current Georgetown student?" htmlFor="elig_georgetown">
+            <Field label="Are you a current Georgetown student?" htmlFor="elig_georgetown" hint="Undergrad or graduate.">
               <select id="elig_georgetown" name="elig_georgetown" required defaultValue="" className={SELECT}>
                 <option value="" disabled>
                   Select...
@@ -256,7 +256,7 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Are you authorized to work in the United States?" htmlFor="elig_work_auth" hint="Not sure is a fine answer. If you're on a student visa we'll work out what's possible.">
+            <Field label="Are you authorized to work in the US?" htmlFor="elig_work_auth" hint="Not sure is a fine answer.">
               <select id="elig_work_auth" name="elig_work_auth" required defaultValue="" className={SELECT}>
                 <option value="" disabled>
                   Select...
@@ -266,7 +266,7 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Are you 18 or older?" htmlFor="elig_18">
+            <Field label="Are you 18 or older?" htmlFor="elig_18" hint="These are paid positions.">
               <select id="elig_18" name="elig_18" required defaultValue="" className={SELECT}>
                 <option value="" disabled>
                   Select...
@@ -297,7 +297,7 @@ export function ApplicationForm({ role }: { role: Role }) {
             <textarea id="fifty_users" name="fifty_users" required className={TEXTAREA} />
           </Field>
           <div className="grid gap-6 sm:grid-cols-2">
-            <Field label="Weekly availability" htmlFor="availability">
+            <Field label="Weekly availability" htmlFor="availability" hint="Hours you can commit during the term.">
               <select id="availability" name="availability" required defaultValue="" className={SELECT}>
                 <option value="" disabled>
                   Select...
@@ -307,12 +307,12 @@ export function ApplicationForm({ role }: { role: Role }) {
                 ))}
               </select>
             </Field>
-            <Field label="Anything we should know about your schedule?" htmlFor="availability_notes" required={false}>
-              <input id="availability_notes" name="availability_notes" placeholder="Tuesdays and Thursdays are tough" className={INPUT} />
+            <Field label="Desired pay range" htmlFor="desired_pay" hint="Hourly. A base rate plus bonuses.">
+              <input id="desired_pay" name="desired_pay" required placeholder="$20 to $23 an hour" className={INPUT} />
             </Field>
           </div>
-          <Field label="Desired pay range" htmlFor="desired_pay" hint="Hourly. Roles are paid a base rate plus bonuses for what you deliver.">
-            <input id="desired_pay" name="desired_pay" required placeholder="$20 to $23 an hour" className={`${INPUT} sm:max-w-[320px]`} />
+          <Field label="Schedule notes" htmlFor="availability_notes" required={false} hint="Classes, another job, anything that shapes your week.">
+            <input id="availability_notes" name="availability_notes" placeholder="Tuesdays and Thursdays are tough" className={INPUT} />
           </Field>
         </Part>
 
