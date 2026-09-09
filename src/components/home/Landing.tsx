@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState, type FormEvent } from "react";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { PlayIcon } from "@/components/chrome/StoreIcons";
@@ -95,7 +96,7 @@ export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
                 title="I'm a student"
                 sub="See what's happening"
               />
-              <AudienceLink href={CLUB_PORTAL} title="I run a club" sub="Set up your club" />
+              <AudienceLink href="/clubs" title="I run a club" sub="Set up your club" />
             </div>
 
             {mode === "student" && <StudentPanel />}
@@ -132,21 +133,16 @@ export function Landing({ copy = HERO_COPY }: { copy?: HeroCopy }) {
   );
 }
 
-/** The universal club portal: a club signs in with its Georgetown email and lands as admin. Micah owns it. */
-const CLUB_PORTAL = "https://ligo-clubs.appwrite.network";
-
-/** Same look as AudienceCard, but a plain link out to the club portal. */
+/** Same look as AudienceCard, but a link to the clubs page (which hands off to the portal). */
 function AudienceLink({ href, title, sub }: { href: string; title: string; sub: string }) {
   return (
-    <a
+    <Link
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       className="flex w-full flex-col items-center gap-0.5 rounded-[18px] border border-white/25 bg-white/10 px-3 py-3 text-[#FAF6EF] transition-colors hover:bg-white/[0.16] hover:text-[#FAF6EF]"
     >
       <span className="text-[16px] font-semibold">{title}</span>
       <span className="text-[13px] opacity-75">{sub}</span>
-    </a>
+    </Link>
   );
 }
 

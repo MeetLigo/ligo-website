@@ -38,8 +38,21 @@ export async function sendLeadEmail(params: { org: string; school: string; email
   }
 }
 
-/** Same transport, generic subject/body — used by /api/club-claim and /api/waitlist. */
-export async function sendNotificationEmail(params: { to?: string; subject: string; text: string; replyTo?: string }) {
+/** Same transport, generic subject/body. Used by /api/club-claim, /api/waitlist, and /api/apply (with attachments). */
+export interface EmailAttachment {
+  /** base64-encoded file contents */
+  content: string;
+  filename: string;
+  type: string;
+}
+
+export async function sendNotificationEmail(params: {
+  to?: string | string[];
+  subject: string;
+  text: string;
+  replyTo?: string;
+  attachments?: EmailAttachment[];
+}) {
   const key = process.env.SENDGRID_API_KEY;
   if (!key) throw new Error("SendGrid env vars are not set");
 
@@ -50,10 +63,18 @@ export async function sendNotificationEmail(params: { to?: string; subject: stri
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      personalizations: [{ to: [{ email: params.to || TO_EMAIL }], subject: params.subject }],
+      personalizations: [
+        {
+          to: (Array.isArray(params.to) ? params.to : [params.to || TO_EMAIL]).map((email) => ({ email })),
+          subject: params.subject,
+        },
+      ],
       from: { email: FROM_EMAIL, name: FROM_NAME },
       ...(params.replyTo ? { reply_to: { email: params.replyTo } } : {}),
       content: [{ type: "text/plain", value: params.text }],
+      ...(params.attachments && params.attachments.length > 0
+        ? { attachments: params.attachments.map((a) => ({ ...a, disposition: "attachment" })) }
+        : {}),
     }),
   });
 
