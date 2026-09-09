@@ -286,21 +286,16 @@ export function ApplicationForm({ role }: { role: Role }) {
               <textarea id="why_role" name="why_role" required rows={3} className={TEXTAREA} />
             </Field>
           )}
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Field label="Weekly availability" htmlFor="availability" hint="Hours you can commit during the term.">
-              <select id="availability" name="availability" required defaultValue="" className={SELECT}>
-                <option value="" disabled>
-                  Select...
-                </option>
-                {AVAILABILITY.map((a) => (
-                  <option key={a}>{a}</option>
-                ))}
-              </select>
-            </Field>
-            <Field label="Desired pay" htmlFor="desired_pay" hint="No set rate yet. Say what you'd want.">
-              <input id="desired_pay" name="desired_pay" required placeholder="A monthly number, or per project" className={INPUT} />
-            </Field>
-          </div>
+          <Field label="Weekly availability" htmlFor="availability" hint="Hours you can commit during the year.">
+            <select id="availability" name="availability" required defaultValue="" className={`${SELECT} sm:max-w-[calc(50%-12px)]`}>
+              <option value="" disabled>
+                Select...
+              </option>
+              {AVAILABILITY.map((a) => (
+                <option key={a}>{a}</option>
+              ))}
+            </select>
+          </Field>
         </Part>
 
         {/* 03 links */}

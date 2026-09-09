@@ -24,7 +24,6 @@ const REQUIRED: [string, string][] = [
   ["elig_work_auth", "missing_elig_work_auth"],
   ["role", "missing_role"],
   ["availability", "missing_availability"],
-  ["desired_pay", "missing_desired_pay"],
 ];
 
 function str(fd: FormData, key: string, max = 4000) {
@@ -73,7 +72,6 @@ export async function POST(req: Request) {
     `PHONE: ${str(fd, "phone") || "(not given)"}`,
     `YEAR: ${str(fd, "year")}`,
     `AVAILABILITY: ${str(fd, "availability")}`,
-    `DESIRED PAY: ${str(fd, "desired_pay")}`,
     `DRAWN TO IT BY: ${str(fd, "motivation")}`,
     `HEARD ABOUT US: ${str(fd, "referral_source") || "(not given)"}`,
     ``,

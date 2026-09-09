@@ -67,6 +67,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
           <div className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink/[0.5]">
             <span>{program.campus}</span>
             <span>{role.openings}</span>
+            <span>Paid</span>
             <span>{role.hours}</span>
             <span>{program.term}</span>
           </div>
@@ -95,6 +96,12 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
             </dl>
           </div>
 
+          <p className="mt-6 text-[13.5px] leading-[1.6] text-ink/[0.6]">
+            This is a paid position. Pay is tied to the deliverables outlined above and is agreed on before hire. Ligo
+            is an equal opportunity employer and does not discriminate on the basis of race, color, religion, sex,
+            sexual orientation, gender identity, national origin, disability, veteran status, or any other protected
+            characteristic.
+          </p>
         </article>
 
             {/* the application, straight after the posting */}

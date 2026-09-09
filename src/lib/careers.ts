@@ -250,8 +250,8 @@ export function getRole(slug: string): Role | undefined {
 export const program = {
   campus: "Georgetown University",
   where: "Washington, D.C.",
-  term: "10-week sprint, fall 2026",
-  pay: "Paid, with pay tied to what you deliver",
+  term: "Full academic year, 2026 to 2027",
+  pay: "Paid. Tied to deliverables, agreed before hire",
   who: "Current Georgetown students",
 };
 

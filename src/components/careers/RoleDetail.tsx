@@ -16,22 +16,19 @@ export function RoleDetail({ role }: { role: Role }) {
       </Section>
 
       <Section title="What you'll do">
-        <Bullets items={role.whatYouDo} />
+        <Bullets
+          items={[
+            ...role.whatYouDo,
+            `You're measured on ${lowerFirst(role.measuredOn)}`,
+            `Not in scope: ${joinList(role.notThisRole.map((n) => n.toLowerCase()))}. Other roles own those.`,
+          ]}
+        />
       </Section>
 
       <Section title="Who we're looking for">
         <Bullets items={role.lookingFor} />
       </Section>
 
-      <Section title="What you're measured on">
-        <p className="text-[14.5px] leading-[1.6] text-ink/[0.78]">{role.measuredOn}</p>
-      </Section>
-
-      <Section title="What this role isn't">
-        <p className="text-[14.5px] leading-[1.6] text-ink/[0.78]">
-          Someone else owns {joinList(role.notThisRole.map((n) => n.toLowerCase()))}.
-        </p>
-      </Section>
     </div>
   );
 }
@@ -60,6 +57,11 @@ function Bullets({ items }: { items: string[] }) {
       ))}
     </ul>
   );
+}
+
+/** "Clubs that activate. Not messages sent." -> "clubs that activate. Not messages sent." */
+function lowerFirst(t: string) {
+  return t.charAt(0).toLowerCase() + t.slice(1);
 }
 
 /** "a, b, and c" */
