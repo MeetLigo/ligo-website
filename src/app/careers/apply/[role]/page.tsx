@@ -5,13 +5,13 @@ import { PageHero } from "@/components/chrome/PageHero";
 import { ApplicationForm } from "@/components/careers/ApplicationForm";
 import { RoleDetail } from "@/components/careers/RoleDetail";
 import { RoleNav } from "@/components/careers/RoleNav";
+import { HeroBleed } from "@/components/chrome/HeroBleed";
 import { roles, getRole, program, process } from "@/lib/careers";
 
 const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
 /** sticky rail on the left, readable measure on the right, both inside the hero's gutters */
 const GRID = "grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16";
 const PROSE = "max-w-[820px]";
-const CREAM = "#FAF6EF";
 
 export function generateStaticParams() {
   return roles.map((r) => ({ role: r.slug }));
@@ -49,7 +49,6 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
         image="/hero/slide-2.jpg"
         position="center 30%"
         width="max-w-[1300px]"
-        fadeTo={CREAM}
         action={
           <a
             href="#apply"
@@ -63,7 +62,8 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
 
       {/* everything below the hero is one cream page, on the hero's gutters */}
       <div className="bg-cream text-ink">
-        <div className={`${SHELL} ${GRID} pb-20 pt-12 sm:pt-14`}>
+        <HeroBleed />
+        <div className={`${SHELL} ${GRID} pb-20 pt-4 sm:pt-6`}>
           <RoleNav current={role.slug} />
 
           <div className={PROSE}>

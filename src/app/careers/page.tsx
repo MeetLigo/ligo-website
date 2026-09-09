@@ -3,6 +3,7 @@ import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { roles, program, process } from "@/lib/careers";
 import { RoleCard } from "@/components/careers/RoleCard";
 import { SectionLabel } from "@/components/careers/SectionLabel";
+import { HeroBleed } from "@/components/chrome/HeroBleed";
 
 export const metadata: Metadata = {
   title: "Careers · Ligo",
@@ -11,7 +12,6 @@ export const metadata: Metadata = {
 };
 
 const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
-const CREAM = "#FAF6EF";
 
 export default function CareersPage() {
   return (
@@ -27,16 +27,18 @@ export default function CareersPage() {
         image="/hero/slide-1.jpg"
         position="center 62%"
         width="max-w-[1300px]"
-        fadeTo={CREAM}
       />
 
       {/* everything under the hero is one cream page, same as a job page */}
       <div className="bg-cream text-ink">
+        <HeroBleed />
         <div className={SHELL}>
           {/* who we are, first thing under the hero */}
-          <section className="pt-12 sm:pt-14">
-            <SectionLabel tone="cream">The Georgetown campus team</SectionLabel>
-            <div className="mt-8 grid gap-8 md:grid-cols-[1.15fr_1fr] md:gap-16">
+          <section className="pt-4 sm:pt-6">
+            <h2 className="font-serif text-[26px] font-medium leading-tight tracking-[-0.01em] text-ink sm:text-[30px]">
+              The Georgetown campus team
+            </h2>
+            <div className="mt-7 grid gap-8 md:grid-cols-[1.15fr_1fr] md:gap-16">
               <p className="max-w-[640px] text-[17px] leading-[1.6] text-ink/[0.8] sm:text-[19px]">
                 We&apos;re a small team building the app that brings people together on campus, and Georgetown is where
                 it starts. We&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word. We&apos;re hiring
