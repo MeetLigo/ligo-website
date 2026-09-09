@@ -4,10 +4,13 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/chrome/PageHero";
 import { ApplicationForm } from "@/components/careers/ApplicationForm";
 import { RoleDetail } from "@/components/careers/RoleDetail";
+import { RoleNav } from "@/components/careers/RoleNav";
 import { roles, getRole, program, process } from "@/lib/careers";
 
-const HERO_WIDTH = "max-w-[1000px]";
-const COLUMN = "mx-auto w-full max-w-[820px] px-6 sm:px-10";
+const SHELL = "mx-auto w-full max-w-[1300px] px-6 sm:px-10";
+/** sticky rail on the left, readable measure on the right, both inside the hero's gutters */
+const GRID = "grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16";
+const PROSE = "max-w-[820px]";
 const CREAM = "#FAF6EF";
 
 export function generateStaticParams() {
@@ -45,7 +48,7 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
         sub={role.tagline}
         image="/hero/slide-2.jpg"
         position="center 30%"
-        width={HERO_WIDTH}
+        width="max-w-[1300px]"
         fadeTo={CREAM}
         action={
           <a
@@ -58,9 +61,13 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
         }
       />
 
-      {/* everything below the hero is one cream page */}
+      {/* everything below the hero is one cream page, on the hero's gutters */}
       <div className="bg-cream text-ink">
-        <article className={`${COLUMN} pt-12 sm:pt-14`}>
+        <div className={`${SHELL} ${GRID} pb-20 pt-12 sm:pt-14`}>
+          <RoleNav current={role.slug} />
+
+          <div className={PROSE}>
+            <article>
           <div className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink/[0.5]">
             <span>{program.campus}</span>
             <span>{role.openings}</span>
@@ -107,25 +114,27 @@ export default async function ApplyRolePage({ params }: { params: Promise<{ role
               ))}
             </ol>
           </div>
-        </article>
+            </article>
 
-        {/* the application, straight after the posting */}
-        <section id="apply" className={`${COLUMN} scroll-mt-6 pt-14`}>
-          <div className="border-t border-ink/[0.14] pt-10">
-            <h2 className="font-serif text-[clamp(28px,3.4vw,36px)] font-medium leading-[1.06] tracking-[-0.015em] text-ink">
-              Apply for this role
-            </h2>
-            <p className="mt-2 text-[15px] text-ink/[0.6]">About ten minutes. Have your resume ready.</p>
-            <div className="mt-8">
-              <ApplicationForm role={role} />
+            {/* the application, straight after the posting */}
+            <section id="apply" className="scroll-mt-10 pt-14">
+              <div className="border-t border-ink/[0.14] pt-10">
+                <h2 className="font-serif text-[clamp(28px,3.4vw,36px)] font-medium leading-[1.06] tracking-[-0.015em] text-ink">
+                  Apply for this role
+                </h2>
+                <p className="mt-2 text-[15px] text-ink/[0.6]">About ten minutes. Have your resume ready.</p>
+                <div className="mt-8">
+                  <ApplicationForm role={role} />
+                </div>
+              </div>
+            </section>
+
+            <div className="pt-12 lg:hidden">
+              <Link href="/careers#roles" className="text-[15px] font-medium text-[#EA580C] hover:text-[#C2410C]">
+                Not the right role? See all roles
+              </Link>
             </div>
           </div>
-        </section>
-
-        <div className={`${COLUMN} pb-20 pt-12 text-center`}>
-          <Link href="/careers#roles" className="text-[15px] font-medium text-[#EA580C] hover:text-[#C2410C]">
-            Not the right role? See all roles
-          </Link>
         </div>
       </div>
     </main>

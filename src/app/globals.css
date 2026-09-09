@@ -32,6 +32,8 @@
     background: theme("colors.gold");
   }
   body {
-    overflow-x: hidden;
+    /* clip, not hidden: hidden would make the body a scroll container and
+       break every position:sticky on the site (the careers role rail) */
+    overflow-x: clip;
   }
 }
