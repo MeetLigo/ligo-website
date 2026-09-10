@@ -5,6 +5,10 @@ const SENDGRID_URL = "https://api.sendgrid.com/v3/mail/send";
 // SendGrid rejects Mail Send calls from anything that isn't verified.
 const FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || "hello@meetligo.com";
 const FROM_NAME = "Ligo";
+// These are internal notifications, not marketing. Click tracking rewrites
+// every link (an applicant's LinkedIn, a club's Instagram) into a SendGrid
+// redirect, which is exactly what the team does not want to see.
+const TRACKING_OFF = { click_tracking: { enable: false, enable_text: false }, open_tracking: { enable: false } };
 const TO_EMAIL = "micahmcneil2@gmail.com";
 
 /**
@@ -29,6 +33,7 @@ export async function sendLeadEmail(params: { org: string; school: string; email
       from: { email: FROM_EMAIL, name: FROM_NAME },
       reply_to: { email },
       content: [{ type: "text/plain", value: text }],
+      tracking_settings: TRACKING_OFF,
     }),
   });
 
@@ -74,6 +79,7 @@ export async function sendNotificationEmail(params: {
       from: { email: FROM_EMAIL, name: FROM_NAME },
       ...(params.replyTo ? { reply_to: { email: params.replyTo } } : {}),
       content: [{ type: "text/plain", value: params.text }],
+      tracking_settings: TRACKING_OFF,
       ...(params.attachments && params.attachments.length > 0
         ? { attachments: params.attachments.map((a) => ({ ...a, disposition: "attachment" })) }
         : {}),
