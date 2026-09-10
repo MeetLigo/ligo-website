@@ -1,25 +1,26 @@
 import { NextResponse } from "next/server";
 import { sendNotificationEmail, type EmailAttachment } from "@/lib/sendgrid";
-import { supabaseAdmin } from "@/lib/supabase";
 import { getRole } from "@/lib/careers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// Applications go to Mekhi with Micah copied until careers@meetligo.com exists;
-// then swap APPLICATIONS_TO to that inbox.
-//
-// Every application is written to Supabase `applications` BEFORE the email is
-// attempted (see supabase/applications.sql). Email is the notification; the
-// table is the record. If email fails, a stored application still returns
-// success to the applicant, so a missing SendGrid key never loses a candidate.
-//
-// Voluntary self-identification is NOT emailed and never reaches a reviewer.
-// It is written to Supabase application_demographics with no name, email, or
-// any other link back to the applicant, purely so the aggregate can be checked
-// later. See supabase/application_demographics.sql.
+// Micah's careers intake on the platform. Same shape as the club intake:
+// POST only, gated on a shared secret sent as x-ligo-careers-key. The key
+// lives in the Amplify env and is listed in amplify.yml so the build copies
+// it into the runtime; it is never in the repo.
+const INTAKE_URL = "https://careers-intake-ligo.nyc.appwrite.run/";
+
+// The platform is the record. Email is the notification, so the team hears
+// about a candidate without opening the admin panel. An application that
+// reaches the platform counts as received even if the email then fails.
 const APPLICATIONS_TO = "mekhi@meetligo.com";
 const APPLICATIONS_CC = ["micah@meetligo.com", "tj@meetligo.com"];
+
+// Self-identification goes in the same POST under its own key. Micah's side
+// files it in a separate collection with nothing linking it to a person, so
+// it stays out of anything a reviewer opens.
+const SELF_ID_FIELDS = ["sid_gender", "sid_gender_self", "sid_ethnicity", "sid_disability", "sid_veteran"] as const;
 
 const REQUIRED: [string, string][] = [
   ["first_name", "missing_first_name"],
@@ -106,86 +107,77 @@ export async function POST(req: Request) {
 
   ];
 
-  // Voluntary self-identification, detached from the application on purpose:
-  // written anonymously, never emailed, best effort so it can never block a
-  // submission.
-  try {
-    const gender = str(fd, "sid_gender");
-    const ethnicity = str(fd, "sid_ethnicity");
-    const disability = str(fd, "sid_disability");
-    const veteran = str(fd, "sid_veteran");
-    const answered = [gender, ethnicity, disability, veteran].some((v) => v && v !== "Prefer not to say");
-    if (answered) {
-      const { error } = await supabaseAdmin().from("application_demographics").insert({
-        role_slug: role.slug,
-        gender: gender || null,
-        gender_self_described: gender === "Prefer to self-describe" ? str(fd, "sid_gender_self") || null : null,
-        ethnicity: ethnicity || null,
-        disability: disability || null,
-        veteran: veteran || null,
-      });
-      if (error) throw error;
-    }
-  } catch (e) {
-    console.error("[/api/apply] demographics write skipped:", errMsg(e));
-  }
-
-  // 1. the record
-  let storedId: string | null = null;
+  // 1. the record: the platform's review queue
+  const key = process.env.LIGO_CAREERS_KEY;
+  let requestId = "";
   let storeError = "";
-  try {
-    const { data, error } = await supabaseAdmin()
-      .from("applications")
-      .insert({
+
+  if (key) {
+    try {
+      const payload: Record<string, string> = {
         role_slug: role.slug,
         role_title: role.title,
         first_name: str(fd, "first_name"),
         last_name: str(fd, "last_name"),
         email,
-        phone: str(fd, "phone") || null,
-        year: str(fd, "year") || null,
-        referral_source: str(fd, "referral_source") || null,
-        work_authorized: str(fd, "elig_work_auth") || null,
-        motivation: str(fd, "motivation") || null,
-        why_role: str(fd, "why_role") || null,
-        availability: str(fd, "availability") || null,
-        links: {
-          instagram: str(fd, "link_instagram") || null,
-          linkedin: str(fd, "link_linkedin") || null,
-          tiktok: str(fd, "link_tiktok") || null,
-          portfolio: str(fd, "link_portfolio") || null,
-        },
-      })
-      .select("id")
-      .single();
-    if (error) throw error;
-    storedId = data?.id ?? null;
-  } catch (e) {
-    storeError = errMsg(e);
-    console.error("[/api/apply] store failed:", storeError);
+        phone: str(fd, "phone"),
+        year: str(fd, "year"),
+        referral_source: str(fd, "referral_source"),
+        work_authorized: str(fd, "elig_work_auth"),
+        motivation: str(fd, "motivation"),
+        why_role: str(fd, "why_role"),
+        availability: str(fd, "availability"),
+        link_instagram: str(fd, "link_instagram"),
+        link_linkedin: str(fd, "link_linkedin"),
+        link_tiktok: str(fd, "link_tiktok"),
+        link_portfolio: str(fd, "link_portfolio"),
+      };
+      // only send self-ID when something was actually answered
+      const selfId: Record<string, string> = {};
+      for (const f of SELF_ID_FIELDS) {
+        const v = str(fd, f);
+        if (v && v !== "Prefer not to say") selfId[f] = v;
+      }
+
+      const res = await fetch(INTAKE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-ligo-careers-key": key },
+        body: JSON.stringify({ ...payload, ...(Object.keys(selfId).length ? { self_id: selfId } : {}) }),
+        cache: "no-store",
+      });
+      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; requestId?: string; error?: string };
+      if (!res.ok || json.ok === false) throw new Error(`intake ${res.status}: ${json.error ?? "unknown"}`);
+      requestId = json.requestId ?? "";
+    } catch (e) {
+      storeError = errMsg(e);
+      console.error("[/api/apply] intake failed:", storeError);
+    }
+  } else {
+    storeError = "LIGO_CAREERS_KEY not set";
+    console.error("[/api/apply] LIGO_CAREERS_KEY not set; email is the only record");
   }
+
+  const stored = Boolean(requestId);
+  if (stored) lines.push(`In the admin panel. Request id: ${requestId}`, ``);
+  else lines.push(`NOT IN THE ADMIN PANEL (${storeError}). This email is the only copy.`, ``);
 
   // 2. the notification
   try {
     await sendNotificationEmail({
       to: APPLICATIONS_TO,
       cc: APPLICATIONS_CC,
-      subject: `Application: ${role.title} · ${name}`,
+      subject: `${stored ? "" : "[NOT IN QUEUE] "}Application: ${role.title} · ${name}`,
       text: lines.join("\n"),
       replyTo: email,
       attachments,
     });
-    if (storedId) {
-      await supabaseAdmin().from("applications").update({ emailed: true }).eq("id", storedId);
-    }
-    return NextResponse.json({ ok: true, stored: !!storedId });
+    return NextResponse.json({ ok: true, stored });
   } catch (e) {
     const message = errMsg(e);
     console.error("[/api/apply] email failed:", message);
-    if (storedId) {
-      // stored but not sent: the applicant is safe, the team must check the table
-      await supabaseAdmin().from("applications").update({ email_error: message.slice(0, 500) }).eq("id", storedId);
-      console.error(`[/api/apply] APPLICATION ${storedId} IS IN SUPABASE BUT NOBODY WAS EMAILED`);
+    // on the platform but unannounced: the candidate is safe either way
+    if (stored) {
+      console.error(`[/api/apply] APPLICATION ${requestId} IS IN THE QUEUE BUT NOBODY WAS EMAILED`);
       return NextResponse.json({ ok: true, stored: true, emailed: false });
     }
     return NextResponse.json({ error: "send_failed", message: `${message}; store: ${storeError}` }, { status: 502 });
