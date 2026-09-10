@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { sendNotificationEmail } from "@/lib/sendgrid";
-import { supabaseAdmin } from "@/lib/supabase";
 import { CLUB_CATEGORIES, CLUB_ROLES } from "@/lib/clubs";
 
 export const runtime = "nodejs";
@@ -109,24 +108,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "intake_failed", message }, { status: 502 });
     }
   } else {
-    console.error("[/api/club-request] LIGO_INTAKE_KEY not set; falling back to Supabase club_requests + email");
-  }
-
-  // Without the intake key the platform never sees this request, so keep a
-  // copy in Supabase (supabase/club_requests.sql) rather than lose the club.
-  let fallbackId: string | null = null;
-  if (!key) {
-    try {
-      const { data, error } = await supabaseAdmin()
-        .from("club_requests")
-        .insert({ club_name: clubName, contact_name: contactName, contact_role: contactRole, club_email: clubEmail, instagram: instagram || null, category: category || null, notes: notes || null })
-        .select("id")
-        .single();
-      if (error) throw error;
-      fallbackId = data?.id ?? null;
-    } catch (e) {
-      console.error("[/api/club-request] fallback store failed:", errMsg(e));
-    }
+    console.error("[/api/club-request] LIGO_INTAKE_KEY not set; email to Micah is the only record");
   }
 
   // 3. heads-up to the team (best effort; the platform queue is the source of truth)
@@ -152,12 +134,11 @@ export async function POST(req: Request) {
       text,
       replyTo: clubEmail,
     });
-    if (fallbackId) await supabaseAdmin().from("club_requests").update({ emailed: true }).eq("id", fallbackId);
   } catch (e) {
     console.error("[/api/club-request] notify failed:", errMsg(e));
     // queued on the platform, or at least stored: the club is safe either way
-    if (!key && !fallbackId) return NextResponse.json({ error: "send_failed" }, { status: 502 });
-    if (!key) console.error(`[/api/club-request] REQUEST ${fallbackId} IS IN SUPABASE BUT NOBODY WAS EMAILED AND THE PLATFORM NEVER SAW IT`);
+    // without the key the platform never saw it and the email was the only copy
+    if (!key) return NextResponse.json({ error: "send_failed" }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true, accepted: true, requestId });
