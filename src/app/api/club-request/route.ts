@@ -11,6 +11,11 @@ export const dynamic = "force-dynamic";
 // x-ligo-intake-key; the key lives in the hosting env, never in the repo.
 const INTAKE_URL = "https://club-intake-ligo.nyc.appwrite.run/";
 const TEAM = ["micah@meetligo.com", "mekhi@meetligo.com"];
+// When the intake key is missing, the request is Micah's to enter by hand
+// and the fix is his env var, so only he hears about it. Mekhi got 62 of
+// these in one afternoon from key-check tests; the website has no way to
+// tell a test from a club until the key is live.
+const FALLBACK_TO = ["micah@meetligo.com"];
 
 type IntakeCheck = { ok: boolean; exists?: boolean; reason?: "club_exists" | "request_pending"; clubName?: string; status?: string };
 type IntakeSubmit = { ok: boolean; accepted?: boolean; requestId?: string; reason?: string; error?: string };
@@ -142,7 +147,7 @@ export async function POST(req: Request) {
 
   try {
     await sendNotificationEmail({
-      to: TEAM,
+      to: key ? TEAM : FALLBACK_TO,
       subject: `${key ? "" : "[NO INTAKE KEY] "}Club account request: ${clubName}`,
       text,
       replyTo: clubEmail,
