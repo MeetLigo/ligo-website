@@ -14,7 +14,6 @@ export function GET() {
     sendgrid: has("SENDGRID_API_KEY"),
     intake: has("LIGO_INTAKE_KEY"),
     careers: has("LIGO_CAREERS_KEY"),
-    supabase: has("NEXT_PUBLIC_SUPABASE_URL") && has("SUPABASE_SERVICE_ROLE_KEY"),
     checkedAt: new Date().toISOString(),
   });
 }

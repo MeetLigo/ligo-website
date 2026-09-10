@@ -16,7 +16,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY -e NEXT_PUBLIC_SUPABASE_URL -e NEXT_PUBLIC_SUPABASE_ANON_KEY -e SUPABASE_SERVICE_ROLE_KEY -e SPOTIFY_CLIENT_ID -e SPOTIFY_CLIENT_SECRET >> .env.production || true
+        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY >> .env.production || true
         - npm run build
   artifacts:
     baseDirectory: .next
