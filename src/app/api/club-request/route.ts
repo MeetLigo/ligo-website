@@ -33,6 +33,13 @@ async function intake<T>(key: string, body: Record<string, string>): Promise<T> 
 // 3. heads-up email to the team (best effort)
 // Without LIGO_INTAKE_KEY in the env it falls back to email-only so the form
 // never dead-ends, and the subject line says so loudly.
+/** Supabase errors are plain objects, not Error instances; read a message off either. */
+function errMsg(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  if (e && typeof e === "object" && "message" in e) return String((e as { message: unknown }).message);
+  return String(e);
+}
+
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
   try {
@@ -92,7 +99,7 @@ export async function POST(req: Request) {
       requestId = sub.requestId ?? "";
       existingName = check.clubName ?? "";
     } catch (e) {
-      const message = e instanceof Error ? e.message : String(e);
+      const message = errMsg(e);
       console.error("[/api/club-request] intake failed:", message);
       return NextResponse.json({ error: "intake_failed", message }, { status: 502 });
     }
@@ -113,7 +120,7 @@ export async function POST(req: Request) {
       if (error) throw error;
       fallbackId = data?.id ?? null;
     } catch (e) {
-      console.error("[/api/club-request] fallback store failed:", e instanceof Error ? e.message : e);
+      console.error("[/api/club-request] fallback store failed:", errMsg(e));
     }
   }
 
@@ -142,7 +149,7 @@ export async function POST(req: Request) {
     });
     if (fallbackId) await supabaseAdmin().from("club_requests").update({ emailed: true }).eq("id", fallbackId);
   } catch (e) {
-    console.error("[/api/club-request] notify failed:", e instanceof Error ? e.message : e);
+    console.error("[/api/club-request] notify failed:", errMsg(e));
     // queued on the platform, or at least stored: the club is safe either way
     if (!key && !fallbackId) return NextResponse.json({ error: "send_failed" }, { status: 502 });
     if (!key) console.error(`[/api/club-request] REQUEST ${fallbackId} IS IN SUPABASE BUT NOBODY WAS EMAILED AND THE PLATFORM NEVER SAW IT`);

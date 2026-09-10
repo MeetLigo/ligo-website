@@ -31,6 +31,13 @@ const REQUIRED: [string, string][] = [
   ["availability", "missing_availability"],
 ];
 
+/** Supabase errors are plain objects, not Error instances; read a message off either. */
+function errMsg(e: unknown): string {
+  if (e instanceof Error) return e.message;
+  if (e && typeof e === "object" && "message" in e) return String((e as { message: unknown }).message);
+  return String(e);
+}
+
 function str(fd: FormData, key: string, max = 4000) {
   const v = fd.get(key);
   return typeof v === "string" ? v.trim().slice(0, max) : "";
@@ -120,7 +127,7 @@ export async function POST(req: Request) {
       if (error) throw error;
     }
   } catch (e) {
-    console.error("[/api/apply] demographics write skipped:", e instanceof Error ? e.message : e);
+    console.error("[/api/apply] demographics write skipped:", errMsg(e));
   }
 
   // 1. the record
@@ -154,7 +161,7 @@ export async function POST(req: Request) {
     if (error) throw error;
     storedId = data?.id ?? null;
   } catch (e) {
-    storeError = e instanceof Error ? e.message : String(e);
+    storeError = errMsg(e);
     console.error("[/api/apply] store failed:", storeError);
   }
 
@@ -173,7 +180,7 @@ export async function POST(req: Request) {
     }
     return NextResponse.json({ ok: true, stored: !!storedId });
   } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
+    const message = errMsg(e);
     console.error("[/api/apply] email failed:", message);
     if (storedId) {
       // stored but not sent: the applicant is safe, the team must check the table
