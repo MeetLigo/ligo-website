@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
-import { getPostBySlug, urlFor } from "@/lib/sanity";
+import { getPostBySlug, urlFor } from "@/lib/posts";
 import { PageHero } from "@/components/chrome/PageHero";
 import { Placeholder } from "@/components/ui/Placeholder";
 

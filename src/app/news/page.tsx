@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getNewsPosts, urlFor } from "@/lib/sanity";
+import { getPosts, urlFor } from "@/lib/posts";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { Tape } from "@/components/ui/Tape";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const rawPosts = await getNewsPosts();
+  const rawPosts = await getPosts();
 
   const posts = rawPosts.map((p) => ({
     tag: p.tags?.[0] ?? "Announcement",

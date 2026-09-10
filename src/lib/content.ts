@@ -132,23 +132,6 @@ export const advisors: Person[] = [
   { name: "Eric Woods", role: "Advisor", img: "/team/eric-woods.png" },
 ];
 
-// ---- News: blog + announcements, combined ---------------------------------
-
-export interface NewsPost {
-  tag: string;
-  tagColor: string;
-  date: string;
-  title: string;
-  excerpt: string;
-}
-
-export const news: NewsPost[] = [
-  { tag: "Launch", tagColor: "#EA580C", date: "Jul 2026", title: "Ligo is live at Howard.", excerpt: "Our second campus is in. The chart, the daily take, the events. All of it, all Bison." },
-  { tag: "Product", tagColor: "#4FA6CB", date: "Jun 2026", title: "The daily hot take gets a reveal moment.", excerpt: "Vote, wait, then watch the whole campus’ answer roll in at 8pm sharp." },
-  { tag: "Blog", tagColor: "#A13D99", date: "Jun 2026", title: "Why we’ll never add a bio.", excerpt: "A short manifesto on letting the music do the introducing, and why that changes who you meet." },
-  { tag: "Announcement", tagColor: "#EA580C", date: "May 2026", title: "We raised our seed round.", excerpt: "What the next year looks like, and the campuses we’re heading to next." },
-  { tag: "Blog", tagColor: "#A13D99", date: "Apr 2026", title: "Georgetown’s song of the semester.", excerpt: "We counted every vote. One track ran away with it, and it’s not what you’d guess." },
-];
 
 // ---- Partner --------------------------------------------------------------
 
