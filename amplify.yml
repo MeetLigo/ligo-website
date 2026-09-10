@@ -1,0 +1,28 @@
+# Amplify Hosting build spec for meetligo.com (Next.js, SSR).
+#
+# Why this file exists: Amplify exposes console environment variables to the
+# BUILD, not to the Next.js server at RUNTIME. Anything a server route reads
+# with process.env has to be copied into .env.production during the build, or
+# the running site never sees it. That is how LIGO_INTAKE_KEY sat "present and
+# correctly named" in the console through four rebuilds while the site kept
+# reporting it missing (9/10/2026). Every variable src/ reads is listed here;
+# add new ones to this line when the code starts reading them.
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm use 22 || nvm install 22 || true
+        - npm ci
+    build:
+      commands:
+        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e NEXT_PUBLIC_SUPABASE_URL -e NEXT_PUBLIC_SUPABASE_ANON_KEY -e SUPABASE_SERVICE_ROLE_KEY -e SPOTIFY_CLIENT_ID -e SPOTIFY_CLIENT_SECRET >> .env.production || true
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
