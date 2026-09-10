@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 // any other link back to the applicant, purely so the aggregate can be checked
 // later. See supabase/application_demographics.sql.
 const APPLICATIONS_TO = "mekhi@meetligo.com";
-const APPLICATIONS_CC = ["micah@meetligo.com"];
+const APPLICATIONS_CC = ["micah@meetligo.com", "tj@meetligo.com"];
 
 const REQUIRED: [string, string][] = [
   ["first_name", "missing_first_name"],
