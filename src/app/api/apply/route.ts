@@ -9,6 +9,11 @@ export const dynamic = "force-dynamic";
 // Applications go to Mekhi with Micah copied until careers@meetligo.com exists;
 // then swap APPLICATIONS_TO to that inbox.
 //
+// Every application is written to Supabase `applications` BEFORE the email is
+// attempted (see supabase/applications.sql). Email is the notification; the
+// table is the record. If email fails, a stored application still returns
+// success to the applicant, so a missing SendGrid key never loses a candidate.
+//
 // Voluntary self-identification is NOT emailed and never reaches a reviewer.
 // It is written to Supabase application_demographics with no name, email, or
 // any other link back to the applicant, purely so the aggregate can be checked
@@ -118,6 +123,42 @@ export async function POST(req: Request) {
     console.error("[/api/apply] demographics write skipped:", e instanceof Error ? e.message : e);
   }
 
+  // 1. the record
+  let storedId: string | null = null;
+  let storeError = "";
+  try {
+    const { data, error } = await supabaseAdmin()
+      .from("applications")
+      .insert({
+        role_slug: role.slug,
+        role_title: role.title,
+        first_name: str(fd, "first_name"),
+        last_name: str(fd, "last_name"),
+        email,
+        phone: str(fd, "phone") || null,
+        year: str(fd, "year") || null,
+        referral_source: str(fd, "referral_source") || null,
+        work_authorized: str(fd, "elig_work_auth") || null,
+        motivation: str(fd, "motivation") || null,
+        why_role: str(fd, "why_role") || null,
+        availability: str(fd, "availability") || null,
+        links: {
+          instagram: str(fd, "link_instagram") || null,
+          linkedin: str(fd, "link_linkedin") || null,
+          tiktok: str(fd, "link_tiktok") || null,
+          portfolio: str(fd, "link_portfolio") || null,
+        },
+      })
+      .select("id")
+      .single();
+    if (error) throw error;
+    storedId = data?.id ?? null;
+  } catch (e) {
+    storeError = e instanceof Error ? e.message : String(e);
+    console.error("[/api/apply] store failed:", storeError);
+  }
+
+  // 2. the notification
   try {
     await sendNotificationEmail({
       to: APPLICATIONS_TO,
@@ -127,10 +168,19 @@ export async function POST(req: Request) {
       replyTo: email,
       attachments,
     });
-    return NextResponse.json({ ok: true });
+    if (storedId) {
+      await supabaseAdmin().from("applications").update({ emailed: true }).eq("id", storedId);
+    }
+    return NextResponse.json({ ok: true, stored: !!storedId });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    console.error("[/api/apply POST]", message);
-    return NextResponse.json({ error: "send_failed", message }, { status: 502 });
+    console.error("[/api/apply] email failed:", message);
+    if (storedId) {
+      // stored but not sent: the applicant is safe, the team must check the table
+      await supabaseAdmin().from("applications").update({ email_error: message.slice(0, 500) }).eq("id", storedId);
+      console.error(`[/api/apply] APPLICATION ${storedId} IS IN SUPABASE BUT NOBODY WAS EMAILED`);
+      return NextResponse.json({ ok: true, stored: true, emailed: false });
+    }
+    return NextResponse.json({ error: "send_failed", message: `${message}; store: ${storeError}` }, { status: 502 });
   }
 }
