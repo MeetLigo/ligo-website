@@ -2,10 +2,8 @@ import { Landing } from "@/components/home/Landing";
 import { HomeFooter } from "@/components/home/HomeFooter";
 
 /**
- * The homepage: broad-ethos landing (audience-split hero over the slideshow →
- * club strip → club benefits → claim band) → footer. The music-era hero
- * (HomeHero) and home FAQ strip are retired from this page but kept in the
- * tree for reference.
+ * The homepage: audience-split hero over the campus slideshow, then the club
+ * logo strip, then the footer.
  */
 export default function HomePage() {
   return (

@@ -7,8 +7,8 @@ import { navItems } from "@/lib/content";
 import { useDrawer } from "./DrawerProvider";
 
 /**
- * Left drawer overlaying the page, styled as a tracklist:
- * nav items are numbered "songs" with durations. Real routing via <Link>.
+ * Left drawer overlaying the page, shown below the md breakpoint where the
+ * inline header nav gives way to a hamburger. Real routing via <Link>.
  */
 export function NavDrawer() {
   const { open, closeDrawer } = useDrawer();
@@ -52,15 +52,12 @@ export function NavDrawer() {
           }}
         />
 
-        {/* now playing header */}
+        {/* header */}
         <div className="relative flex items-center justify-between px-6 pb-[18px] pt-[26px]">
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-eyebrow text-gold">
-              now playing
-            </div>
-            <div className="mt-1 font-display text-[22px] font-semibold tracking-[-0.02em]">
-              The Ligo Mixtape
-            </div>
+          <div className="flex items-center gap-[10px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-mark.svg" alt="" width={28} height={28} className="block" />
+            <span className="font-serif text-[24px] font-medium italic leading-none tracking-[-0.01em]">Ligo</span>
           </div>
           <button
             onClick={closeDrawer}
@@ -73,7 +70,7 @@ export function NavDrawer() {
           </button>
         </div>
 
-        {/* tracklist */}
+        {/* menu */}
         <nav className="relative flex flex-col px-3 py-[6px]">
           {navItems.map((item) => {
             const active = pathname === item.href;
@@ -82,26 +79,19 @@ export function NavDrawer() {
                 key={item.href}
                 href={item.href}
                 onClick={closeDrawer}
-                className="flex w-full items-center gap-4 rounded-[14px] px-3 py-[14px] text-left transition-colors hover:bg-white/[0.06]"
+                aria-current={active ? "page" : undefined}
+                className="flex w-full items-center gap-3 rounded-[14px] px-3 py-[13px] text-left transition-colors hover:bg-white/[0.06]"
               >
-                {active ? (
-                  <span className="flex h-5 w-5 items-end justify-center gap-[2px]">
-                    <i className="w-[3px] rounded-[2px] bg-flame animate-eq" />
-                    <i className="w-[3px] rounded-[2px] bg-flame animate-eq [animation-delay:0.3s]" />
-                    <i className="w-[3px] rounded-[2px] bg-flame animate-eq [animation-delay:0.6s]" />
-                  </span>
-                ) : (
-                  <span className="w-5 text-center font-display text-sm font-semibold tabular-nums text-white/35">
-                    {item.n}
-                  </span>
-                )}
                 <span
-                  className="flex-1 font-display text-[19px] font-semibold tracking-[-0.02em]"
+                  aria-hidden
+                  className={`h-[6px] w-[6px] flex-none rounded-full transition-colors ${active ? "bg-flame" : "bg-transparent"}`}
+                />
+                <span
+                  className="flex-1 font-serif text-[19px] font-medium tracking-[-0.01em]"
                   style={{ color: active ? "#FB923C" : "#fff" }}
                 >
                   {item.title}
                 </span>
-                <span className="text-xs tabular-nums text-white/35">{item.dur}</span>
               </Link>
             );
           })}

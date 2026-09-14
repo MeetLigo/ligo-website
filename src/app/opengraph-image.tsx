@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Ligo — Connect through music.";
+export const alt = "Ligo, the first campus connector app.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -24,7 +24,7 @@ export default async function OpengraphImage() {
           justifyContent: "center",
           background: "#171717",
           backgroundImage:
-            "radial-gradient(circle at 15% 15%, rgba(232,162,76,0.22), transparent 55%), radial-gradient(circle at 85% 85%, rgba(90,166,224,0.16), transparent 55%)",
+            "radial-gradient(circle at 15% 15%, rgba(249,115,22,0.20), transparent 55%), radial-gradient(circle at 85% 85%, rgba(232,162,76,0.14), transparent 55%)",
         }}
       >
         <div
@@ -52,12 +52,12 @@ export default async function OpengraphImage() {
           style={{
             display: "flex",
             marginTop: 18,
-            fontSize: 34,
+            fontSize: 32,
             color: "#F97316",
             fontStyle: "italic",
           }}
         >
-          Connect through music.
+          The first campus connector app.
         </div>
         <div
           style={{

@@ -10,7 +10,7 @@ import { clubLogos } from "@/lib/content";
  * Broad-ethos landing (ported from the design export "Ligo Landing v3").
  * Audience-split hero over the ambient photo slideshow: students get the App
  * Store pill (+ other-campus waitlist), club leaders get the claim form.
- * Below it, just the club logo strip. No music framing on this page (8/28).
+ * Below it, just the club logo strip.
  */
 
 const APP_STORE = "https://apps.apple.com/us/app/ligo/id6753926105";

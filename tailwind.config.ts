@@ -74,10 +74,6 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(18px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        eq: {
-          "0%,100%": { height: "4px" },
-          "50%": { height: "15px" },
-        },
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
@@ -111,7 +107,6 @@ const config: Config = {
         floatY: "floatY 7s ease-in-out infinite",
         pulseDot: "pulseDot 1.8s ease-out infinite",
         riseIn: "riseIn .45s cubic-bezier(.2,.7,.2,1) both",
-        eq: "eq .9s ease-in-out infinite",
         marquee: "marquee 16s linear infinite",
         "marquee-slow": "marquee 34s linear infinite",
         anthemDrift: "anthemDrift 38s ease-in-out infinite",

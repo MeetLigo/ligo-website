@@ -6,23 +6,20 @@
 export type Route = "/" | "/about" | "/news" | "/careers";
 
 export interface NavItem {
-  n: string;
   title: string;
-  dur: string;
   href: Route;
 }
 
-// Tracklist drawer — nav items styled as "songs".
+// The drawer menu, shown below the md breakpoint.
 export const navItems: NavItem[] = [
-  { n: "01", title: "About", dur: "3:41", href: "/about" },
-  { n: "02", title: "Ligo News", dur: "2:58", href: "/news" },
-  { n: "03", title: "Careers", dur: "4:12", href: "/careers" },
+  { title: "About", href: "/about" },
+  { title: "Ligo News", href: "/news" },
+  { title: "Careers", href: "/careers" },
 ];
 
 
 // ---- Homepage payoff ------------------------------------------------------
 
-// The wall is now live (all-time, ranked, merged per track) — served by
 // /api/answers from the wall_ranking view. See src/lib/pick.ts for the types.
 
 
@@ -59,7 +56,7 @@ export const advisors: Person[] = [
 
 // ---- Landing (broad ethos, Aug 2026 redesign) -----------------------------
 // Ported from the Claude Design export "Ligo Landing v3" — audience-split hero,
-// club benefits, category showcase. No music framing on the landing (8/28 call).
+// Club logo strip on the landing page.
 
 export interface ClubLogo {
   /** file under /public/clubs */
