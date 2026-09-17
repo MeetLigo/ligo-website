@@ -7,6 +7,8 @@
 # correctly named" in the console through four rebuilds while the site kept
 # reporting it missing (9/10/2026). Every variable src/ reads is listed here;
 # add new ones to this line when the code starts reading them.
+# NEXT_PUBLIC_GA_MEASUREMENT_ID (2026-09-16): the GA4 property ID, read at build
+# time by src/app/layout.tsx; no ID, no tag.
 version: 1
 frontend:
   phases:
@@ -16,7 +18,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY >> .env.production || true
+        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY -e NEXT_PUBLIC_GA_MEASUREMENT_ID >> .env.production || true
         - npm run build
   artifacts:
     baseDirectory: .next
