@@ -39,7 +39,12 @@ export async function sendLeadEmail(params: { org: string; school: string; email
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`SendGrid ${res.status}: ${body.slice(0, 300)}`);
+    // CHANGED 2026-09-16: the status and body used to travel up into the error
+    // and out to the visitor through the routes' `message` field, which handed
+    // anyone flooding the forms a live readout of the remaining quota. The
+    // detail stays in the server log, where it is useful.
+    console.error(`sendgrid ${res.status}: ${body.slice(0, 300)}`);
+    throw new Error("sendgrid_failed");
   }
 }
 
@@ -88,6 +93,11 @@ export async function sendNotificationEmail(params: {
 
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(`SendGrid ${res.status}: ${body.slice(0, 300)}`);
+    // CHANGED 2026-09-16: the status and body used to travel up into the error
+    // and out to the visitor through the routes' `message` field, which handed
+    // anyone flooding the forms a live readout of the remaining quota. The
+    // detail stays in the server log, where it is useful.
+    console.error(`sendgrid ${res.status}: ${body.slice(0, 300)}`);
+    throw new Error("sendgrid_failed");
   }
 }
