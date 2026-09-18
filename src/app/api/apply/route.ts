@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendNotificationEmail, type EmailAttachment } from "@/lib/sendgrid";
+import { postCareersSlack } from "@/lib/slack";
 import { getRole } from "@/lib/careers";
 import {
   emailAllowed, noteSend, preflight, sendBudget, subjectSafe, tooMany, DAY, HOUR,
@@ -117,6 +118,19 @@ export async function POST(req: Request) {
 
   const attachments: EmailAttachment[] = [];
   const name = `${f(fd, "first_name")} ${f(fd, "last_name")}`;
+
+  // Hoisted out of `lines` so the email and the Slack post render the same set
+  // from one source instead of two copies that drift.
+  const LINK_FIELDS: [string, string][] = [
+    ["Instagram", "link_instagram"],
+    ["LinkedIn", "link_linkedin"],
+    ["TikTok", "link_tiktok"],
+    ["Portfolio", "link_portfolio"],
+  ];
+  const links: [string, string][] = LINK_FIELDS
+    .map(([label, k]) => [label, str(fd, k)] as [string, string])
+    .filter(([, value]) => Boolean(value));
+
   const lines: string[] = [
     `New application from meetligo.com/careers`,
     ``,
@@ -131,18 +145,7 @@ export async function POST(req: Request) {
     ``,
     `AUTHORIZED TO WORK IN THE US: ${str(fd, "elig_work_auth")}`,
     `--- Links ---`,
-    ...(
-      [
-        ["Instagram", "link_instagram"],
-        ["LinkedIn", "link_linkedin"],
-        ["TikTok", "link_tiktok"],
-        ["Portfolio", "link_portfolio"],
-      ] as [string, string][]
-    )
-      .map(([label, k]) => (str(fd, k) ? `${label}: ${str(fd, k)}` : ""))
-      .filter(Boolean)
-      .concat([["link_instagram", "link_linkedin", "link_tiktok", "link_portfolio"].every((k) => !str(fd, k)) ? "(none given)" : ""])
-      .filter(Boolean),
+    ...(links.length ? links.map(([label, value]) => `${label}: ${value}`) : ["(none given)"]),
     ``,
     ...(f(fd, "why_role") ? [`--- In their words ---`, f(fd, "why_role"), ``] : []),
 
@@ -202,7 +205,37 @@ export async function POST(req: Request) {
   if (stored) lines.push(`In the admin panel. Request id: ${requestId}`, ``);
   else lines.push(`NOT IN THE ADMIN PANEL (${storeError}). This email is the only copy.`, ``);
 
-  // 2. the notification. When the day's send budget is gone and the
+  // 2. the fast notification: Slack. Placed ahead of the email on purpose.
+  // The email has two paths that end in nobody being told (the send budget runs
+  // out, or SendGrid fails), and those are exactly the applications most likely
+  // to be missed. Slack posting first means the channel hears about every
+  // application that gets this far, email or no email.
+  //
+  // Wrapped and swallowed: a webhook that 404s or a channel that was archived
+  // must never turn a submitted application into an error for the candidate.
+  // No self-ID answers are passed; see the note on SELF_ID_FIELDS above.
+  try {
+    await postCareersSlack({
+      roleTitle: role.title,
+      name,
+      email,
+      phone: f(fd, "phone"),
+      year: f(fd, "year"),
+      availability: f(fd, "availability"),
+      motivation: f(fd, "motivation"),
+      referralSource: f(fd, "referral_source"),
+      workAuthorized: str(fd, "elig_work_auth"),
+      links,
+      whyRole: f(fd, "why_role"),
+      stored,
+      requestId,
+      storeError,
+    });
+  } catch (e) {
+    console.error("[/api/apply] slack failed:", errMsg(e));
+  }
+
+  // 3. the slow notification. When the day's send budget is gone and the
   // application IS in the queue, skip the email and return the shape the
   // client already treats as success. Burn the notification, never the
   // candidate.
