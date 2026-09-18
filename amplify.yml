@@ -9,6 +9,9 @@
 # add new ones to this line when the code starts reading them.
 # NEXT_PUBLIC_GA_MEASUREMENT_ID (2026-09-16): the GA4 property ID, read at build
 # time by src/app/layout.tsx; no ID, no tag.
+# SLACK_CAREERS_WEBHOOK (2026-09-18): Slack Incoming Webhook for the careers
+# channel, read at runtime by src/lib/slack.ts. Unset is a supported state: the
+# site behaves exactly as it did before, minus the Slack post.
 version: 1
 frontend:
   phases:
@@ -18,7 +21,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY -e NEXT_PUBLIC_GA_MEASUREMENT_ID >> .env.production || true
+        - env | grep -e SENDGRID_API_KEY -e SENDGRID_FROM_EMAIL -e LIGO_INTAKE_KEY -e LIGO_CAREERS_KEY -e SLACK_CAREERS_WEBHOOK -e NEXT_PUBLIC_GA_MEASUREMENT_ID >> .env.production || true
         - npm run build
   artifacts:
     baseDirectory: .next
