@@ -154,11 +154,6 @@ export async function getPosts(opts: { kind?: PostKind; limit?: number } = {}): 
   }
 }
 
-/** Short product and company news, newest first. What the homepage rail shows. */
-export function getUpdates(limit = 8) {
-  return getPosts({ kind: "update", limit });
-}
-
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
   try {
     const rows = await fetchRows([
