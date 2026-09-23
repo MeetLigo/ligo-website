@@ -21,3 +21,5 @@ npm-debug.log*
 # Local photo/video picks — kept on disk, never deployed (large source media)
 /Photos
 tsconfig.tsbuildinfo
+.sanity-export/
+.claude/

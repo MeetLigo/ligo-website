@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getPosts, urlFor } from "@/lib/posts";
+import { getPosts, postImage } from "@/lib/posts";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { PageHero, Accent } from "@/components/chrome/PageHero";
 import { Tape } from "@/components/ui/Tape";
@@ -19,7 +19,7 @@ export default async function NewsPage() {
     title: p.title,
     excerpt: p.excerpt ?? "",
     href: `/news/${p.slug}`,
-    imageUrl: p.image ? urlFor(p.image).width(480).height(370).fit("crop").url() : null,
+    imageUrl: p.image ? postImage(p.image, 480, 370) : null,
   }));
 
   return (

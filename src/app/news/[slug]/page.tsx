@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { PortableText } from "@portabletext/react";
-import { getPostBySlug, urlFor } from "@/lib/posts";
+import ReactMarkdown from "react-markdown";
+import { getPostBySlug, postImage } from "@/lib/posts";
 import { PageHero } from "@/components/chrome/PageHero";
 import { Placeholder } from "@/components/ui/Placeholder";
 
@@ -36,7 +36,7 @@ export default async function NewsPostPage({
   });
   const tag = post.tags?.[0] ?? "Announcement";
   const heroImage = post.image
-    ? urlFor(post.image).width(1600).height(900).url()
+    ? postImage(post.image, 1600, 900)
     : "/hero/slide-3.jpg";
 
   return (
@@ -66,7 +66,7 @@ export default async function NewsPostPage({
         {post.body ? (
           <div className="space-y-5 text-[16px] leading-[1.7] text-[#FAF6EF]/85">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            <PortableText value={post.body as any} />
+            <ReactMarkdown>{post.body}</ReactMarkdown>
           </div>
         ) : (
           <p className="text-[16px] leading-[1.7] text-[#FAF6EF]/60">
