@@ -1,40 +1,25 @@
 import { NextResponse } from "next/server";
-import { sendNotificationEmail } from "@/lib/sendgrid";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// POST /api/club-claim → the homepage "I run a club" form (name, club, email);
-// the lead is emailed to the team for follow-up.
-export async function POST(req: Request) {
-  let body: Record<string, unknown>;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "bad_json" }, { status: 400 });
-  }
-
-  const name = String(body.name ?? "").trim();
-  const club = String(body.club ?? "").trim();
-  const email = String(body.email ?? "").trim().toLowerCase();
-
-  if (!name) return NextResponse.json({ error: "missing_name" }, { status: 400 });
-  if (!club) return NextResponse.json({ error: "missing_club" }, { status: 400 });
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    return NextResponse.json({ error: "invalid_email" }, { status: 400 });
-  }
-
-  try {
-    await sendNotificationEmail({
-      to: "micah@meetligo.com",
-      subject: `New club claim: ${club}`,
-      text: `New club claim from meetligo.com:\n\nName: ${name}\nClub: ${club}\nEmail: ${email}`,
-      replyTo: email,
-    });
-    return NextResponse.json({ ok: true });
-  } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
-    console.error("[/api/club-claim POST]", message);
-    return NextResponse.json({ error: "send_failed", message }, { status: 502 });
-  }
+/**
+ * GONE 2026-09-16.
+ *
+ * This was the homepage "I run a club" form (name, club, email), emailed
+ * straight to micah@meetligo.com. The form was removed from the homepage and
+ * nothing in src/ has called this route since; a repo-wide search finds only
+ * this file and one comment in lib/sendgrid.ts. What was left was a public,
+ * unauthenticated POST that put an uncapped attacker-supplied string into a
+ * mail subject line and sent it to the founder, with no rate limit, no
+ * honeypot and no caps.
+ *
+ * It answers 410 rather than being deleted outright: if some link, QR code or
+ * old client does still point here, a clear refusal is a better failure than a
+ * 404 that looks like a deploy problem, and the abuse surface is closed either
+ * way. Delete the file once that is confirmed. /clubs/create is the live path
+ * for a club that wants an account.
+ */
+export function POST() {
+  return NextResponse.json({ error: "gone" }, { status: 410 });
 }

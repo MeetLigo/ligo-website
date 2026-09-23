@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { sendNotificationEmail } from "@/lib/sendgrid";
 import { CLUB_CATEGORIES, CLUB_ROLES } from "@/lib/clubs";
+import {
+  cap, emailAllowed, noteSend, parseJsonBody, preflight, sendBudget, subjectSafe, tooMany, HOUR, TEN_MIN,
+} from "@/lib/guard";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,26 +47,45 @@ function errMsg(e: unknown): string {
   return String(e);
 }
 
+// ADDED 2026-09-16. This is the tightest-limited route on the site, and not
+// because of SendGrid: one POST here costs two Appwrite function executions,
+// and club-intake pages the whole clubs collection into memory on each of
+// them. Appwrite bills reads per row and throttles the whole project at the
+// free cap, so a flood here degrades the mobile app and the admin panel too,
+// not just the website. That blast radius is wider than the inbox.
+const ROUTE = "club-request";
+
 export async function POST(req: Request) {
-  let body: Record<string, unknown>;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "bad_json" }, { status: 400 });
+  const pre = await preflight(req, {
+    route: ROUTE,
+    maxBytes: 32 * 1024,
+    global: [{ windowMs: TEN_MIN, max: 20 }, { windowMs: HOUR, max: 60 }],
+    perIp: [{ windowMs: TEN_MIN, max: 5 }, { windowMs: HOUR, max: 15 }],
+    limited: tooMany,
+  });
+  if (!pre.ok) return pre.response;
+
+  const body = parseJsonBody(pre.bytes);
+  if (!body) return NextResponse.json({ error: "bad_json" }, { status: 400 });
+
+  // honeypot. RENAMED 2026-09-16 from "website", which password managers fill
+  // on their own, silently eating real submissions. It still answers with the
+  // success shape: an error would tell a bot it had been caught.
+  if (cap(body.ligo_ref2, 100)) {
+    console.warn("guard: club-request honeypot tripped:", cap(body.club_email, 254));
+    return NextResponse.json({ ok: true, accepted: true });
   }
 
-  const s = (k: string, max = 500) => String(body[k] ?? "").trim().slice(0, max);
-
-  // honeypot
-  if (s("website")) return NextResponse.json({ ok: true, accepted: true });
-
-  const clubName = s("club_name");
-  const contactName = s("contact_name");
-  const contactRole = s("contact_role");
-  const clubEmail = s("club_email").toLowerCase();
-  const instagram = s("instagram").replace(/^@/, "");
-  const category = s("category");
-  const notes = s("notes", 2000);
+  // Caps match what careers-intake already clamps to, so the website is never
+  // the looser side. club-intake does NOT clamp before its write, so these are
+  // load-bearing for that document.
+  const clubName = cap(body.club_name, 120);
+  const contactName = cap(body.contact_name, 120);
+  const contactRole = cap(body.contact_role, 80);
+  const clubEmail = cap(body.club_email, 254).toLowerCase();
+  const instagram = cap(body.instagram, 30).replace(/^@/, "");
+  const category = cap(body.category, 80);
+  const notes = cap(body.notes, 2000);
 
   if (!clubName) return NextResponse.json({ error: "missing_club_name" }, { status: 400 });
   if (!contactName) return NextResponse.json({ error: "missing_contact_name" }, { status: 400 });
@@ -73,6 +95,13 @@ export async function POST(req: Request) {
   }
   if (category && !CLUB_CATEGORIES.includes(category)) {
     return NextResponse.json({ error: "invalid_category" }, { status: 400 });
+  }
+
+  // One club, three tries an hour. Runs after validation so a malformed body
+  // never spends someone's allowance, and before the Appwrite calls, which are
+  // the expensive part.
+  if (!emailAllowed(ROUTE, clubEmail, [{ windowMs: HOUR, max: 3 }])) {
+    return tooMany(600);
   }
 
   const key = process.env.LIGO_INTAKE_KEY;
@@ -105,7 +134,9 @@ export async function POST(req: Request) {
     } catch (e) {
       const message = errMsg(e);
       console.error("[/api/club-request] intake failed:", message);
-      return NextResponse.json({ error: "intake_failed", message }, { status: 502 });
+      // No `message` field: it carried the upstream response text straight to
+      // the visitor.
+      return NextResponse.json({ error: "intake_failed" }, { status: 502 });
     }
   } else {
     console.error("[/api/club-request] LIGO_INTAKE_KEY not set; email to Micah is the only record");
@@ -127,13 +158,24 @@ export async function POST(req: Request) {
     notes || "(none)",
   ].join("\n");
 
+  // The club is already in the review queue at this point, so a skipped or
+  // failed notification costs a heads-up and not a club. When the day's send
+  // budget is gone, drop the email and keep the submission.
+  if (!sendBudget("queued")) {
+    console.error(`guard: daily send budget exhausted; club request ${requestId || "(no id)"} queued but nobody emailed:`, clubName);
+    return NextResponse.json({ ok: true, accepted: true, requestId });
+  }
+
   try {
     await sendNotificationEmail({
       to: key ? TEAM : FALLBACK_TO,
-      subject: `${key ? "" : "[NO INTAKE KEY] "}Club account request: ${clubName}`,
+      // subjectSafe: a club name reaches a mail header, which cannot carry
+      // newlines.
+      subject: `${key ? "" : "[NO INTAKE KEY] "}Club account request: ${subjectSafe(clubName)}`,
       text,
       replyTo: clubEmail,
     });
+    noteSend();
   } catch (e) {
     console.error("[/api/club-request] notify failed:", errMsg(e));
     // queued on the platform, or at least stored: the club is safe either way

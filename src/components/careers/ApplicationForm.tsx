@@ -51,6 +51,10 @@ const VETERAN = ["I am a veteran", "I am not a veteran", "Prefer not to say"];
 const ERRORS: Record<string, string> = {
   invalid_email: "Enter a valid email.",
   invalid_role: "That role isn't open right now.",
+  rate_limited: "Too many tries just now. Give it a minute and send it again.",
+  too_large: "That's longer than the form accepts. Trim it down and try again.",
+  bad_origin: "Couldn't send that from here. Reload the page and try again.",
+  send_failed: "Our end hiccuped. Try again in a minute.",
 };
 
 function Field({
@@ -199,7 +203,20 @@ export function ApplicationForm({ role }: { role: Role }) {
       <input type="hidden" name="role" value={role.slug} />
       <div aria-hidden className="absolute left-[-9999px] top-0 h-0 w-0 overflow-hidden">
         <label>
-          Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          {/* RENAMED 2026-09-16 from "website": password managers fill a field
+              with that name on their own, and a tripped honeypot is discarded
+              silently, so real submissions were being eaten. The data-*
+              attributes tell 1Password, LastPass and friends to leave it be. */}
+          Website{" "}
+          <input
+            type="text"
+            name="ligo_ref2"
+            tabIndex={-1}
+            autoComplete="off"
+            data-1p-ignore
+            data-lpignore="true"
+            data-form-type="other"
+          />
         </label>
       </div>
 
