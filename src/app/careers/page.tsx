@@ -8,7 +8,7 @@ import { PageNav } from "@/components/careers/PageNav";
 export const metadata: Metadata = {
   title: "Careers · Ligo",
   description:
-    "Ligo is hiring its Georgetown campus team. Paid, part-time roles for current Georgetown students: partnerships, field growth, and content.",
+    "Careers on Ligo's Georgetown campus team. Paid, part-time roles for current Georgetown students, posted here when they open.",
 };
 
 /** same shell and rail as a job page, so the two read as one system */
@@ -54,10 +54,11 @@ export default function CareersPage() {
               <div className="border-b border-ink/[0.14] pb-3">
                 <Heading>The Georgetown Campus Team</Heading>
               </div>
+              {/* written to hold whether roles are open or not, so relisting is a data change */}
               <p className="mt-5 max-w-[680px] text-[16px] leading-[1.6] text-ink/[0.8] sm:text-[17px]">
                 We&apos;re a small team building the app that brings people together on campus, and Georgetown is where
-                it starts. We&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word. We&apos;re hiring
-                three people with three clear jobs, each with a number they own.
+                it starts. When we hire, we&apos;re not hiring &ldquo;ambassadors&rdquo; to vaguely spread the word.
+                We hire people with clear jobs, each with a number they own.
               </p>
             </section>
 
@@ -65,13 +66,22 @@ export default function CareersPage() {
             <section id="roles" className="scroll-mt-10 pt-12 sm:pt-14">
               <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink/[0.14] pb-3">
                 <Heading>Open Roles</Heading>
-                <div className="text-[13.5px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
+                {roles.length > 0 && (
+                  <div className="text-[13.5px] text-ink/[0.55]">Reviewed on a rolling basis.</div>
+                )}
               </div>
-              <div>
-                {roles.map((r) => (
-                  <RoleCard key={r.slug} role={r} />
-                ))}
-              </div>
+              {roles.length > 0 ? (
+                <div>
+                  {roles.map((r) => (
+                    <RoleCard key={r.slug} role={r} />
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-5 max-w-[680px] text-[16px] leading-[1.6] text-ink/[0.6] sm:text-[17px]">
+                  Nothing is open right now. Roles are posted here when they open, so check back, or keep up with the
+                  team on the News page in the meantime.
+                </p>
+              )}
             </section>
 
             {/* how hiring works */}

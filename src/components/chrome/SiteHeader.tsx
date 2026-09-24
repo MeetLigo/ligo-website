@@ -17,9 +17,17 @@ import { useDrawer } from "./DrawerProvider";
  * the shared NavDrawer (mounted once in layout.tsx) — same destinations,
  * drawer styling.
  */
+/**
+ * 9/24, hiring closed: Careers dropped from a "Join the team" CTA button to a
+ * plain link, matching the drawer and footer. The button reads as an
+ * invitation, and there is nothing to be invited to while no role is listed.
+ * When hiring reopens, restore the button from git history alongside
+ * unhiding roles in lib/careers.ts.
+ */
 const NAV = [
   { label: "About", href: "/about" },
   { label: "News", href: "/news" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const FOCUS =
@@ -49,19 +57,6 @@ export function SiteHeader() {
             {l.label}
           </Link>
         ))}
-        {/* hiring CTA: a button, not another link, so it reads as an invitation */}
-        <Link
-          href="/careers"
-          aria-current={isActive("/careers") ? "page" : undefined}
-          className={`inline-flex items-center gap-[7px] whitespace-nowrap rounded-full border px-[18px] py-[9px] text-[13px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm transition-all ${FOCUS} ${
-            isActive("/careers")
-              ? // already in the careers section: mark it without competing with the page's own Apply button
-                "border-[#F97316] bg-transparent text-[#F97316] hover:bg-[#F97316]/[0.12] hover:text-[#F97316]"
-              : "border-[#FAF6EF]/45 bg-[#FAF6EF]/[0.08] text-[#FAF6EF] hover:border-[#F97316] hover:bg-[#F97316] hover:text-[#241603]"
-          }`}
-        >
-          Join the team
-        </Link>
       </nav>
       <div className="flex items-center gap-2.5 md:hidden">
         <button
