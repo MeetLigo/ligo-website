@@ -4,6 +4,11 @@
  *
  * Copy is organized from Micah's "LIGO Job Roles" + "Ligo Campus GTM" docs
  * (Ligo/Hiring/CAMPUS-TEAM-ROLES.md in iCloud). Titles are working titles.
+ *
+ * 9/24: hiring is closed. Every role is `hidden`, kept in full as the template
+ * for the next round; flip a role's `hidden` to false to relist it. Hiding a
+ * role also closes it everywhere downstream: /careers stops listing it, its
+ * apply page 404s, and /api/apply rejects it.
  */
 
 /** Asked on the first call, not on the application. Kept here so whoever runs
@@ -50,6 +55,7 @@ export interface Role {
 const ALL_ROLES: Role[] = [
   {
     slug: "club-growth-associate",
+    hidden: true, // taken down 9/24 with the rest of the round; kept as a template
     title: "Club Growth Associate",
     lane: "Partnerships",
     openings: "One role remaining",
@@ -98,6 +104,7 @@ const ALL_ROLES: Role[] = [
   },
   {
     slug: "campus-growth-associate",
+    hidden: true, // taken down 9/24 with the rest of the round; kept as a template
     title: "Campus Growth Associate",
     lane: "Field growth",
     openings: "One role remaining",
@@ -192,6 +199,7 @@ const ALL_ROLES: Role[] = [
   },
   {
     slug: "campus-content-creator",
+    hidden: true, // taken down 9/24 with the rest of the round; kept as a template
     title: "Campus Content Creator",
     lane: "Content",
     openings: "One role remaining",
