@@ -16,6 +16,14 @@ const nextConfig = {
       { source: "/faq", destination: "/#faq", permanent: true },
     ];
   },
+  async rewrites() {
+    return [
+      // Partner club kits are standalone pages in public/kits, built by
+      // ligo-backend/appwrite/scripts/build_club_kit.js. Serve them without the
+      // .html so the link we hand a club reads meetligo.com/kits/<club>.
+      { source: "/kits/:slug", destination: "/kits/:slug.html" },
+    ];
+  },
 };
 
 export default nextConfig;
