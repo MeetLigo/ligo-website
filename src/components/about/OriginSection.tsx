@@ -106,34 +106,39 @@ export function OriginSection() {
           <div className="space-y-[27px] text-[18px] leading-[1.65] text-[#FAF6EF]/[0.8]">
             {/* the lede — paragraph one of the story, in the deck voice */}
             <p className="max-w-[34ch] font-serif text-[22px] italic leading-[1.6] text-[#FAF6EF]/[0.85] sm:text-[25px]">
-              It&apos;s 3am. I&apos;m standing in line at a burger spot in the East Village, half asleep. I&apos;d been
-              fired from my first job out of college, laid off from my second, and was going through a breakup with
-              someone who meant a lot to me.
+              I graduated from Georgetown having missed most of it.
             </p>
             <div className="w-full !mt-[34px] lg:hidden">{barPhoto}</div>
             {/* the body follows two paragraph-spaces after the lede on desktop */}
             <p className="lg:!mt-[72px]">
-              The guy in front of me starts humming. I know the song immediately. Chanel, Frank Ocean. Before I knew
-              it we were both singing it. An hour later we were still outside on the street talking. Not about jobs or
-              school or any of the usual stuff. Just music. What it means to us. Where we were when we first heard it.
+              Some of that was COVID. We went home right as we were on the edge of the friendships that make college
+              what it is. By the time we came back, those friendships never happened.
+            </p>
+            <p>
+              A college campus is the densest place most people will ever live, yet the whole campus felt smaller. A
+              thousand things happening at once, but none of them together.
             </p>
             <div className="w-full pt-1 lg:hidden">{parkPhoto}</div>
-            <p>That guy is one of my closest friends today. That was 2½ years ago.</p>
             <p>
-              I went home that night and couldn&apos;t stop thinking about it. How many times does that not happen? How many people
-              walk past each other every day who’d connect, if they just had a reason to say something?
-              That question is Ligo.
+              There were events I would have walked across campus for, but heard about a week later. A showcase
+              somebody called the best night of their year. A club hiring someone exactly like me, posted on an account
+              I did not follow.
             </p>
+            <p>
+              Ligo was born from this experience. The name is Latin for &ldquo;to bind together,&rdquo; and it&apos;s
+              the connective tissue I wish my campus had. Every event, every club, campus news, scores, and who&apos;s
+              hiring, in one feed, for the people who actually go there.
+            </p>
+            <p>Ligo brings you a campus at your fingertips that finally feels like home.</p>
 
-            {/* the thesis, pinned up as a cream pull-quote card — ink serif on paper */}
+            {/* the thesis, pinned up as a cream pull-quote card, ink serif on paper */}
             <blockquote className="relative !mt-11 -rotate-[0.8deg] rounded-[3px] bg-cream px-8 py-7 text-center shadow-[0_26px_50px_-20px_rgba(0,0,0,0.6),0_14px_40px_-16px_rgba(232,162,76,0.3)] sm:px-10">
               <Tape className="-top-[11px] left-9 -rotate-[4deg]" />
               <Tape className="-top-[11px] right-9 rotate-[3deg]" />
               <p className="m-0 font-serif text-[21px] font-medium leading-[1.4] tracking-[-0.01em] text-ink sm:text-[23px]">
-                &ldquo;How many people walk past each other every day who’d connect, if they just had a
-                reason to say something?&rdquo;
+                &ldquo;A thousand things happening at once, but none of them together.&rdquo;
               </p>
-              <footer className="mt-3 font-hand text-[18px] text-ink/[0.55]">— that question is Ligo</footer>
+              <footer className="mt-3 font-hand text-[18px] text-ink/[0.55]">the campus before Ligo</footer>
             </blockquote>
           </div>
 
