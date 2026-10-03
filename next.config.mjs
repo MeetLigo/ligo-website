@@ -14,14 +14,10 @@ const nextConfig = {
       { source: "/partners", destination: "/partner", permanent: true },
       // the FAQ now lives on the home page (students) and /partner (businesses/clubs)
       { source: "/faq", destination: "/#faq", permanent: true },
-    ];
-  },
-  async rewrites() {
-    return [
-      // Partner club kits are standalone pages in public/kits, built by
-      // ligo-backend/appwrite/scripts/build_club_kit.js. Serve them without the
-      // .html so the link we hand a club reads meetligo.com/kits/<club>.
-      { source: "/kits/:slug", destination: "/kits/:slug.html" },
+      // Partner club kits are standalone pages in public/kits (built by
+      // ligo-backend/appwrite/scripts/build_club_kit.js). A rewrite into public/
+      // does not survive Amplify hosting, so send the short link to the file.
+      { source: "/kits/:slug((?!.*\\.html$).*)", destination: "/kits/:slug.html", permanent: false },
     ];
   },
 };
