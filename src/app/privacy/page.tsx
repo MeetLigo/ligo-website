@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "How Ligo collects, uses, and protects your information.",
 };
 
-const UPDATED = "August 17, 2026";
+const UPDATED = "October 6, 2026";
 const CONTACT_EMAIL = "support@meetligo.com";
 
 export default function PrivacyPage() {
@@ -37,6 +37,8 @@ export default function PrivacyPage() {
 
       <LegalP><strong className="text-[#FAF6EF]">Music listening data.</strong> If you connect Apple Music, we access a limited set of your listening data (such as top artists and genres) to power music-compatibility features. We do not receive your Apple ID credentials — that connection is handled by Apple&apos;s own authorization flow, and we only receive the specific data Apple Music&apos;s API returns for the scopes you approve.</LegalP>
 
+      <LegalP><strong className="text-[#FAF6EF]">Google Calendar.</strong> If you connect Google Calendar, Ligo asks Google for permission to add and remove events on calendars you own (the <code>calendar.events.owned</code> scope). We use it for one thing: when you tap Going on an event in Ligo, we add that event to your Google Calendar, and when you cancel, we remove it. We don&apos;t read, copy, or store the other events in your calendar. The access token Google issues stays on your phone; it is never sent to or stored on Ligo&apos;s servers. If you instead add the &quot;Ligo&quot; calendar to Google Calendar from a link, Google fetches a private list of the events you said you&apos;re going to from us, and Ligo gets no access to your Google account at all.</LegalP>
+
       <LegalP><strong className="text-[#FAF6EF]">Content you create.</strong> Messages you send in club and event group chats, event RSVPs, club memberships, reports you file, and any content (like photos) you upload or share through the Service.</LegalP>
 
       <LegalP><strong className="text-[#FAF6EF]">Device &amp; usage information.</strong> Device type, operating system, app version, push-notification tokens, crash and error logs, and general usage data (like which features you use) collected automatically as you use the Service.</LegalP>
@@ -56,6 +58,7 @@ export default function PrivacyPage() {
         <li><strong className="text-[#FAF6EF]">Other students, as intended by the feature.</strong> Your profile is visible to students you&apos;re matched or connected with; club rosters are visible to fellow members; event RSVPs and club chat messages are visible to the relevant club or event audience.</li>
         <li><strong className="text-[#FAF6EF]">Service providers.</strong> Companies that host our infrastructure, send email and push notifications, and store our data on our behalf, bound by contracts limiting their use of it to providing that service to us.</li>
         <li><strong className="text-[#FAF6EF]">Apple Music.</strong> If you connect your account, per Apple&apos;s own terms for that integration.</li>
+        <li><strong className="text-[#FAF6EF]">Google user data.</strong> We don&apos;t share, sell, or transfer data from your Google account to anyone, and we don&apos;t use it for advertising or to train AI models. Ligo&apos;s use and transfer of information received from Google APIs adheres to the{" "}<a href="https://developers.google.com/terms/api-services-user-data-policy" className="text-[#F97316] underline underline-offset-2">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
         <li><strong className="text-[#FAF6EF]">Legal &amp; safety reasons.</strong> If required by law, or if we believe in good faith it&apos;s necessary to protect the rights, safety, or property of Ligo, our users, or the public.</li>
         <li><strong className="text-[#FAF6EF]">Business transfers.</strong> If Ligo is involved in a merger, acquisition, or sale of assets, your information may transfer as part of that deal — we&apos;ll notify you if that happens.</li>
       </LegalUl>
@@ -65,6 +68,7 @@ export default function PrivacyPage() {
         <li>Every permission (location, motion &amp; fitness, notifications, background location) can be turned off in your device&apos;s Settings app at any time.</li>
         <li>You can edit or delete profile information, and manage notification preferences, directly in the app.</li>
         <li>You can disconnect Apple Music at any time from your profile settings.</li>
+        <li>You can disconnect Google Calendar at any time in the app under Settings, or at{" "}<a href="https://myaccount.google.com/permissions" className="text-[#F97316] underline underline-offset-2">myaccount.google.com/permissions</a>. Disconnecting stops new events from being added; events already in your calendar stay there for you to keep or delete. You can remove the &quot;Ligo&quot; calendar from Google Calendar the same way you remove any calendar.</li>
         <li>You can request deletion of your account and associated data by contacting us — see below.</li>
       </LegalUl>
 
