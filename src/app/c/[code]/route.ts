@@ -4,9 +4,9 @@ export const dynamic = "force-dynamic";
 const FEED = "https://calendar-feed-ligo.nyc.appwrite.run/c";
 
 /**
- * GET /cal/<code> → a student's "Ligo" calendar (iCalendar), for Google
+ * GET /c/<code> → a student's "Ligo" calendar (iCalendar), for Google
  * Calendar to subscribe to. The app hands Google this short link so the Add
- * calendar box reads meetligo.com/cal/<code> instead of a long server URL.
+ * calendar box reads meetligo.com/c/<code> instead of a long server URL.
  * The calendar itself is built by the calendar-feed function in ligo-backend;
  * this only passes it through. Codes are random and unguessable.
  */
