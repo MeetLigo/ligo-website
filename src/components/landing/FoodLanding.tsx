@@ -188,7 +188,7 @@ export function FoodLanding() {
 
         <div className="ligo-rise mx-auto mt-12 flex max-w-[900px] flex-col items-center px-2 text-center md:mt-16">
           <h1 className="font-serif text-[40px] font-normal leading-[1.06] tracking-[-0.035em] text-[#171717] sm:text-[52px] md:text-[64px]">
-            Find the free food<span className="text-[#F97316]">.</span>
+            Find free food<span className="text-[#F97316]">.</span>
             <br />
             <span className="text-[#A39A92]">It&rsquo;s all on Ligo.</span>
           </h1>
