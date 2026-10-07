@@ -13,7 +13,7 @@ import { HomeFooter } from "@/components/home/HomeFooter";
 export function Chrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   // home draws its own header inside the hero; the Studio is a full-screen app
-  if (pathname === "/" || pathname.startsWith("/studio")) return <>{children}</>;
+  if (pathname === "/" || pathname === "/food" || pathname.startsWith("/studio")) return <>{children}</>;
   return (
     <div className="relative flex min-h-screen flex-col bg-[#171717] text-[#FAF6EF]">
       <header className="absolute inset-x-0 top-0 z-40">
