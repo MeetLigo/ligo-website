@@ -10,19 +10,19 @@ const nextConfig = {
   turbopack: { root },
   async redirects() {
     return [
-      // the page is /partner; catch the natural-plural typo everywhere
-      { source: "/partners", destination: "/partner", permanent: true },
-      // the FAQ now lives on the home page (students) and /partner (businesses/clubs)
+      // /partner was retired 8/29; clubs live at /clubs now. Both the old page
+      // and its natural-plural typo land there instead of 404ing.
+      { source: "/partners", destination: "/clubs", permanent: true },
+      { source: "/partner", destination: "/clubs", permanent: true },
+      // the FAQ lives on the home page
       { source: "/faq", destination: "/#faq", permanent: true },
     ];
   },
-  async rewrites() {
-    return [
-      // Partner club kits are standalone pages in public/kits, built by
-      // ligo-backend/appwrite/scripts/build_club_kit.js. Serve them without the
-      // .html so the link we hand a club reads meetligo.com/kits/<club>.
-      { source: "/kits/:slug", destination: "/kits/:slug.html" },
-    ];
+  // Club kits (/kits/<slug>) are served by src/app/kits/[slug]/route.ts, which
+  // reads public/kits/<slug>.html. A rewrite did this before, but rewrites do
+  // not run on Amplify SSR. Make sure those files ship with the server bundle.
+  outputFileTracingIncludes: {
+    "/kits/[slug]": ["./public/kits/**/*"],
   },
 };
 
