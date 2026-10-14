@@ -1,5 +1,5 @@
 /** Shared club-flow constants. The portal is Micah's; the website hands off to it. */
-export const CLUB_PORTAL = "https://ligo-clubs.appwrite.network";
+export const CLUB_PORTAL = "https://clubs.meetligo.com";
 
 export const CLUB_ROLES = ["President", "Board member", "Member", "Advisor", "Other"];
 
